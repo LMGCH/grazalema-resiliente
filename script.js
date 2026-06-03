@@ -1,50 +1,57 @@
 // ==========================================
-// 1. CONFIGURACIÓN E INICIALIZACIÓN DEL MAPA
+// 1. INICIALIZACIÓN DE LA CARTOGRAFÍA (Leaflet)
 // ==========================================
-// Variable global única para el mapa base de Leaflet
+// Variable central única del mapa basada en tu ID de contenedor 'map'
 const mapa = L.map('map').setView([36.7589, -5.3649], 10);
 
-// Capa visual de OpenStreetMap
+// Capa base de mapas (OpenStreetMap)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
 }).addTo(mapa);
 
-// Capa dedicada exclusiva para los marcadores de terremotos
+// Capa de almacenamiento dinámico para refrescar los marcadores de terremotos
 const capaTerremotos = L.layerGroup().addTo(mapa);
 
-// Variables de control para la reconexión y temporizadores
-let tiempoRestante = 60; 
+// Variables globales para la gestión de reintentos y contador regresivo
+let tiempoRestante = 60;
 let temporizadorRegresivo = null;
 
 // ==========================================
-// 2. CONFIGURACIÓN DE LAS APIS
+// 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva)
 // ==========================================
-const urlEMSC = "https://seismicportal.eu";
-const urlAEMET = "https://aemet.es";
+// El proxy de código abierto "AllOrigins" añade las cabeceras CORS necesarias en tiempo real
+const proxyCors = "https://allorigins.win";
 
-// IMPORTANTE: Pon aquí tu clave personal de AEMET OpenData
-const apiKeyAEMET = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWlzbS5nYWxhY2hvQGdtYWlsLmNvbSIsImp0aSI6IjY3NDk1MTRiLTM2ZmMtNDA2Yi05MTRlLWVjYTIzYzZiNDMyMCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzgwNTIwOTEyLCJ1c2VySWQiOiI2NzQ5NTE0Yi0zNmZjLTQwNmItOTE0ZS1lY2EyM2M2YjQzMjAiLCJyb2xlIjoiIn0.bvPNqAZvDfh31fMS6I1p9Wyu2XTRCzU6oCrh10iYv0s"; 
+const urlEMSCBase = "https://seismicportal.eu";
+const urlAEMETBase = "https://aemet.es";
+
+// Tu clave autorizada de AEMET OpenData
+const apiKeyAEMET = "TU_API_KEY_AQUI"; 
+
+// Construcción de URLs seguras evadiendo el bloqueo CORS del navegador
+const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase);
+const urlAEMETSegura = proxyCors + encodeURIComponent(urlAEMETBase);
 
 // ==========================================
-// 3. MÓDULO SÍSMICO (EMSC - SEISMICPORTAL)
+// 3. CAPTURA DE DATOS SÍSMICOS (EMSC)
 // ==========================================
 async function cargarTerremotos() {
     try {
-        console.log("Consultando datos sísmicos a EMSC...");
-        const respuesta = await fetch(urlEMSC);
-        if (!respuesta.ok) throw new Error(`EMSC HTTP ${respuesta.status}`);
+        console.log("Iniciando conexión sísmica mediante pasarela proxy...");
+        const respuesta = await fetch(urlEMSCSegura);
+        if (!respuesta.ok) throw new Error(`EMSC Estado: ${respuesta.status}`);
 
         const datos = await respuesta.json();
         const seismos = datos.features || [];
 
-        // Limpiamos los marcadores antiguos antes de pintar los nuevos
+        // Limpieza de marcadores de la consulta anterior
         capaTerremotos.clearLayers();
 
         seismos.forEach(seismo => {
             const prop = seismo.properties;
             const geom = seismo.geometry;
 
-            // CORRECCIÓN CLAVE GeoJSON: [Longitud, Latitud]. Leaflet usa [Lat, Lon]
+            // Corrección de inversión geométrica GeoJSON de EMSC [Lon, Lat]
             const lon = geom.coordinates[0];
             const lat = geom.coordinates[1];
 
@@ -53,11 +60,10 @@ async function cargarTerremotos() {
             const fecha = new Date(prop.time).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
             const profundidad = prop.depth;
 
-            // Colores dinámicos según intensidad
+            // Ponderación visual: color y radio dependientes de la magnitud
             const colorIcono = magnitud >= 4.0 ? '#d9534f' : magnitud >= 2.5 ? '#f0ad4e' : '#5cb85c';
             const radio = magnitud * 4;
 
-            // Crear y añadir el marcador circular a la capa específica
             const marcador = L.circleMarker([lat, lon], {
                 radius: radio,
                 fillColor: colorIcono,
@@ -68,7 +74,7 @@ async function cargarTerremotos() {
             });
 
             marcador.bindPopup(`
-                <div style="font-family: sans-serif; min-width: 140px;">
+                <div style="font-family: Arial, sans-serif; min-width: 140px;">
                     <h4 style="margin:0 0 5px; color:${colorIcono};">Terremoto Detectado</h4>
                     <hr style="margin:4px 0; border:0; border-top:1px solid #eee;">
                     <b>Magnitud:</b> ${magnitud}<br>
@@ -81,53 +87,54 @@ async function cargarTerremotos() {
             marcador.addTo(capaTerremotos);
         });
 
-        console.log(`EMSC cargado con éxito. Seismos pintados: ${seismos.length}`);
+        console.log(`EMSC procesado con éxito. Eventos mapeados: ${seismos.length}`);
     } catch (error) {
-        console.error("Fallo en la carga sísmica (EMSC):", error);
+        console.error("Error en procesamiento de seísmos:", error);
     }
 }
 
 // ==========================================
-// 4. MÓDULO METEOROLÓGICO (AEMET - DOBLE FETCH)
+// 4. CAPTURA DE DATOS METEOROLÓGICOS (AEMET - DOBLE FETCH PROXY)
 // ==========================================
 async function cargarMeteorologia() {
     try {
-        console.log("Iniciando Paso 1 de AEMET...");
-        const paso1 = await fetch(urlAEMET, {
+        console.log("Iniciando Paso 1 AEMET mediante pasarela proxy...");
+        const paso1 = await fetch(urlAEMETSegura, {
             method: 'GET',
             headers: {
-                'cache-control': 'no-cache',
                 'api_key': apiKeyAEMET
             }
         });
 
-        if (!paso1.ok) throw new Error(`AEMET Paso 1 HTTP ${paso1.status}`);
+        if (!paso1.ok) throw new Error(`AEMET Paso 1 Estado: ${paso1.status}`);
         const resultadoPaso1 = await paso1.json();
 
         if (resultadoPaso1.estado === 200 && resultadoPaso1.datos) {
-            console.log("Paso 1 correcto. Descargando JSON definitivo...");
+            console.log("Paso 1 validado. Recuperando datos definitivos de AEMET...");
             
-            // Paso 2: Consultar la URL temporal que nos devuelve la API
-            const paso2 = await fetch(resultadoPaso1.datos);
+            // Paso 2: La URL temporal devuelta también requiere ir por el proxy CORS
+            const urlFinalSegura = proxyCors + encodeURIComponent(resultadoPaso1.datos);
+            const paso2 = await fetch(urlFinalSegura);
             if (!paso2.ok) throw new Error("AEMET Paso 2 falló");
             
             const datosClima = await paso2.json();
 
             if (datosClima && datosClima.length > 0) {
-                // Tomamos la última medición horaria registrada de la estación
                 const ultimaMedicion = datosClima[datosClima.length - 1];
                 mostrarDatosClimaHTML(ultimaMedicion);
+                // Si la conexión es exitosa, reiniciamos el contador limpiamente
+                if (temporizadorRegresivo) clearInterval(temporizadorRegresivo);
             }
         } else {
-            throw new Error(`AEMET rechazó la clave: ${resultadoPaso1.descripcion}`);
+            throw new Error(`AEMET denegó el acceso: ${resultadoPaso1.descripcion}`);
         }
     } catch (error) {
-        console.error("Fallo en la carga meteorológica (AEMET):", error);
+        console.error("Error en procesamiento meteorológico:", error);
         mostrarErrorClimaHTML();
     }
 }
 
-// Interfaz visual para los datos correctos del clima
+// Renderizado del panel de información meteorológica óptima
 function mostrarDatosClimaHTML(clima) {
     const contenedor = obtenerContenedorPanel();
     contenedor.innerHTML = `
@@ -142,22 +149,23 @@ function mostrarDatosClimaHTML(clima) {
     `;
 }
 
-// Interfaz visual si AEMET falla o está reconectando
+// Renderizado del panel de reconexión si salta el catch del error
 function mostrarErrorClimaHTML() {
     const contenedor = obtenerContenedorPanel();
     contenedor.innerHTML = `
-        <h4 style="margin: 0 0 5px 0; color: #c0392b;">Clima Temporalmente Fuera de Servicio</h4>
+        <h4 style="margin: 0 0 5px 0; color: #c0392b;">Clima Fuera de Servicio</h4>
         <hr style="margin: 5px 0; border:0; border-top:1px solid #ccc;">
         <p style="margin: 5px 0; font-size: 11px; color: #555;">
-            Error de conexión / CORS de AEMET. Intentando reconexión automática.
+            Estabilizando pasarela proxy. Intentando reconexión automática.
         </p>
         <div style="background: #f8d7da; color: #721c24; padding: 6px; border-radius: 4px; text-align: center; font-weight: bold;">
-            Siguiente intento en: <span id="contador-reconexion">${tiempoRestante}</span>s
+            Reconexión en: <span id="contador-reconexion">${tiempoRestante}</span>s
         </div>
     `;
+    iniciarTemporizadorReconexion();
 }
 
-// Función auxiliar para asegurar que el panel flotante exista en tu web
+// Inyección y mantenimiento del panel flotante HTML
 function obtenerContenedorPanel() {
     let panel = document.getElementById('panel-clima');
     if (!panel) {
@@ -170,17 +178,14 @@ function obtenerContenedorPanel() {
 }
 
 // ==========================================
-// 5. GESTOR DE RECONEXIÓN AUTOMÁTICA (CONTADOR)
+// 5. MOTOR DEL CONTADOR REGRESIVO ASÍNCRONO
 // ==========================================
 function iniciarTemporizadorReconexion() {
-    // Si ya existía un contador activo, lo destruimos para que no se duplique
     if (temporizadorRegresivo) clearInterval(temporizadorRegresivo);
-
-    tiempoRestante = 60; // Reiniciamos a 1 minuto
+    tiempoRestante = 60;
 
     temporizadorRegresivo = setInterval(() => {
         tiempoRestante--;
-        
         const elementoContador = document.getElementById('contador-reconexion');
         if (elementoContador) {
             elementoContador.textContent = tiempoRestante;
@@ -188,21 +193,19 @@ function iniciarTemporizadorReconexion() {
 
         if (tiempoRestante <= 0) {
             clearInterval(temporizadorRegresivo);
-            console.log("Contador llegó a cero. Ejecutando reconexión activa...");
+            console.log("Contador a cero. Reejecutando llamadas...");
             ejecutarCargaCompleta();
         }
     }, 1000);
 }
 
-// Agrupador de llamadas principales
 function ejecutarCargaCompleta() {
     cargarTerremotos();
     cargarMeteorologia();
-    iniciarTemporizadorReconexion(); // Reinicia el bucle del contador de 60s
 }
 
 // ==========================================
-// 6. DISPARADOR INICIAL AL CARGAR LA PÁGINA
+// 6. ENTRADA DE EJECUCIÓN DOM
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
     ejecutarCargaCompleta();
