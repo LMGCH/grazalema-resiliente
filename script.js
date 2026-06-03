@@ -1,6 +1,4 @@
 // Endpoints oficiales (Configurados para entorno de producción en GitHub Pages)
-const urlEMSC = "https://seismicportal.eu";
-const URL_API_AEMET = "https://aemet.es"; 
 let tiempoRestante = 60;
 let intervaloContador;
 
@@ -16,35 +14,86 @@ async function actualizarPlataforma() {
     ]);
 }
 
-// MÓDULO 1: API SÍSMICA (IGN) - EXCLUSIVO SIERRA DE GRAZALEMA
-async function cargarTerremotosEMSC() {
+// ==========================================
+// CONFIGURACIÓN DE LA NUEVA API DE TERREMOTOS (EMSC)
+// ==========================================
+
+// Caja delimitadora aproximada para el Sur de España (Andalucía / Grazalema)
+const urlEMSC = "https://seismicportal.eu";
+
+async function consultarTerremotos() {
     try {
+        // Petición directa sin problemas de CORS gracias a SeismicPortal
         const respuesta = await fetch(urlEMSC);
-        if (!respuesta.ok) throw new Error("Error al conectar con SeismicPortal (EMSC)");
+        
+        if (!respuesta.ok) {
+            throw new Error(`Error HTTP: ${respuesta.status}`);
+        }
         
         const datos = await respuesta.json();
-        const terremotos = datos.features; // Array de seísmos detectados
+        
+        // El formato GeoJSON guarda los eventos en la propiedad 'features'
+        const seismos = datos.features || [];
+        
+        // Limpiamos capas previas de terremotos si tu código lo requiere
+        // capas.terremotos.clearLayers(); 
 
-        terremotos.forEach(terremoto => {
-            const mag = terremoto.properties.mag;
-            const lugar = terremoto.properties.flynn_region; // Región (ej: Strait of Gibraltar, Spain)
-            const tiempo = new Date(terremoto.properties.time);
-            const [longitud, latitud] = terremoto.geometry.coordinates;
-
-            console.log(`[EMSC] Mag: ${mag} - ${lugar} (${tiempo.toLocaleString()})`);
+        seismos.forEach(seismo => {
+            const prop = seismo.properties;
+            const geom = seismo.geometry;
             
-            // Integración típica con tu mapa de Leaflet:
-            // L.marker([latitud, longitud]).addTo(mapa)
-            //  .bindPopup(`<b>Terremoto detectado por EMSC</b><br>Magnitud: ${mag}<br>Zona: ${lugar}`);
+            // 1. Extraer variables básicas
+            const magnitud = prop.mag;
+            const region = prop.flynn_region || "Zona Sur de España";
+            const fecha = new Date(prop.time).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
+            const profundidad = prop.depth; // en kilómetros
+            
+            // 2. CORRECCIÓN CLAVE: GeoJSON usa [Longitud, Latitud]
+            // Leaflet necesita [Latitud, Longitud] para situar el marcador.
+            const longitud = geom.coordinates[0];
+            const latitud = geom.coordinates[1];
+            
+            // 3. Estilo visual dinámico según la magnitud del seísmo
+            const colorIcono = magnitud >= 4.0 ? '#d9534f' : magnitud >= 2.5 ? '#f0ad4e' : '#5cb85c';
+            const radioMarcador = magnitud * 4; 
+
+            // 4. Crear marcador e integrarlo en tu mapa de Leaflet
+            const marcador = L.circleMarker([latitud, longitud], {
+                radius: radioMarcador,
+                fillColor: colorIcono,
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            });
+
+            // 5. Configurar Pop-up informativo elegante
+            marcador.bindPopup(`
+                <div style="font-family: Arial, sans-serif; min-width: 160px;">
+                    <h4 style="margin: 0 0 5px; color: ${colorIcono};">Seísmo Detectado</h4>
+                    <hr style="border: 0; border-top: 1px solid #ccc; margin: 5px 0;">
+                    <b>Magnitud:</b> ${magnitud} mbLg<br>
+                    <b>Lugar:</b> ${region}<br>
+                    <b>Fecha/Hora:</b> ${fecha}<br>
+                    <b>Profundidad:</b> ${profundidad} km
+                </div>
+            `);
+
+            // Añadir al mapa principal (asumiendo que tu variable se llama 'map')
+            marcador.addTo(map);
         });
+
     } catch (error) {
-        console.error("Error obteniendo datos de la EMSC:", error);
+        console.error("Fallo fino en la captura sísmica (EMSC):", error);
     }
 }
 
-cargarTerremotosEMSC();
+// Ejecutar la función al cargar la web
+consultarTerremotos();
+
 
 // MÓDULO 2: API METEOROLÓGICA (AEMET Predictiva)
+const URL_API_AEMET = "https://aemet.es"; 
 async function consultarMeteorologia() {
     const meteoInfo = document.getElementById("meteo-info");
     const semaforoMeteo = document.getElementById("semaforo-meteo");
