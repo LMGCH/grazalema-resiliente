@@ -15,7 +15,7 @@ const lonGrazalema = "-5.3649";
 // URLs técnicas completas optimizadas sin bloqueos
 const urlEMSCBase = `https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=30`;
 // Nueva API meteorológica profesional limpia y compatible con navegadores directos
-const urlMeteoBase = `https://open-meteo.com{latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
+const urlMeteoBase = `https://api.open-meteo.com/v1/forecast?${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,relative_humidity_2m,&daily=precipitation_sum,precipitation_sink,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
 
 const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase);
 
