@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grazalema Resiliente - Plataforma de Ciencia Ciudadana</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <!-- 1. CABECERA INSTITUCIONAL Y LIMPIA -->
+    <header class="main-header">
+        <div class="container header-flex">
+            <div class="logo">
+                <strong>Grazalema</strong> Resiliente
+            </div>
+            <nav class="main-nav">
+                <a href="#inicio" class="active">Inicio</a>
+                <a href="#aula">Aula Kárstica</a>
+                <a href="#datos">Datos en Vivo</a>
+                <a href="#colabora" class="btn-nav">Colaborar</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. HÉROE PRINCIPAL: TRANSMITE CONTROL Y PROPÓSITO -->
+    <section id="inicio" class="hero-section">
+        <div class="container container-narrow text-center">
+            <h1>Tecnología y Ciencia Ciudadana para la Seguridad de la Sierra</h1>
+            <p class="subtitle">Un proyecto abierto para anticipar riesgos meteorológicos y geológicos en entornos kársticos, co-diseñado junto a los vecinos.</p>
+            <div class="status-pill">
+                <span class="status-dot green"></span> Estado de la Red: Normal y en Monitorización
+            </div>
+        </div>
+    </section>
+
+     <!-- 3. SECCIÓN DE DATOS EN TIEMPO REAL (Doble Conexión API: IGN + AEMET) -->
+ <section id="datos" class="content-section">
+ <div class="container">
+ <h2 class="section-title">Monitorización y Alertas en Vivo</h2>
+ <p class="section-subtitle text-center">Datos oficiales en tiempo real del Instituto Geográfico Nacional y la AEMET.</p>
+ 
+ <div class="panel-monitoreo">
+ <!-- Indicador 1: Sismicidad -->
+ <div class="indicador-tarjeta">
+ <h3>Riesgo Sísmico</h3>
+ <div id="semaforo-sismico" class="status-badge alert-verde">Estable</div>
+ <p class="info-dinamica"><strong>Último sismo:</strong> <span id="sismo-info">Conectando con IGN...</span></p>
+ </div>
+
+ <!-- Indicador 2: Meteorología Predictiva (Nuevo) -->
+ <div class="indicador-tarjeta">
+ <h3>Alerta Meteorológica</h3>
+ <div id="semaforo-meteo" class="status-badge alert-verde">Sin Alertas</div>
+ <p class="info-dinamica"><strong>Previsión Grazalema:</strong> <span id="meteo-info">Conectando con AEMET...</span></p>
+ </div>
+ </div>
+ 
+ <div class="sync-banner">
+ <p class="nota-datos">🔄 Próxima actualización en: <span id="contador-regresivo">60</span>s | Última sincronización: <span id="hora-sync">--:--:--</span></p>
+ </div>
+ </div>
+ </section>
+
+
+    <!-- 4. EL MANIFIESTO: EL CORAZÓN EMOCIONAL -->
+    <section class="content-section bg-light">
+        <div class="container container-narrow">
+            <h2 class="section-title">Nuestro Manifiesto</h2>
+            <div class="manifiesto-card">
+                <p>La Sierra de Grazalema posee una belleza geológica única, pero sus características kársticas y su alta pluviometría exigen soluciones avanzadas de seguridad. Este proyecto nace para demostrar que la tecnología puede estar al servicio directo de la vida, transformando los teléfonos de nuestros vecinos en una red de alerta temprana.</p>
+                
+                <div class="pilares-grid">
+                    <div class="pilar">
+                        <h3>1. Bien Común</h3>
+                        <p>Código 100% abierto, gratuito y de propiedad pública. Sin fines de lucro.</p>
+                    </div>
+                    <div class="pilar">
+                        <h3>2. Ciencia Ciudadana</h3>
+                        <p>Los vecinos no son sujetos pasivos; son el sensor humano más valioso.</p>
+                    </div>
+                    <div class="pilar">
+                        <h3>3. Rigor Técnico</h3>
+                        <p>Datos validados científicamente para informar con calma, seguridad y control.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SECCIÓN: AULA KÁRSTICA -->
+    <section id="aula" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Aula Kárstica: Comprender nuestro entorno</h2>
+            <p class="section-subtitle text-center">La prevención empieza por el conocimiento. Así interactúan el agua y la roca en la Sierra de Grazalema.</p>
+            
+            <div class="aula-container">
+                <div class="aula-bloque">
+                    <div class="aula-texto">
+                        <h3>¿Por qué Grazalema es diferente?</h3>
+                        <p>A diferencia de otros valles donde el agua de lluvia corre exclusivamente por la superficie, el relieve de nuestra sierra es mayoritariamente <strong>kárstico</strong>. Esto significa que la roca caliza se disuelve con el agua de lluvia ligeramente ácida, creando una inmensa red de "tuberías", cuevas y galerías subterráneas ocultas a la vista.</p>
+                    </div>
+                </div>
+
+                <div class="aula-bloque reverse">
+                    <div class="aula-texto">
+                        <h3>El fenómeno del "Reventón"</h3>
+                        <p>Cuando sufrimos episodios de lluvias intensas provocadas por las borrascas atlánticas, estas redes subterráneas se llenan por completo como si fuesen cisternas. Al saturarse el subsuelo, el agua no puede filtrarse más y busca salidas con gran presión, llegando a brotar directamente desde el suelo de los sótanos o inundando llanuras cerradas (poljes) de forma muy rápida.</p>
+                    </div>
+                </div>
+
+                <div class="aula-bloque">
+                    <div class="aula-texto">
+                        <h3>¿Qué debemos observar en el día a día?</h3>
+                        <p>El terreno kárstico avisa antes de generar un colapso o un movimiento sísmico menor (enjambre). Es vital que los vecinos conozcan las señales de alerta en sus propiedades: la aparición repentina de grietas alineadas en las paredes, puertas que dejan de encajar de un día para otro o pequeños hundimientos circulares en los patios o huertos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. LLAMADAS A LA ACCIÓN Y FORMULARIO RGPD -->
+    <section id="colabora" class="content-section bg-light">
+        <div class="container">
+            <h2 class="section-title">¿Cómo puedes participar?</h2>
+            <p class="section-subtitle text-center">Este es un proyecto multifactorial que crece con la unión de diferentes talentos.</p>
+            
+            <div class="cards-grid">
+                <div class="action-card">
+                    <div class="card-icon">🏔️</div>
+                    <h3>Especialistas de Campo</h3>
+                    <p>Si eres geólogo, hidrólogo o técnico en emergencias, ayúdanos a validar los modelos de riesgo del terreno.</p>
+                    <a href="#" class="btn-card">Aportar Datos</a>
+                </div>
+
+                <div class="action-card">
+                    <div class="card-icon">💻</div>
+                    <h3>Profesionales de TI</h3>
+                    <p>Si programas, analizas datos o diseñas apps, súmate al desarrollo del algoritmo de alerta temprana.</p>
+                    <a href="#" class="btn-card">Ver en GitHub</a>
+                </div>
+
+                <div class="action-card">
+                    <div class="card-icon">📢</div>
+                    <h3>Vecinos de la Sierra</h3>
+                    <p>Inscríbete como voluntario para probar las primeras versiones experimentales del sistema en tu móvil.</p>
+                    <a href="#registro-laboratorio" class="btn-card btn-primary">Unirse al Laboratorio</a>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE CAPTACIÓN (COMPLETADO Y CERRADO) -->
+            <div id="registro-laboratorio" class="form-container" style="margin-top: 50px;">
+                <div class="form-header">
+                    <h3>Inscripción al Experimento Científico Celular</h3>
+                    <p>Únete como voluntario pionero. Ayúdanos a validar si los sensores de los móviles comerciales son capaces de crear una malla de detección sísmica.</p>
+                </div>
+                
+                <form action="#" method="POST" id="form-colaboradores" onsubmit="event.preventDefault(); alert('Simulación académica: Datos registrados correctamente.');">
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre o Pseudónimo</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="localidad">Municipio / Aldea</label>
+                            <select id="localidad" name="localidad" required>
+                                <option value="" disabled selected>Selecciona tu zona...</option>
+                                <option value="grazalema">Grazalema (Casco Urbano)</option>
+                                <option value="benamahoma">Benamahoma</option>
+                                <option value="villaluenga">Villaluenga del Rosario</option>
+                                <option value="banderillas">Benaocaz</option>
+                                <option value="otras">Otras localidades de la Sierra</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dispositivo">Sistema de tu Móvil</label>
+                            <select id="dispositivo" name="dispositivo" required>
+                                <option value="" disabled selected>Selecciona sistema...</option>
+                                <option value="android">Android (Google)</option>
+                                <option value="ios">iOS (Apple iPhone)</option>
+                                <option value="otros">Otros / No estoy seguro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CLÁUSULA INFORMATIVA LOPD / RGPD -->
+                    <div class="form-group-checkbox">
+                        <input type="checkbox" id="privacidad" name="privacidad" required>
+                        <label for="privacidad">
+                            Acepto la política de privacidad. <strong>Información básica sobre protección de datos:</strong> El responsable del tratamiento es el autor de este proyecto académico. La finalidad es gestionar tu inscripción voluntaria en el experimento de ciencia ciudadana. No se cederán datos a terceros salvo obligación legal o consentimiento expreso. Tienes derecho a acceder, rectificar y suprimir tus datos escribiendo al correo del proyecto.
+                        </label>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn-submit">Enviar Inscripción Voluntaria</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 7. TRANSPARENCIA LEGAL -->
+    <section class="legal-notice">
+        <div class="container text-center">
+            <p class="legal-text">
+                <strong>Cumplimiento LOPDGDD 3/2018 y RGPD (UE) 2016/679:</strong> Al tratarse de un entorno de pre-producción y un proyecto estrictamente de investigación académica y formativa en TI, los datos de este formulario no son almacenados en ninguna base de datos externa de forma persistente sin tu consentimiento activo.
+            </p>
+        </div>
+    </section>
+
+    <!-- 8. PIE DE PÁGINA ACADÉMICO -->
+    <footer class="main-footer">
+        <div class="container text-center">
+            <p>&copy; 2026 Grazalema Resiliente. Proyecto Académico de Validación de Competencias TI. Código Abierto.</p>
+        </div>
+    </footer>
+
+    <!-- INYECCIÓN DEL SCRIPT DINÁMICO -->
+    <script src="script.js"></script>
+</body>
+</html>
+
+

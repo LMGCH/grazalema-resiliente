@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio Ciudadano - Sensor Celular</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body class="bg-light">
+
+    <header class="main-header">
+        <div class="container header-flex">
+            <div class="logo"><strong>Grazalema</strong> Laboratorio</div>
+            <nav class="main-nav">
+                <a href="index.html">Volver al Portal</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container container-narrow">
+            <div class="manifiesto-card text-center">
+                <h2>Nodo de Detección Experimental</h2>
+                <p class="subtitle">Esta interfaz transforma los sensores internos de tu teléfono en un sismógrafo urbano de pruebas.</p>
+                
+                <!-- Botón de Activación de Sensores -->
+                <button id="btn-permiso" class="btn-submit" style="margin-bottom: 25px;">Activar Sensor del Teléfono</button>
+
+                <!-- Panel de Lecturas en Tiempo Real -->
+                <div class="panel-lecturas" style="display: none;" id="panel-datos">
+                    <div class="ejes-container">
+                        <div class="eje-card">Eje X (Horizontal): <span id="eje-x">0.00</span></div>
+                        <div class="eje-card">Eje Y (Vertical): <span id="eje-y">0.00</span></div>
+                        <div class="eje-card">Eje Z (Profundidad): <span id="eje-z">0.00</span></div>
+                    </div>
+                    
+                    <div class="vibracion-barra-bg">
+                        <div id="barra-vibracion" class="vibracion-barra-fg"></div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: #64748b; margin-top: 5px;">Intensidad de vibración filtrada</p>
+                </div>
+
+                <!-- Registro Log de Alertas Simuladas -->
+                <div id="log-alertas" class="log-container" style="margin-top: 25px;">
+                    <h4>Historial de Eventos del Dispositivo</h4>
+                    <ul id="lista-eventos">
+                        <li>Esperando activación del sensor por parte del usuario...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+<script src="sensor.js"></script>
+</body>
+</html>

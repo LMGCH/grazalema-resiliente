@@ -1,0 +1,485 @@
+/* VARIABLES DE DISEÑO SOBRIO (Colores que dan seguridad) */
+html {
+    scroll-behavior: smooth;
+}
+:root {
+    --primary-color: #1e3a8a; /* Azul institucional */
+    --secondary-color: #0d9488; /* Verde azulado de control */
+    --text-color: #334155; /* Gris oscuro suave para lectura */
+    --bg-light: #f8fafc; /* Fondo gris claro limpio */
+    --success-color: #10b981; /* Verde esmeralda para estados normales */
+    --border-color: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: #ffffff;
+}
+
+/* CONTENEDORES ELÁSTICOS */
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.container-narrow {
+    max-width: 800px;
+}
+
+.text-center { text-align: center; }
+.bg-light { background-color: var(--bg-light); }
+
+/* CABECERA RESUENTEMENTE RESPONSIVA */
+.main-header {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+.main-nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.main-nav a.active, .main-nav a:hover {
+    color: var(--secondary-color);
+}
+
+.btn-nav {
+    background: var(--primary-color);
+    color: #fff !important;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+/* SECCIÓN HÉROE */
+.hero-section {
+    padding: 80px 0;
+    background: radial-gradient(circle at top right, #eff6ff 0%, #ffffff 100%);
+}
+
+h1 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    font-size: 1.15rem;
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+/* PÍLDORA DE ESTADO (Da sensación de control) */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    background: #ecfdf5;
+    color: #065f46;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--success-color);
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* SECCIONES Y CONTENIDOS */
+.content-section {
+    padding: 60px 0;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-subtitle {
+    color: #64748b;
+    margin-top: -30px;
+    margin-bottom: 40px;
+}
+
+/* MANIFIESTO CARD */
+.manifiesto-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.pilares-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.pilar h3 {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.pilar p {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* TARJETAS DE ACCIÓN TRICOLUMNA */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.action-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.action-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.action-card p {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.btn-card {
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.btn-card:hover {
+    background: #f1f5f9;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #0b7a70;
+    color: #ffffff;
+}
+
+/* PIE DE PÁGINA */
+.main-footer {
+    background: var(--primary-color);
+    color: #94a3b8;
+    padding: 30px 0;
+    font-size: 0.85rem;
+}
+
+/* DISEÑO ADAPTABLE (MÓVILES) */
+@media (max-width: 768px) {
+    .header-flex { flex-direction: column; text-align: center; }
+    .main-nav { margin-top: 15px; }
+    .main-nav a { margin: 0 10px; font-size: 0.85rem; }
+    h1 { font-size: 1.75rem; }
+}
+/* ESTILOS DEL AULA KÁRSTICA */
+.aula-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.aula-bloque {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Estilo para alternar el orden visual en pantallas grandes (da dinamismo y orden) */
+.aula-bloque.reverse {
+    background-color: var(--bg-light);
+}
+
+.aula-texto h3 {
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+}
+
+.aula-texto p {
+    color: var(--text-color);
+    font-size: 1rem;
+    text-align: justify;
+}
+
+/* Adaptación para pantallas de teléfonos móviles */
+@media (max-width: 768px) {
+    .aula-bloque {
+        padding: 20px;
+    }
+    .aula-texto h3 {
+        font-size: 1.15rem;
+    }
+}
+/* ESTILOS DEL FORMULARIO DE CAPTACIÓN */
+.form-container {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 50px auto 0 auto;
+    padding: 35px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.form-header h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.form-group-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 6px;
+}
+
+.form-group input, .form-group select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    background-color: var(--bg-light);
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background-color: #ffffff;
+}
+
+.form-group-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.form-group-checkbox input {
+    margin-top: 4px;
+}
+
+.form-group-checkbox label {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.4;
+}
+
+.btn-submit {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #1d4ed8;
+}
+
+/* Ajuste móvil para los campos en paralelo */
+@media (max-width: 600px) {
+    .form-group-row {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    .form-container {
+        padding: 20px;
+    }
+}
+/* ESTILOS DE TRANSPARENCIA LEGAL */
+.legal-notice {
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.legal-text {
+    font-size: 0.75rem;
+    color: #64748b;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+    text-align: justify;
+}
+/* ACTUALIZACIÓN PANEL DOBLE API */
+.panel-monitoreo {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 25px;
+ margin-bottom: 15px;
+}
+.indicador-tarjeta {
+ background: #ffffff;
+ border: 1px solid var(--border-color);
+ border-radius: 8px;
+ padding: 25px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ text-align: center;
+ box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.info-dinamica {
+ margin-top: 15px;
+ font-size: 0.95rem;
+ color: var(--text-color);
+}
+.sync-banner {
+ text-align: center;
+ margin-top: 10px;
+}
+/* Colores extras para alertas meteorológicas */
+.alert-naranja { background-color: #ffeedb; color: #c44e00; }
+.alert-rojo { background-color: #fde8e8; color: #9c1c1c; }
+
+/* ESTILOS DEL SISMÓGRAFO EXPERIMENTAL (Fase 3) */
+.ejes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+.eje-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+.vibracion-barra-bg {
+    background: #e2e8f0;
+    border-radius: 10px;
+    height: 15px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 25px;
+}
+.vibracion-barra-fg {
+    background: var(--secondary-color);
+    height: 100%;
+    width: 0%;
+    transition: width 0.1s ease;
+}
+.log-container {
+    background: #1e293b;
+    color: #38bdf8;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: left;
+    font-family: monospace;
+    font-size: 0.85rem;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.log-container h4 { color: #f8fafc; margin-bottom: 8px; }
+.log-container ul { list-style: none; padding-left: 0; }
+.log-container li { margin-bottom: 4px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
+
