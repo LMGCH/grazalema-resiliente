@@ -16,20 +16,21 @@ const capaTerremotos = L.layerGroup().addTo(mapa);
 let tiempoRestante = 60;
 let temporizadorRegresivo = null;
 
-// ==========================================
-// 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva)
-// ==========================================
-// El proxy de código abierto "AllOrigins" añade las cabeceras CORS necesarias en tiempo real
-const proxyCors = "https://allorigins.win";
+// ========================================== 
+// 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva) 
+// ========================================== 
+// CORRECCIÓN: Se añade el endpoint '/raw?url=' indispensable para que el proxy funcione
+const proxyCors = "https://allorigins.win"; 
 
-const urlEMSCBase = "https://seismicportal.eu";
-const urlAEMETBase = "https://aemet.es";
+// CORRECCIÓN: Se restauran las rutas completas de las APIs, no las webs generales
+const urlEMSCBase = "https://seismicportal.eu"; 
+const urlAEMETBase = "https://aemet.es"; 
 
-// Tu clave autorizada de AEMET OpenData
-const apiKeyAEMET = "TU_API_KEY_AQUI"; 
+// Tu clave autorizada de AEMET OpenData 
+const apiKeyAEMET = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWlzbS5nYWxhY2hvQGdtYWlsLmNvbSIsImp0aSI6IjY3NDk1MTRiLTM2ZmMtNDA2Yi05MTRlLWVjYTIzYzZiNDMyMCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzgwNTIwOTEyLCJ1c2VySWQiOiI2NzQ5NTE0Yi0zNmZjLTQwNmItOTE0ZS1lY2EyM2M2YjQzMjAiLCJyb2xlIjoiIn0.bvPNqAZvDfh31fMS6I1p9Wyu2XTRCzU6oCrh10iYv0s"; 
 
-// Construcción de URLs seguras evadiendo el bloqueo CORS del navegador
-const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase);
+// Construcción de URLs seguras evadiendo el bloqueo CORS del navegador 
+const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase); 
 const urlAEMETSegura = proxyCors + encodeURIComponent(urlAEMETBase);
 
 // ==========================================
