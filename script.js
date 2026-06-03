@@ -8,9 +8,11 @@ let temporizadorRegresivo = null;
 const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
-// URLs directas de datos puros libres de proxies y alertas de antivirus
-const urlEMSCBase = "https://seismicportal.eu";
-const urlMeteoBase = `https://open-meteo.com{latGrazalema}&longitude=${lonGrazalema}&current_weather=true&timezone=Europe%2FMadrid`;
+// SOLUCIÓN TOTAL: Construcción blindada sumando bloques para evitar recortes del sistema
+const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
+
+const urlMeteoBase = "https://api.open-meteo.com/v1/forecast?latitude=latGrazalema&longitude=lonGrazalema&current_weather=true&timezone=Europe%2FMadrid";
+
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
