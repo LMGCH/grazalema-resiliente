@@ -1,4 +1,22 @@
 // ==========================================
+// 0. TIEMPO Y CONTADOR REGRESIVO
+// ==========================================
+let tiempoRestante = 60;
+let intervaloContador;
+
+async function actualizarPlataforma() {
+    const horaActual = new Date().toLocaleTimeString();
+    const horaSyncElem = document.getElementById("hora-sync");
+    if (horaSyncElem) horaSyncElem.textContent = horaActual;
+
+    // Ejecutar ambas consultas de forma paralela
+    await Promise.all([
+        consultarSismicidad(),
+        consultarMeteorologia()
+    ]);
+}
+
+// ==========================================
 // 1. INICIALIZACIÓN DEL MAPA (Leaflet)
 // ==========================================
 // Centrado en Grazalema (Cádiz)
