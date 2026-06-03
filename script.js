@@ -8,12 +8,6 @@ async function actualizarPlataforma() {
     const horaActual = new Date().toLocaleTimeString();
     const horaSyncElem = document.getElementById("hora-sync");
     if (horaSyncElem) horaSyncElem.textContent = horaActual;
-
-    // Ejecutar ambas consultas de forma paralela
-    await Promise.all([
-        consultarSismicidad(),
-        consultarMeteorologia()
-    ]);
 }
 
 // ==========================================
