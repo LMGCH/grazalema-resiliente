@@ -4,15 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laboratorio Ciudadano - Sensor Celular</title>
+    <!-- Mantenemos tus estilos globales correctos -->
     <link rel="stylesheet" href="estilos.css">
+    <style>
+        /* Añadimos los elementos visuales interactivos de la versión 1 */
+        .ejes-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: space-between;
+        }
+        .eje-card {
+            flex: 1;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .eje-card span {
+            display: block;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+        .vibracion-barra-bg {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        .vibracion-barra-fg {
+            height: 100%;
+            width: 0%;
+            background: #ef4444; /* Rojo de alerta para la vibración */
+            transition: width 0.1s ease-out;
+        }
+        .log-container {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            text-align: left;
+            font-size: 0.85rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .log-container ul { list-style: none; padding: 0; }
+        .log-container li { margin-bottom: 5px; color: #38bdf8; }
+    </style>
 </head>
 <body class="bg-light">
-
     <header class="main-header">
         <div class="container header-flex">
             <div class="logo"><strong>Grazalema</strong> Laboratorio</div>
             <nav class="main-nav">
-                <a href="index.html">Volver al Portal</a>
+                <a href="vecino.html" class="btn-nav">← Volver a Vecinos</a>
             </nav>
         </div>
     </header>
@@ -26,18 +77,18 @@
                 <!-- Botón de Activación de Sensores -->
                 <button id="btn-permiso" class="btn-submit" style="margin-bottom: 25px;">Activar Sensor del Teléfono</button>
 
-                <!-- Panel de Lecturas en Tiempo Real -->
+                <!-- Panel de Lecturas en Tiempo Real (Fusión Estética) -->
                 <div class="panel-lecturas" style="display: none;" id="panel-datos">
                     <div class="ejes-container">
-                        <div class="eje-card">Eje X (Horizontal): <span id="eje-x">0.00</span></div>
-                        <div class="eje-card">Eje Y (Vertical): <span id="eje-y">0.00</span></div>
-                        <div class="eje-card">Eje Z (Profundidad): <span id="eje-z">0.00</span></div>
+                        <div class="eje-card">Eje X (Horizontal) <span id="eje-x">0.00</span></div>
+                        <div class="eje-card">Eje Y (Vertical) <span id="eje-y">0.00</span></div>
+                        <div class="eje-card">Eje Z (Profundidad) <span id="eje-z">0.00</span></div>
                     </div>
                     
                     <div class="vibracion-barra-bg">
                         <div id="barra-vibracion" class="vibracion-barra-fg"></div>
                     </div>
-                    <p style="font-size: 0.85rem; color: #64748b; margin-top: 5px;">Intensidad de vibración filtrada</p>
+                    <p style="font-size: 0.85rem; color: #64748b; margin-top: 8px;">Intensidad de vibración filtrada en tiempo real</p>
                 </div>
 
                 <!-- Registro Log de Alertas Simuladas -->
@@ -50,6 +101,8 @@
             </div>
         </div>
     </section>
-<script src="sensor.js"></script>
+
+    <!-- Usamos un script dedicado para no saturar el script.js general -->
+    <script src="sensor.js"></script>
 </body>
 </html>
