@@ -23,7 +23,7 @@ const urlEMSC = "https://seismicportal.eu";
 const urlAEMET = "https://aemet.es";
 
 // IMPORTANTE: Pon aquí tu clave personal de AEMET OpenData
-const apiKeyAEMET = "TU_API_KEY_AQUI"; 
+const apiKeyAEMET = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWlzbS5nYWxhY2hvQGdtYWlsLmNvbSIsImp0aSI6IjY3NDk1MTRiLTM2ZmMtNDA2Yi05MTRlLWVjYTIzYzZiNDMyMCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzgwNTIwOTEyLCJ1c2VySWQiOiI2NzQ5NTE0Yi0zNmZjLTQwNmItOTE0ZS1lY2EyM2M2YjQzMjAiLCJyb2xlIjoiIn0.bvPNqAZvDfh31fMS6I1p9Wyu2XTRCzU6oCrh10iYv0s"; 
 
 // ==========================================
 // 3. MÓDULO SÍSMICO (EMSC - SEISMICPORTAL)
