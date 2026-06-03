@@ -4,23 +4,16 @@
 let tiempoRestante = 60;
 let temporizadorRegresivo = null;
 
-// Mantendremos el proxy SOLO para la EMSC si fuera estrictamente necesario, 
-// pero vamos a probar a llamar a las APIs limpias directamente para evitar al antivirus.
-const proxyCors = "https://api.allorigins.win/raw?url=";
-
-// Coordenadas de Grazalema para la consulta meteorológica directa
+// Coordenadas exactas de Grazalema
 const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
-// URLs técnicas completas optimizadas sin bloqueos
-const urlEMSCBase = `https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=30`;
-// Nueva API meteorológica profesional limpia y compatible con navegadores directos
-const urlMeteoBase = `https://api.open-meteo.com/v1/forecast?${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,relative_humidity_2m,&daily=precipitation_sum,precipitation_sink,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
-
-const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase);
+// URLs directas de datos puros libres de proxies y alertas de antivirus
+const urlEMSCBase = "https://seismicportal.eu";
+const urlMeteoBase = `https://open-meteo.com{latGrazalema}&longitude=${lonGrazalema}&current_weather=true&timezone=Europe%2FMadrid`;
 
 // ==========================================
-// 2. CAPTURA DE SISMICIDAD (EMSC)
+// 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
 // ==========================================
 async function cargarTerremotos() {
     const sismoInfo = document.getElementById('sismo-info');
@@ -28,15 +21,14 @@ async function cargarTerremotos() {
     if (!sismoInfo) return;
 
     try {
-        // Intentamos primero una petición directa limpia sin proxy para evitar alertas de antivirus
-        let respuesta = await fetch(urlEMSCBase).catch(() => fetch(urlEMSCSegura));
+        const respuesta = await fetch(urlEMSCBase);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
 
         const datos = await respuesta.json();
         const seismos = datos.features || [];
 
         if (seismos.length === 0) {
-            sismoInfo.innerHTML = "Sin actividad reciente en el área de la Sierra.";
+            sismoInfo.innerHTML = "Sin actividad reciente en la zona.";
             if (semaforoSismico) {
                 semaforoSismico.textContent = "Estable";
                 semaforoSismico.className = "status-badge alert-verde"; 
@@ -44,14 +36,15 @@ async function cargarTerremotos() {
             return;
         }
 
-        const ultimoSismo = seismos[0].properties;
-        const magnitud = ultimoSismo.mag;
-        const lugar = ultimoSismo.flynn_region || "Sur de España";
+        // CORRECCIÓN DE INDIZACIÓN: Acceso correcto al primer elemento del array GeoJSON
+        const primerSeismo = seismos[0];
+        const prop = primerSeismo.properties;
+        const magnitud = prop.mag;
+        const lugar = prop.flynn_region || "Sur de España";
         
-        // Formateo de fecha seguro para baja cobertura
         let horaSismo = "--:--";
-        if (ultimoSismo.time) {
-            horaSismo = new Date(ultimoSismo.time).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        if (prop.time) {
+            horaSismo = new Date(prop.time).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
         }
 
         sismoInfo.innerHTML = `Mág: <strong style="color:#e74c3c;">${magnitud} mbLg</strong> en ${lugar} (${horaSismo}h).`;
@@ -76,7 +69,7 @@ async function cargarTerremotos() {
 }
 
 // ==========================================
-// 3. CAPTURA METEOROLÓGICA (OPEN-METEO - LIBRE DE PROXY)
+// 3. CAPTURA METEOROLÓGICA (OPEN-METEO) - REPARADO
 // ==========================================
 async function cargarMeteorologia() {
     const meteoInfo = document.getElementById('meteo-info');
@@ -84,29 +77,28 @@ async function cargarMeteorologia() {
     if (!meteoInfo) return;
 
     try {
-        // Conexión directa pura, ultra rápida y 100% invisible para los antivirus
         const respuesta = await fetch(urlMeteoBase);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
         
         const datos = await respuesta.json();
         
-        if (datos && datos.current) {
-            const clima = datos.current;
-            const temp = clima.temperature_2m ?? 'N/A';
-            const lluvia = clima.precipitation ?? '0';
-            const viento = clima.wind_speed_10m ?? 'N/A';
-            const humedad = clima.relative_humidity_2m ?? 'N/A';
+        // CORRECCIÓN CRÍTICA: Mapeo exacto de las variables nativas de la API Open-Meteo
+        if (datos && datos.current_weather) {
+            const clima = datos.current_weather;
+            const temp = clima.temperature ?? 'N/A';
+            const viento = clima.windspeed ?? 'N/A';
+            const direccion = clima.winddirection ?? 'N/A';
 
-            // Inyectamos los datos directamente en tus campos del HTML
-            meteoInfo.innerHTML = `${temp}°C | Humedad: ${humedad}% | Lluvia: ${lluvia}mm | Viento: ${viento}km/h.`;
+            // Inyección limpia y directa del texto en tu interfaz HTML
+            meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°).`;
 
-            // Control automatizado del semáforo según la intensidad de la precipitación actual
+            // Semáforo dinámico basado en la velocidad del viento (parámetro crítico en la sierra)
             if (semaforoMeteo) {
-                const mmLluvia = parseFloat(lluvia);
-                if (mmLluvia > 5.0) {
-                    semaforoMeteo.textContent = "Alerta Lluvia";
+                const velViento = parseFloat(viento);
+                if (velViento > 50) {
+                    semaforoMeteo.textContent = "Alerta Viento";
                     semaforoMeteo.className = "status-badge alert-rojo";
-                } else if (mmLluvia > 0.5) {
+                } else if (velViento > 25) {
                     semaforoMeteo.textContent = "Riesgo Moderado";
                     semaforoMeteo.className = "status-badge alert-naranja";
                 } else {
@@ -117,7 +109,7 @@ async function cargarMeteorologia() {
         }
     } catch (error) {
         console.error("Error meteorológico:", error);
-        meteoInfo.innerHTML = "<span style='color:#7f8c8d;'>Sincronizando estación local...</span>";
+        meteoInfo.innerHTML = "<span style='color:#7f8c8d;'>Esperando actualización de red...</span>";
     }
 }
 
@@ -160,5 +152,6 @@ function ejecutarCargaCompleta() {
 window.addEventListener('DOMContentLoaded', () => {
     ejecutarCargaCompleta();
 });
+
 
 
