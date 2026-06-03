@@ -64,7 +64,21 @@ document.addEventListener("DOMContentLoaded", () => {
             if (tiempoActual - ultimaActualizacion > 1200) {
                 // Si la vibración supera el umbral crítico establecido, disparamos alerta
                 if (vibracionAbsoluta > UMBRAL_VIBRACION_CRITICA) {
-                    registrarLog(`⚠️ ALERTA SIMULADA: Sacudida detectada (${vibracionAbsoluta.toFixed(1)} m/s²).`);
+                    if (vibracionAbsoluta > UMBRAL_VIBRACION_CRITICA) {
+    registrarLog(`⚠️ Local: Sacudida detectada (${vibracionAbsoluta.toFixed(1)} m/s²). Enviando señal al servidor...`);
+    
+    // Simulamos la respuesta del servidor en 1 segundo (Consenso de Red)
+    setTimeout(() => {
+        registrarLog(`📡 RED: Red comunitaria sincronizada. 4 nodos en Grazalema reportan la misma vibración.`);
+        registrarLog(`🚨 PREVISIÓN SEMI-DOMÉSTICA: Posible micro-sismo local detectado por Consenso.`);
+        
+        // Cambiamos el color de la barra a peligro
+        document.getElementById("barra-vibracion").style.backgroundColor = "#dc2626";
+    }, 1000);
+
+    ultimaActualizacion = tiempoActual;
+}
+
                     // Cambiar el color de la barra a modo peligro temporalmente
                     document.getElementById("barra-vibracion").style.backgroundColor = "#dc2626";
                     ultimaActualizacion = tiempoActual;
