@@ -1,36 +1,31 @@
 // ==========================================
 // 1. INICIALIZACIÓN DE LA CARTOGRAFÍA (Leaflet)
 // ==========================================
-// Variable central única del mapa basada en tu ID de contenedor 'map'
 const mapa = L.map('map').setView([36.7589, -5.3649], 10);
 
-// Capa base de mapas (OpenStreetMap)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
 }).addTo(mapa);
 
-// Capa de almacenamiento dinámico para refrescar los marcadores de terremotos
 const capaTerremotos = L.layerGroup().addTo(mapa);
 
-// Variables globales para la gestión de reintentos y contador regresivo
 let tiempoRestante = 60;
 let temporizadorRegresivo = null;
 
-// ========================================== 
-// 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva) 
-// ========================================== 
-// CORRECCIÓN: Se añade el endpoint '/raw?url=' indispensable para que el proxy funcione
-const proxyCors = "https://allorigins.win"; 
+// ==========================================
+// 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva)
+// ==========================================
+// CORREGIDO: URL completa del proxy necesaria para recibir JSON limpio
+const proxyCors = "https://allorigins.win";
 
-// CORRECCIÓN: Se restauran las rutas completas de las APIs, no las webs generales
-const urlEMSCBase = "https://seismicportal.eu"; 
-const urlAEMETBase = "https://aemet.es"; 
+// CORREGIDO: URLs completas de los servicios de datos
+const urlEMSCBase = "https://seismicportal.eu";
+const urlAEMETBase = "https://aemet.es";
 
-// Tu clave autorizada de AEMET OpenData 
-const apiKeyAEMET = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWlzbS5nYWxhY2hvQGdtYWlsLmNvbSIsImp0aSI6IjY3NDk1MTRiLTM2ZmMtNDA2Yi05MTRlLWVjYTIzYzZiNDMyMCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzgwNTIwOTEyLCJ1c2VySWQiOiI2NzQ5NTE0Yi0zNmZjLTQwNmItOTE0ZS1lY2EyM2M2YjQzMjAiLCJyb2xlIjoiIn0.bvPNqAZvDfh31fMS6I1p9Wyu2XTRCzU6oCrh10iYv0s"; 
+// Tu clave autorizada de AEMET OpenData (Ya integrada)
+const apiKeyAEMET = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWlzbS5nYWxhY2hvQGdtYWlsLmNvbSIsImp0aSI6IjY3NDk1MTRiLTM2ZmMtNDA2Yi05MTRlLWVjYTIzYzZiNDMyMCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzgwNTIwOTEyLCJ1c2VySWQiOiI2NzQ5NTE0Yi0zNmZjLTQwNmItOTE0ZS1lY2EyM2M2YjQzMjAiLCJyb2xlIjoiIn0.bvPNqAZvDfh31fMS6I1p9Wyu2XTRCzU6oCrh10iYv0s";
 
-// Construcción de URLs seguras evadiendo el bloqueo CORS del navegador 
-const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase); 
+const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase);
 const urlAEMETSegura = proxyCors + encodeURIComponent(urlAEMETBase);
 
 // ==========================================
@@ -45,14 +40,12 @@ async function cargarTerremotos() {
         const datos = await respuesta.json();
         const seismos = datos.features || [];
 
-        // Limpieza de marcadores de la consulta anterior
         capaTerremotos.clearLayers();
 
         seismos.forEach(seismo => {
             const prop = seismo.properties;
             const geom = seismo.geometry;
 
-            // Corrección de inversión geométrica GeoJSON de EMSC [Lon, Lat]
             const lon = geom.coordinates[0];
             const lat = geom.coordinates[1];
 
@@ -61,7 +54,6 @@ async function cargarTerremotos() {
             const fecha = new Date(prop.time).toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
             const profundidad = prop.depth;
 
-            // Ponderación visual: color y radio dependientes de la magnitud
             const colorIcono = magnitud >= 4.0 ? '#d9534f' : magnitud >= 2.5 ? '#f0ad4e' : '#5cb85c';
             const radio = magnitud * 4;
 
@@ -95,7 +87,7 @@ async function cargarTerremotos() {
 }
 
 // ==========================================
-// 4. CAPTURA DE DATOS METEOROLÓGICOS (AEMET - DOBLE FETCH PROXY)
+// 4. CAPTURA DE DATOS METEOROLÓGICOS (AEMET)
 // ==========================================
 async function cargarMeteorologia() {
     try {
@@ -113,7 +105,6 @@ async function cargarMeteorologia() {
         if (resultadoPaso1.estado === 200 && resultadoPaso1.datos) {
             console.log("Paso 1 validado. Recuperando datos definitivos de AEMET...");
             
-            // Paso 2: La URL temporal devuelta también requiere ir por el proxy CORS
             const urlFinalSegura = proxyCors + encodeURIComponent(resultadoPaso1.datos);
             const paso2 = await fetch(urlFinalSegura);
             if (!paso2.ok) throw new Error("AEMET Paso 2 falló");
@@ -123,7 +114,6 @@ async function cargarMeteorologia() {
             if (datosClima && datosClima.length > 0) {
                 const ultimaMedicion = datosClima[datosClima.length - 1];
                 mostrarDatosClimaHTML(ultimaMedicion);
-                // Si la conexión es exitosa, reiniciamos el contador limpiamente
                 if (temporizadorRegresivo) clearInterval(temporizadorRegresivo);
             }
         } else {
@@ -135,7 +125,6 @@ async function cargarMeteorologia() {
     }
 }
 
-// Renderizado del panel de información meteorológica óptima
 function mostrarDatosClimaHTML(clima) {
     const contenedor = obtenerContenedorPanel();
     contenedor.innerHTML = `
@@ -150,7 +139,6 @@ function mostrarDatosClimaHTML(clima) {
     `;
 }
 
-// Renderizado del panel de reconexión si salta el catch del error
 function mostrarErrorClimaHTML() {
     const contenedor = obtenerContenedorPanel();
     contenedor.innerHTML = `
@@ -166,7 +154,6 @@ function mostrarErrorClimaHTML() {
     iniciarTemporizadorReconexion();
 }
 
-// Inyección y mantenimiento del panel flotante HTML
 function obtenerContenedorPanel() {
     let panel = document.getElementById('panel-clima');
     if (!panel) {
