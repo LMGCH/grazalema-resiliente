@@ -15,14 +15,14 @@ let temporizadorRegresivo = null;
 // ==========================================
 // 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva)
 // ==========================================
-// CORREGIDO: URL completa del proxy necesaria para recibir JSON limpio
-const proxyCors = "https://allorigins.win";
+// El proxy completo e inalterado para inyectar cabeceras CORS
+const proxyCors = "https://allorigins.win/raw?url=";
 
-// CORREGIDO: URLs completas de los servicios de datos
-const urlEMSCBase = "https://seismicportal.eu";
-const urlAEMETBase = "https://aemet.es";
+// Los endpoints completos con todos sus parámetros geográficos y de filtrado
+const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=30";
+const urlAEMETBase = "https://opendata.aemet.es/opendata/api/observacion/datos/estacion/11041Y";
 
-// Tu clave autorizada de AEMET OpenData (Ya integrada)
+// Tu clave autorizada de AEMET OpenData
 const apiKeyAEMET = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWlzbS5nYWxhY2hvQGdtYWlsLmNvbSIsImp0aSI6IjY3NDk1MTRiLTM2ZmMtNDA2Yi05MTRlLWVjYTIzYzZiNDMyMCIsImlzcyI6IkFFTUVUIiwiaWF0IjoxNzgwNTIwOTEyLCJ1c2VySWQiOiI2NzQ5NTE0Yi0zNmZjLTQwNmItOTE0ZS1lY2EyM2M2YjQzMjAiLCJyb2xlIjoiIn0.bvPNqAZvDfh31fMS6I1p9Wyu2XTRCzU6oCrh10iYv0s";
 
 const urlEMSCSegura = proxyCors + encodeURIComponent(urlEMSCBase);
