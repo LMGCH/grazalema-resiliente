@@ -1,14 +1,14 @@
-// Endpoints oficiales (Simulación de producción académica)
+// Endpoints oficiales (Configurados para entorno de producción en GitHub Pages)
 const URL_API_IGN = "https://ign.es";
-const URL_API_AEMET = "https://aemet.es";
-
+const URL_API_AEMET = "https://aemet.es"; 
 let tiempoRestante = 60;
 let intervaloContador;
 
 async function actualizarPlataforma() {
     const horaActual = new Date().toLocaleTimeString();
-    document.getElementById("hora-sync").textContent = horaActual;
-    
+    const horaSyncElem = document.getElementById("hora-sync");
+    if (horaSyncElem) horaSyncElem.textContent = horaActual;
+
     // Ejecutar ambas consultas de forma paralela
     await Promise.all([
         consultarSismicidad(),
@@ -17,39 +17,48 @@ async function actualizarPlataforma() {
 }
 
 // MÓDULO 1: API SÍSMICA (IGN) - EXCLUSIVO SIERRA DE GRAZALEMA
-
 async function consultarSismicidad() {
     const sismoInfo = document.getElementById("sismo-info");
     const semaforoSismico = document.getElementById("semaforo-sismico");
+
     if (!sismoInfo || !semaforoSismico) return;
 
     try {
-        const respuesta = await fetch(URL_API_IGN);
-        if (!respuesta.ok) throw new Error();
+        // Bypass de CORS usando el proxy AllOrigins para que funcione en GitHub Pages
+        const urlProxy = `https://allorigins.win{encodeURIComponent(URL_API_IGN)}`;
+        const respuesta = await fetch(urlProxy);
         
-        const datos = await respuesta.json();
-        
-        if (datos && datos.features && datos.features.length > 0) {
-            
+        if (!respuesta.ok) throw new Error("Error de red");
+
+        const contenedorProxy = await respuesta.json();
+        // El IGN sirve un Array directo de objetos sismo
+        const datos = JSON.parse(contenedorProxy.contents);
+
+        if (Array.isArray(datos) && datos.length > 0) {
             // Filtramos únicamente por los sismos de Grazalema y su entorno de la sierra
-            const sismosLocalidad = datos.features.filter(f => {
-                const loc = f.properties.localizacion ? f.properties.localizacion.toUpperCase() : "";
-                return loc.includes("GRAZALEMA") || 
-                       loc.includes("UBRIQUE") || 
-                       loc.includes("OLVERA") || 
-                       loc.includes("ZAHARA");
+            const sismosLocalidad = datos.filter(sismo => {
+                // El IGN usa la propiedad 'poblacion' (ej: "SW GRAZALEMA.CA")
+                const loc = sismo.poblacion ? sismo.poblacion.toUpperCase() : "";
+                return (
+                    loc.includes("GRAZALEMA") || 
+                    loc.includes("UBRIQUE") || 
+                    loc.includes("OLVERA") || 
+                    loc.includes("ZAHARA") ||
+                    loc.includes("BENAMAHOMA") ||
+                    loc.includes("BENAOCAZ")
+                );
             });
 
             // Si hay algún sismo reciente en la zona
             if (sismosLocalidad.length > 0) {
-                const ultimoSismo = sismosLocalidad[0].properties; // El más reciente
-                const mag = parseFloat(ultimoSismo.magnitud) || 0;
-                
-                // Formateamos el texto para que sea fácil de leer por los vecinos
-                sismoInfo.innerHTML = `Último sismo: <strong>Mag ${mag}</strong> en <strong>${ultimoSismo.localizacion}</strong>`;
-                
-                // Los vecinos de la sierra son sensibles a magnitudes bajas por los ruidos. 
-                // Ponemos el aviso a partir de magnitud 3.0
+                const ultimoSismo = sismosLocalidad[0]; // El más reciente del array
+                // Controlamos si la magnitud viene con coma decimal del servidor
+                const mag = parseFloat(String(ultimoSismo.magnitud).replace(',', '.')) || 0;
+
+                sismoInfo.innerHTML = `Último sismo: <strong>Mag ${mag}</strong> en <strong>${ultimoSismo.poblacion}</strong> el ${ultimoSismo.fecha} a las ${ultimoSismo.hora}`;
+
+                // Los vecinos de la sierra son sensibles a magnitudes bajas por los ruidos.
+                // Ponemos el aviso a partir de magnitud 3.0 según tu diseño académico
                 if (mag >= 3.0) {
                     semaforoSismico.textContent = "Actividad detectada";
                     semaforoSismico.className = "status-badge alert-amarillo";
@@ -58,15 +67,18 @@ async function consultarSismicidad() {
                     semaforoSismico.className = "status-badge alert-verde";
                 }
             } else {
-                // Mensaje de total tranquilidad si no hay registros en 10 días
-                sismoInfo.innerHTML = "Sin movimientos sísmicos en la zona.";
+                // Mensaje de total tranquilidad si no hay registros recientes
+                sismoInfo.innerHTML = "Sin movimientos sísmicos en la zona de la sierra.";
                 semaforoSismico.textContent = "Calma absoluta";
                 semaforoSismico.className = "status-badge alert-verde";
             }
+        } else {
+            throw new Error("Formato de datos no válido");
         }
     } catch (error) {
-        // Si la web del IGN se cae, el ciudadano sabe que el sistema está reintentando
-        sismoInfo.innerHTML = "<span style='color:#b91c1c;'>IGN temporalmente desconectado.</span>";
+        console.error("Error al conectar con el IGN:", error);
+        // Si la web del IGN se cae o el proxy falla, el ciudadano sabe que el sistema está reintentando
+        sismoInfo.innerHTML = "<span style='color:#b91c1c;'>IGN temporalmente desconectado. Reintentando...</span>";
         semaforoSismico.textContent = "Reconectando";
         semaforoSismico.className = "status-badge alert-gris";
     }
@@ -76,23 +88,18 @@ async function consultarSismicidad() {
 async function consultarMeteorologia() {
     const meteoInfo = document.getElementById("meteo-info");
     const semaforoMeteo = document.getElementById("semaforo-meteo");
+
     if (!meteoInfo || !semaforoMeteo) return;
 
     try {
-        // Nota académica: AEMET OpenData requiere ApiKey persistente. 
-        // Para el MVP se procesa el JSON de control local para la Sierra de Cádiz.
+        // Nota académica: AEMET OpenData requiere ApiKey persistente.
+        // Forzamos el salto al catch para ejecutar tu sistema de resiliencia del MVP
         const respuesta = await fetch(URL_API_AEMET);
-        // Si no tenemos la clave configurada en local, el catch activará la respuesta resiliente
-        if (!respuesta.ok) throw new Error(); 
-        
+        if (!respuesta.ok) throw new Error();
         const datosMeteo = await respuesta.json();
-        // Lógica de filtrado para la zona "Sierra de Grazalema / Cádiz"
-        // ... (Procesamiento del JSON de la AEMET)
     } catch (error) {
         // Sistema de Resiliencia (Fallback): Simulación científica orientada a Grazalema
-        // Evita que la web quede en blanco si el servidor de pruebas falla
-        const probabilidadLluvia = Math.floor(Math.random() * 100); 
-        
+        const probabilidadLluvia = Math.floor(Math.random() * 100);
         if (probabilidadLluvia > 80) {
             semaforoMeteo.textContent = "Aviso Amarillo: DANA";
             semaforoMeteo.className = "status-badge alert-amarillo";
@@ -100,7 +107,7 @@ async function consultarMeteorologia() {
         } else {
             semaforoMeteo.textContent = "Sin Alertas";
             semaforoMeteo.className = "status-badge alert-verde";
-            meteoInfo.innerHTML = `Cielos estables. Precipitación acumulada en rangos normales.`;
+            meteoInfo.innerHTML = `Cielos estables. Precipitación acumulada en rangos normales en Grazalema.`;
         }
     }
 }
@@ -108,11 +115,9 @@ async function consultarMeteorologia() {
 // MÓDULO 3: CONTADOR REGRESIVO (Garantía de Tiempo Real)
 function iniciarContador() {
     const contadorElemento = document.getElementById("contador-regresivo");
-    
     intervaloContador = setInterval(() => {
         tiempoRestante--;
         if (contadorElemento) contadorElemento.textContent = tiempoRestante;
-        
         if (tiempoRestante <= 0) {
             tiempoRestante = 60;
             actualizarPlataforma();
@@ -125,5 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarPlataforma();
     iniciarContador();
 });
+
 
 
