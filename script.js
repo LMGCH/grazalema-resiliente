@@ -1,14 +1,9 @@
 // ==========================================
-// 0. CONFIGURACIÓN GENERAL Y VARIABLES DE CONTROL
-// ==========================================
-let tiempoRestante = 60;
-let temporizadorRegresivo = null;
-
-// Pasarela proxy para evadir el bloqueo de seguridad CORS del navegador
-// ==========================================
-// 1. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva)
+// 1. CONFIGURACIÓN GENERAL Y VARIABLES DE CONTROL
 // ==========================================
 // El proxy completo e inalterado para inyectar cabeceras CORS
+let tiempoRestante = 60;
+let temporizadorRegresivo = null;
 const proxyCors = "https://api.allorigins.win/raw?url=";
 
 // Los endpoints completos con todos sus parámetros geográficos y de filtrado
