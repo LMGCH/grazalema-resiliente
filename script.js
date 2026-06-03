@@ -16,7 +16,7 @@ let temporizadorRegresivo = null;
 // 2. ENRUTAMIENTO CON PROXY CORS (Solución Definitiva)
 // ==========================================
 // El proxy completo e inalterado para inyectar cabeceras CORS
-const proxyCors = "https://allorigins.win/raw?url=";
+const proxyCors = "https://api.allorigins.win/raw?url=";
 
 // Los endpoints completos con todos sus parámetros geográficos y de filtrado
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=30";
