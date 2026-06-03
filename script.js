@@ -16,7 +16,9 @@ async function actualizarPlataforma() {
     ]);
 }
 
-// MÓDULO 1: API SÍSMICA (IGN)
+// MÓDULO 1: API SÍSMICA (IGN) - EXCLUSIVO SIERRA DE GRAZALEMA
+const URL_API_IGN = "https://ign.es";
+
 async function consultarSismicidad() {
     const sismoInfo = document.getElementById("sismo-info");
     const semaforoSismico = document.getElementById("semaforo-sismico");
@@ -25,23 +27,49 @@ async function consultarSismicidad() {
     try {
         const respuesta = await fetch(URL_API_IGN);
         if (!respuesta.ok) throw new Error();
+        
         const datos = await respuesta.json();
         
-        if (datos && datos.length > 0) {
-            const ultimoSismo = datos[0];
-            const mag = parseFloat(ultimoSismo.magnitud) || 0;
-            sismoInfo.innerHTML = `Mag: <strong>${mag}</strong> en <strong>${ultimoSismo.localizacion}</strong> (${ultimoSismo.hora})`;
+        if (datos && datos.features && datos.features.length > 0) {
             
-            if (mag >= 3.5) {
-                semaforoSismico.textContent = "Análisis / Enjambre";
-                semaforoSismico.className = "status-badge alert-amarillo";
+            // Filtramos únicamente por los sismos de Grazalema y su entorno de la sierra
+            const sismosLocalidad = datos.features.filter(f => {
+                const loc = f.properties.localizacion ? f.properties.localizacion.toUpperCase() : "";
+                return loc.includes("GRAZALEMA") || 
+                       loc.includes("UBRIQUE") || 
+                       loc.includes("OLVERA") || 
+                       loc.includes("ZAHARA");
+            });
+
+            // Si hay algún sismo reciente en la zona
+            if (sismosLocalidad.length > 0) {
+                const ultimoSismo = sismosLocalidad[0].properties; // El más reciente
+                const mag = parseFloat(ultimoSismo.magnitud) || 0;
+                
+                // Formateamos el texto para que sea fácil de leer por los vecinos
+                sismoInfo.innerHTML = `Último sismo: <strong>Mag ${mag}</strong> en <strong>${ultimoSismo.localizacion}</strong>`;
+                
+                // Los vecinos de la sierra son sensibles a magnitudes bajas por los ruidos. 
+                // Ponemos el aviso a partir de magnitud 3.0
+                if (mag >= 3.0) {
+                    semaforoSismico.textContent = "Actividad detectada";
+                    semaforoSismico.className = "status-badge alert-amarillo";
+                } else {
+                    semaforoSismico.textContent = "Normalidad";
+                    semaforoSismico.className = "status-badge alert-verde";
+                }
             } else {
-                semaforoSismico.textContent = "Estable";
+                // Mensaje de total tranquilidad si no hay registros en 10 días
+                sismoInfo.innerHTML = "Sin movimientos sísmicos en la zona.";
+                semaforoSismico.textContent = "Calma absoluta";
                 semaforoSismico.className = "status-badge alert-verde";
             }
         }
     } catch (error) {
-        sismoInfo.innerHTML = "<span style='color:#b91c1c;'>IGN desconectado.</span>";
+        // Si la web del IGN se cae, el ciudadano sabe que el sistema está reintentando
+        sismoInfo.innerHTML = "<span style='color:#b91c1c;'>IGN temporalmente desconectado.</span>";
+        semaforoSismico.textContent = "Reconectando";
+        semaforoSismico.className = "status-badge alert-gris";
     }
 }
 
