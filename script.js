@@ -8,7 +8,7 @@ let temporizadorRegresivo = null;
 const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
-// SOLUCIÓN TOTAL: Direcciones blindadas usando variables de plantilla reales (`${}`)
+// SOLUCIÓN TOTAL: Direcciones blindadas usando variables de plantilla reales
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
 
 // CORRECCIÓN SINTÁCTICA CRÍTICA: Inyección de coordenadas y actualización de parámetros Open-Meteo
