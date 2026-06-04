@@ -12,7 +12,7 @@ const lonGrazalema = "-5.3649";
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
 
 // CORRECCIÓN SINTÁCTICA CRÍTICA: Inyección de coordenadas y actualización de parámetros Open-Meteo
-const urlMeteoBase = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
+const urlMeteoBase = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,hourly=rain&timezone=Europe%2FMadrid`;
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
@@ -78,19 +78,21 @@ async function cargarMeteorologia() {
     if (!meteoInfo) return;
 
     // URL CORREGIDA: Trae datos de temperatura, viento, lluvia horaria y el acumulado diario de los últimos 7 días
-    const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
+    const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,hourly=rain&timezone=Europe%2FMadrid`;
 
     try {
-        const respuesta = await fetch(urlMeteoCompleta);
+        console.log(urlMeteoCompleta);
+	const respuesta = await fetch(urlMeteoCompleta);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-        const datos = await respuesta.json();
-
+	console.log(respuesta.status);        
+	const datos = await respuesta.json();
+	console.log(datos);
         if (datos && datos.current && datos.daily && datos.daily.precipitation_sum) {
             const clima = datos.current;
             const temp = clima.temperature_2m ?? 'N/A';
             const viento = clima.wind_speed_10m ?? 'N/A';
             const direccion = clima.wind_direction_10m ?? 'N/A';
-            const lluviaActual = clima.rain ?? 0;
+            const lluviaActual = datos.hourly?.rain?.[0] ?? 0;
             
             // Calcular el acumulado total de los últimos 7 días (Litros por m²)
             const lluviasSemanales = datos.daily.precipitation_sum;
@@ -174,7 +176,6 @@ function ejecutarCargaCompleta() {
 window.addEventListener('DOMContentLoaded', () => {
     ejecutarCargaCompleta();
 });
-
 
 
 
