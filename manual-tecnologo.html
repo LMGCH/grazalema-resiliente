@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Operativo para Tecnólogos Locales | Grazalema Resiliente</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        .manual-tecnico { max-width: 750px; margin: 40px auto; padding: 0 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1e293b; line-height: 1.6; }
+        .mision-box { background: #eff6ff; border-left: 5px solid #2563eb; padding: 20px; border-radius: 6px; margin: 25px 0 35px 0; }
+        .bloque-tarea { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; margin-bottom: 25px; }
+        .bloque-tarea h3 { color: #1e3a8a; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; font-size: 1.3rem; }
+        .lista-puntos { list-style: none; padding-left: 0; margin-top: 15px; }
+        .lista-puntos li { margin-bottom: 12px; padding-left: 25px; position: relative; }
+        .lista-puntos li::before { content: "▪"; color: #2563eb; position: absolute; left: 0; font-size: 1.3rem; top: -2px; }
+        .badge-rol { background: #e2e8f0; color: #475569; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; float: right; }
+        .btn-volver { display: inline-block; color: #2563eb; text-decoration: none; font-weight: bold; margin-bottom: 20px; transition: color 0.2s; }
+        .btn-volver:hover { color: #1d4ed8; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <main class="manual-tecnico">
+        <a href="tecnologo.html" class="btn-volver">← Volver a Tecnólogos</a>
+        
+        <h1 style="font-size: 2.2rem; color: #0f172a; margin-top: 10px; letter-spacing: -0.025em;">Hoja de Ruta Técnica: Despliegue Local</h1>
+        <p style="color: #64748b; font-size: 1.1rem; margin-top: 5px;">Guía operativa para los administradores y colaboradores de la red sismológica en Grazalema.</p>
+
+        <div class="mision-box">
+            <h4 style="margin: 0 0 8px 0; color: #1e40af; font-size: 1rem;">Coordinación a Distancia</h4>
+            <p style="margin: 0; color: #1e3a8a; font-size: 0.95rem;">
+                Debido a la distancia del equipo de desarrollo principal (150 km), la viabilidad de la red kárstica invernal depende por completo de la implicación directa de los tecnólogos residentes en el municipio. Vuestra misión se centra en la gestión del hardware, la supervisión de la conectividad local, el mantenimiento del servidor de consenso y el soporte de proximidad a los vecinos voluntarios.
+            </p>
+        </div>
+
+        <!-- SECCIÓN 1 -->
+        <section class="bloque-tarea">
+            <span class="badge-rol">Hardware</span>
+            <h3>1. Captación y Auditoría de Dispositivos Nodos</h3>
+            <p style="color: #475569;">El sismógrafo web aprovecha los acelerómetros internos de los teléfonos móviles. Las tareas asignadas en el pueblo son:</p>
+            <ul class="lista-puntos">
+                <li><strong>Mapeo de Terminales:</strong> Verificar que los teléfonos de los voluntarios no superen los 5-6 años de antigüedad para garantizar sensores MEMS estables.</li>
+                <li><strong>Compatibilidad de Navegadores:</strong> Asegurar el uso de navegadores actualizados. En entornos Apple (iOS), guiar a los usuarios para que otorguen explícitamente el permiso de hardware haciendo clic en el botón de emparejamiento.</li>
+                <li><strong>Logística de Alimentación:</strong> Confirmar que cada nodo disponga de una toma de corriente fija cerca de su punto de monitorización nocturna. El script en tiempo real requiere carga continua.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 2 -->
+        <section class="bloque-tarea">
+            <span class="badge-rol">Geología</span>
+            <h3>2. Superfisión de Emplazamientos Estructurales</h3>
+            <p style="color: #475569;">Las ondas mecánicas de alta frecuencia de un hidroseísmo kárstico se disipan por completo si el sensor está mal aislado. Es obligatorio supervisar el estándar:</p>
+            <ul class="lista-puntos">
+                <li><strong>Cero Absorción Textil:</strong> Prohibido dejar los teléfonos sobre colchones, sofás, manteles gruesos o ropa. El amortiguamiento destruye la lectura sísmica.</li>
+                <li><strong>Contacto Solidario:</strong> Los terminales deben reposar firmemente sobre superficies rígidas unidas a la estructura de la casa (suelos de baldosa, encimeras de piedra o mesas macizas de madera pesada).</li>
+                <li><strong>Distribución Urbana:</strong> Intentar que los nodos no se concentren en una sola calle de Grazalema. Interesa una malla repartida entre el barrio bajo, la zona centro y las viviendas más próximas a las grietas de la roca caliza.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section class="bloque-tarea">
+            <span class="badge-rol">Redes</span>
+            <h3>3. Diagnóstico de Conectividad y Red Local</h3>
+            <p style="color: #475569;">El algoritmo de consenso del próximo invierno requiere latencias de red mínimas para procesar la ventana temporal de 500ms:</p>
+            <ul class="lista-puntos">
+                <li><strong>Estabilidad Wi-Fi Doméstica:</strong> Comprobar que los puntos de monitorización elegidos tengan una cobertura inalámbrica constante y que los routers locales no sufran micro-cortes nocturnos.</li>
+                <li><strong>Monitorización de Falsos Positivos:</strong> Atender las incidencias si el teléfono de un vecino reporta falsas alarmas persistentes debido a vibraciones domésticas comunes. En ese caso, reubicar físicamente el sensor.</li>
+                <li><strong>Enlace de Emergencia:</strong> Actuar como enlace directo con el equipo de desarrollo a distancia para reportar caídas generalizadas de los semáforos de red o errores de sincronización de datos de la API.</li>
+            </ul>
+        </section>
+
+        <!-- NUEVA SECCIÓN 4: EL CEREBRO DE LA RED Y RETROALIMENTACIÓN -->
+        <section class="bloque-tarea">
+            <span class="badge-rol">Infraestructura</span>
+            <h3>4. Servidor Central y Bucle de Alarma Comunitaria</h3>
+            <p style="color: #475569;">Para coordinar los teléfonos necesitamos un sistema centralizado de lógica síncrona. Los tecnólogos locales se encargarán del despliegue y control de este "cerebro":</p>
+            <ul class="lista-puntos">
+                <li><strong>Túnel de Datos (WebSockets):</strong> Supervisar el canal bidireccional abierto permanentemente. Cada teléfono local no envía datos HTTP intermitentes, sino que transmite alertas instantáneas en menos de 5ms tras detectar la sacudida filtrada.</li>
+                <li><strong>Cálculo del Quórum de Red:</strong> Configurar el script del servidor (Node.js) para abrir ventanas críticas de coincidencia temporal de 500ms. Si al menos 3 nodos independientes del pueblo transmiten una señal en esa misma fracción de segundo, el servidor valida el evento.</li>
+                <li><strong>Bucle de Retroalimentación Activa:</strong> En el instante en que el servidor valida el quórum, este devuelve inmediatamente una señal de "Peligro" masiva a todos los dispositivos conectados. La interfaz web local reaccionará pintando la barra en rojo y forzando la alerta de micro-sismo kárstico por consenso en los terminales de todos los vecinos.</li>
+                <li><strong>Vigilancia del Servidor:</strong> Monitorizar de forma remota que el proceso del servidor y su base de datos temporal (Redis) permanezcan operativos en invierno, evitando saturaciones o bloqueos de red que dejen a la malla incomunicada.</li>
+            </ul>
+        </section>
+
+        <footer style="margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 20px; text-align: center; color: #94a3b8; font-size: 0.85rem;">
+            Experimento Grazalema Resiliente — Red de Ciencia Ciudadana Kárstica.
+        </footer>
+    </main>
+
+</body>
+</html>
+
