@@ -9,7 +9,7 @@ const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
 // SOLUCIÓN TOTAL: Direcciones blindadas usando variables de plantilla reales (`${}`)
-const urlEMSCBase = "https://seismicportal.eu";
+const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
 
 // CORRECCIÓN SINTÁCTICA CRÍTICA: Inyección de coordenadas y actualización de parámetros Open-Meteo
 const urlMeteoBase = `https://open-meteo.com{latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
