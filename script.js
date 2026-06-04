@@ -78,7 +78,7 @@ async function cargarMeteorologia() {
     if (!meteoInfo) return;
 
     // URL CORREGIDA: Trae datos de temperatura, viento, lluvia horaria y el acumulado diario de los últimos 7 días
-    const urlMeteoCompleta = `https://open-meteo.com{latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&past_days=7&daily=precipitation_sum&timezone=Europe%2FMadrid`;
+    const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=Europe%2FMadrid`;
 
     try {
         const respuesta = await fetch(urlMeteoCompleta);
