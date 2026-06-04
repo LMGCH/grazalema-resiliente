@@ -2,29 +2,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnPermiso = document.getElementById("btn-permiso");
     const panelDatos = document.getElementById("panel-datos");
     const listaEventos = document.getElementById("lista-eventos");
+    const barra = document.getElementById("barra-vibracion");
     
-    // Variables para el algoritmo de filtrado de ruido (Umbrales lógicos)
-    const UMBRAL_VIBRACION_CRITICA = 15; // Ajuste de sensibilidad física
+    // VARIABLES CRÍTICAS DEL FILTRO SÍSMICO
+    const UMBRAL_HIDROSEISMO = 1.8; // Umbral de aceleración neta m/s² (más sensible y real para sismos)
     let ultimaActualizacion = 0;
-    
+
+    // Variables para el aislamiento de la Gravedad (Filtro de paso alto)
+    let gravX = 0, gravY = 0, gravZ = 0;
+    const ALFA = 0.8; // Factor de suavizado para aislar la gravedad constante
+
     btnPermiso.addEventListener("click", () => {
-        // Verificar si el navegador móvil soporta la API de movimiento
         if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-            // Requisito obligatorio de seguridad para Apple iOS
             DeviceMotionEvent.requestPermission()
                 .then(response => {
-                    if (response === 'granted') {
-                        iniciarCapturaSensores();
-                    } else {
-                        registrarLog("Permiso denegado por el usuario.");
-                    }
+                    if (response === 'granted') iniciarCapturaSensores();
+                    else registrarLog("Permiso denegado por el usuario.");
                 })
                 .catch(error => {
                     console.error(error);
-                    registrarLog("Error al solicitar permisos de hardware.");
+                    registrarLog("Error de hardware en los sensores.");
                 });
         } else {
-            // Navegadores Android comunes o navegadores de escritorio
             iniciarCapturaSensores();
         }
     });
@@ -32,67 +31,72 @@ document.addEventListener("DOMContentLoaded", () => {
     function iniciarCapturaSensores() {
         btnPermiso.style.display = "none";
         panelDatos.style.display = "block";
-        listaEventos.innerHTML = ""; // Limpiar log inicial
-        registrarLog("Sensor emparejado. Calibrando ruido de fondo urbano...");
+        listaEventos.innerHTML = "";
+        registrarLog("Sensor calibrando. Escuchando pulsos mecánicos del Karst...");
 
-        // Escuchar el movimiento físico del hardware en tiempo real
         window.addEventListener("devicemotion", (evento) => {
-            const aceleracion = evento.accelerationIncludingGravity;
-            if (!aceleracion) return;
+            // Preferimos 'accelerationIncludingGravity' porque está disponible de forma más universal
+            const acc = evento.accelerationIncludingGravity;
+            if (!acc) return;
 
-            // Extraer las lecturas espaciales de los tres ejes físicos
-            const x = aceleracion.x || 0;
-            const y = aceleracion.y || 0;
-            const z = aceleracion.z || 0;
+            const rawX = acc.x || 0;
+            const rawY = acc.y || 0;
+            const rawZ = acc.z || 0;
 
-            // Pintar los ejes brutos en pantalla
-            document.getElementById("eje-x").textContent = x.toFixed(2);
-            document.getElementById("eje-y").textContent = y.toFixed(2);
-            document.getElementById("eje-z").textContent = z.toFixed(2);
+            // 1. FILTRO DE PASO BAJO: Aislar la gravedad base (hacia dónde apunta el tlf de forma estática)
+            gravX = ALFA * gravX + (1 - ALFA) * rawX;
+            gravY = ALFA * gravY + (1 - ALFA) * rawY;
+            gravZ = ALFA * gravZ + (1 - ALFA) * rawZ;
 
-            // Algoritmo Matemático de Filtrado: Cálculo del Vector de Aceleración Neto
-            // Restamos la gravedad base aproximada para medir solo la sacudida neta
-            const magnitudNeta = Math.sqrt(x*x + y*y + z*z) - 9.8;
-            const vibracionAbsoluta = Math.max(0, magnitudNeta);
+            // 2. FILTRO DE PASO ALTO: Restar la gravedad para obtener SÓLO la aceleración dinámica (la sacudida)
+            const aceleracionNetaX = rawX - gravX;
+            const aceleracionNetaY = rawY - gravY;
+            const aceleracionNetaZ = rawZ - gravZ;
 
-            // Actualizar gráficamente la barra de intensidad
-            const porcentajeBarra = Math.min(100, vibracionAbsoluta * 5);
-            document.getElementById("barra-vibracion").style.width = `${porcentajeBarra}%`;
+            // Renderizar los valores puros filtrados del sismógrafo
+            document.getElementById("eje-x").textContent = aceleracionNetaX.toFixed(2);
+            document.getElementById("eje-y").textContent = aceleracionNetaY.toFixed(2);
+            document.getElementById("eje-z").textContent = aceleracionNetaZ.toFixed(2);
 
-            // Control de tiempo para no saturar el log de alertas (máximo una por segundo)
-            const tiempoActual = new Date().getTime();
-            if (tiempoActual - ultimaActualizacion > 1200) {
-                // Si la vibración supera el umbral crítico establecido, disparamos alerta
-                if (vibracionAbsoluta > UMBRAL_VIBRACION_CRITICA) {
-                    if (vibracionAbsoluta > UMBRAL_VIBRACION_CRITICA) {
-    registrarLog(`⚠️ Local: Sacudida detectada (${vibracionAbsoluta.toFixed(1)} m/s²). Enviando señal al servidor...`);
-    
-    // Simulamos la respuesta del servidor en 1 segundo (Consenso de Red)
-    setTimeout(() => {
-        registrarLog(`📡 RED: Red comunitaria sincronizada. 4 nodos en Grazalema reportan la misma vibración.`);
-        registrarLog(`🚨 PREVISIÓN SEMI-DOMÉSTICA: Posible micro-sismo local detectado por Consenso.`);
-        
-        // Cambiamos el color de la barra a peligro
-        document.getElementById("barra-vibracion").style.backgroundColor = "#dc2626";
-    }, 1000);
+            // 3. MAGNITUD VECTORIAL: Magnitud de la sacudida real sin influencia de la orientación
+            const intensidadSacudida = Math.sqrt(aceleracionNetaX**2 + aceleracionNetaY**2 + aceleracionNetaZ**2);
 
-    ultimaActualizacion = tiempoActual;
-}
+            // Actualizar la interfaz gráfica (barra de progreso)
+            const porcentajeBarra = Math.min(100, intensidadSacudida * 20); // Multiplicador visual
+            barra.style.width = `${porcentajeBarra}%`;
 
-                    // Cambiar el color de la barra a modo peligro temporalmente
-                    document.getElementById("barra-vibracion").style.backgroundColor = "#dc2626";
+            // 4. LÓGICA DE ALERTA COMUNITARIA
+            const tiempoActual = Date.now();
+            if (tiempoActual - ultimaActualizacion > 2000) { // Ventana de bloqueo de 2 segundos
+                
+                if (intensidadSacudida > UMBRAL_HIDROSEISMO) {
                     ultimaActualizacion = tiempoActual;
+                    
+                    // Activación visual inmediata
+                    barra.style.backgroundColor = "#dc2626"; // Rojo alerta
+                    registrarLog(`⚠️ LOCAL: Vibración anómala detectada (${intensidadSacudida.toFixed(2)} m/s²).`);
+
+                    // Simulación del Consenso Web (Reemplazar en el futuro con WebSockets o Fetch)
+                    ejecutarConsensoDeRed();
                 } else {
-                    document.getElementById("barra-vibracion").style.backgroundColor = "var(--secondary-color)";
+                    barra.style.backgroundColor = "var(--secondary-color, #2563eb)";
                 }
             }
         });
     }
 
+    function ejecutarConsensoDeRed() {
+        registrarLog("📡 MESH: Transmitiendo telemetría al nodo central de Grazalema...");
+        setTimeout(() => {
+            registrarLog(`🚨 CONSENSO: Confirmado por nodos vecinos. Actividad registrada en zona kárstica.`);
+        }, 1200);
+    }
+
     function registrarLog(texto) {
         const marcaTiempo = new Date().toLocaleTimeString();
         const nuevoItem = document.createElement("li");
-        nuevoItem.innerHTML = `[${marcaTiempo}] ${texto}`;
+        nuevoItem.innerHTML = `<span style="color: #6b7280;">[${marcaTiempo}]</span> ${texto}`;
         listaEventos.insertBefore(nuevoItem, listaEventos.firstChild);
     }
 });
+
