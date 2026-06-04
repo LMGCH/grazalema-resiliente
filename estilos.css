@@ -440,19 +440,34 @@ h1 {
 
 /* ESTILOS DEL SISMÓGRAFO EXPERIMENTAL (Fase 3) */
 .ejes-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin: 20px 0;
+ display: grid;
+ /* Forzamos 3 columnas idénticas siempre, sin importar el ancho físico de la pantalla */
+ grid-template-columns: repeat(3, 1fr);
+ gap: 10px; /* Reducimos ligeramente el espacio entre tarjetas en pantallas pequeñas */
+ margin: 20px 0;
 }
+
 .eje-card {
-    background: var(--bg-light);
-    border: 1px solid var(--border-color);
-    padding: 12px;
-    border-radius: 6px;
-    font-family: monospace;
-    font-size: 1.05rem;
-    font-weight: bold;
+ background: var(--bg-light);
+ border: 1px solid var(--border-color);
+ padding: 10px 5px; /* Padding vertical cómodo y horizontal mínimo para no empujar el texto */
+ border-radius: 6px;
+ font-family: monospace;
+ /* Bajamos sutilmente el tamaño base para garantizar que los decimales quepan sin romperse */
+ font-size: 0.9rem; 
+ font-weight: bold;
+ text-align: center; /* Centramos el contenido para mejorar la simetría visual */
+}
+
+/* Optimizaciones específicas para pantallas muy estrechas (Móviles de hasta 480px) */
+@media (max-width: 480px) {
+ .ejes-container {
+  gap: 6px; /* Ajuste crítico de proximidad estructural */
+ }
+ .eje-card {
+  font-size: 0.8rem; /* Tamaño de seguridad para lecturas dinámicas tipo "-10.22" */
+  padding: 8px 2px;
+ }
 }
 .vibracion-barra-bg {
     background: #e2e8f0;
