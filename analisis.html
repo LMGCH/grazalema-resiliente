@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grazalema Resiliente - Repositorio de Riesgo Kárstico</title>
+    <style>
+        /* Variables globales de diseño */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #16a085;
+            --accent: #c0392b;
+            --light: #f8f9fa;
+            --dark: #34495e;
+            --text: #2c3e50;
+            --border: #dcdde1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #ffffff;
+        }
+
+        /* Encabezado Principal */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Barra de Navegación */
+        nav {
+            background-color: var(--light);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+            background-color: rgba(22, 160, 133, 0.05);
+        }
+
+        /* Contenedor de Contenido */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Cuadrícula de Análisis de Mecanismos */
+        .grid-analisis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-analisis {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tarjeta-mecanismo {
+            background: var(--light);
+            padding: 1.5rem;
+            border-left: 5px solid var(--secondary);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tarjeta-mecanismo.alerta {
+            border-left-color: var(--accent);
+        }
+
+        .lista-mecanismos {
+            list-style-position: inside;
+            margin-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lista-mecanismos li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nota-alerta {
+            background-color: rgba(192, 57, 43, 0.05);
+            border: 1px solid rgba(192, 57, 43, 0.2);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Bloque de Recursos Técnicos y Descargas */
+        .recursos-tecnicos {
+            background-color: var(--light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .recursos-tecnicos h3 {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .lista-descargas {
+            list-style: none;
+        }
+
+        .lista-descargas li {
+            padding: 1rem;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .lista-descargas li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-color: var(--secondary);
+        }
+
+        .lista-descargas a {
+            color: var(--dark);
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .lista-descargas a strong {
+            color: var(--primary);
+        }
+
+        .lista-descargas li:hover a strong {
+            color: var(--secondary);
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            border-top: 4px solid var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Grazalema Resiliente</h1>
+        <p>Plataforma técnica para el análisis del modelado kárstico, riesgos geoambientales y ordenación del territorio en municipios sobre sustrato carbonatado.</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#mecanismos">Procesos Kársticos</a></li>
+            <li><a href="#repositorio">Documentación Científica</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="introduccion">
+            <h2>Introducción a la Problemática Geoestructural</h2>
+            <p>Las poblaciones asentadas sobre macroestructuras de la <strong>Zona Externa de la Cordillera Bética</strong>, y específicamente en el sector subbético occidental (como la Serranía de Grazalema y Ronda), se enfrentan a singularidades geomecánicas e hidrogeológicas críticas debido a la naturaleza intrínseca de su sustrato. Estas formaciones están constituidas por potentes series dolomítico-calizas jurásicas altamente fracturadas y karstificadas.</p>
+            <p>La alta pluviosidad de la zona actúa de forma directa sobre las discontinuidades estructurales de los macizos calcáreos, potenciando una disolución química continua que debilita las propiedades geotécnicas del terreno subsuperficial. El desarrollo urbano e infraestructural en estos entornos exige una monitorización científica rigurosa para mitigar los riesgos inherentes de colapsos, subsidencias y alteraciones del flujo hídrico subterráneo.</p>
+        </section>
+        <section id="mecanismos">
+            <h2>Análisis de los Procesos de Karstificación</h2>
+            <p>El modelado kárstico en estos sectores no responde únicamente a factores climáticos o litológicos, sino que presenta un control estructural severo condicionado por la fracturación tectónica moderna desarrollada desde el Neógeno. Los principales fenómenos se desglosan en dos ámbitos operativos:</p>
+            
+            <div class="grid-analisis">
+                <div class="tarjeta-mecanismo">
+                    <h3>Formas Exokársticas y Dinámica Superficial</h3>
+                    <p>La superficie de los macizos presenta lapiaces estructurales de disolución y alineaciones densas de dolinas y poljes que actúan como sumideros preferenciales de agua meteórica. La infiltración masiva y concentrada en estas depresiones cerradas genera:</p>
+                    <ul class="lista-mecanismos">
+                        <li>Focalización del flujo de agua ácida hacia fracturas verticales de dirección NO-SE y NE-SO.</li>
+                        <li>Lavado y descompresión de los rellenos arcillosos y detríticos cuaternarios.</li>
+                        <li>Desarrollo de cañones fluviokársticos y gargantas por encajamiento de redes superficiales alóctonas.</li>
+                    </ul>
+                </div>
+                
+                <div class="tarjeta-mecanismo alerta">
+                    <h3>Dinámica Endokárstica y Riesgo de Subsidencia</h3>
+                    <p>En el subsuelo, la disolución química progresa a favor de las diaclasas y planos de estratificación, generando intrincadas redes espeleológicas y grandes cavidades verticales. Las implicaciones estructurales para las áreas urbanas incluyen:</p>
+                    <ul class="lista-mecanismos">
+                        <li><strong>Efecto de Escala en la Permeabilidad:</strong> Variaciones de hasta cinco órdenes de magnitud en la conductividad hidráulica del macizo rocoso.</li>
+                        <li><strong>Fenómenos de Colapso:</strong> Hundimientos súbitos debidos al colapso del techo de galerías freáticas colgadas o conductos vadosos.</li>
+                        <li><strong>Inestabilidad Geotécnica:</strong> Pérdida de capacidad portante del sustrato debido a la denudación subterránea e hidrofracturación inducida por presiones hidrostáticas variables.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nota-alerta">
+                <p>⚠️ <strong>Nota Técnica de Vulnerabilidad:</strong> Los acuíferos kársticos de estas regiones mediterráneas de montaña presentan una respuesta hidrodinámica extremadamente rápida. Las alternancias de periodos húmedos de intensa infiltración vadosa con fases secas modifican radicalmente las presiones de poro en el interior de los conductos, acelerando los procesos mecánicos de rotura de techos rocosos y desestabilización de cimientos.</p>
+            </div>
+        </section>
+
+        <section id="repositorio">
+            <!-- Bloque de Documentación Científica y Descargas -->
+            <div class="recursos-tecnicos">
+                <h3>📖 Documentación Científica y Descargas</h3>
+                <p>Complementa tu formación con los estudios geológicos y mapas oficiales de los sistemas kársticos de nuestra comunidad:</p>
+                
+                <ul class="lista-descargas">
+                    <li>
+                        <a href="https://igme.es" target="_blank" rel="noopener noreferrer">
+                            📥 <strong>El Karst en Andalucía (IGME)</strong> - Estudio completo sobre fracturación, hidrogeología y evolución de poljes béticos.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://dipucadiz.es" target="_blank" rel="noopener noreferrer">
+                            📥 <strong>Hidrogeología de Sistemas Kársticos (Diputación de Cádiz)</strong> - Análisis de dinámica de llenado y vaciado de acuíferos locales.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://um.es" target="_blank" rel="noopener noreferrer">
+                            📥 <strong>Catálogo de Grandes Cavidades de Andalucía</strong> - Registro oficial y topográfico de cuevas y simas profundas del entorno de la Sierra.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://espeleo.com" target="_blank" rel="noopener noreferrer">
+                            📥 <strong>Metodología de Catalogación de Cavidades (FAE)</strong> - Manual y conceptos técnicos para la recopilación de datos geográficos subterráneos.
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section id="localizacion">
+            <h2>📍 Localización y Georreferenciación Coordenada</h2>
+            <p>Para la evaluación geoestructural en campo y la correcta gestión de la ordenación territorial, se disponen las herramientas cartográficas y los visores oficiales interactivos del término municipal de Grazalema:</p>
+            
+            <div class="recursos-tecnicos" style="margin-top: 1rem; border-left: 5px solid var(--secondary);">
+                <h3>🗺️ Visores Cartográficos y Fichas de Inventario</h3>
+                <p>Accede directamente a la geolocalización de las zonas con mayor criticidad geomecánica y a las fichas técnicas del Inventario Español de Lugares de Interés Geológico (IELIG):</p>
+                
+                <ul class="lista-descargas">
+                    <li>
+                        <a href="https://visualizadores.ign.es/tproximos" target="_blank" rel="noopener noreferrer">
+                            🌐 <strong>Visor de Terremotos Próximos (IGN)</strong> - Enlace directo parametrizado y enfocado en la falla de Grazalema (Latitud: 36.753573, Longitud: -5.400307) con zoom de alta resolución para la monitorización sismorresistente.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://info.igme.es/ielig/LIGInfo.aspx?Codigo=SBs010" target="_blank" rel="noopener noreferrer">
+                            🌐 <strong>Ficha Oficial IELIG - Código SBs010 (IGME-CSIC)</strong> - Acceso directo a la base de datos nacional con los parámetros litológicos, evolutivos y estructurales de los sistemas kársticos de la zona.
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="nota-alerta" style="margin-top: 1.5rem;">
+                <p>📋 <strong>Instrucciones de Uso de Coordenadas:</strong> El enlace del Instituto Geográfico Nacional (IGN) se ha intentado parametrizar de forma nativa (pero no ha sido posible) para cargar directamente el encuadre exacto de la Serranía. Al abrir los visores institucionales desplacese hasta las coordenadas marcadas, se recomienda activar las capas de relieve sombreado y discontinuidades tectónicas para realizar correlaciones espaciales con el inventario de simas y dolinas.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Plataforma de Gestión de Riesgo Kárstico. Datos integrados a partir de los registros históricos del IGME y la Federación Andaluza de Espeleología.</p>
+    </footer>
+
+</body>
+</html>
