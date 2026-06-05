@@ -436,94 +436,115 @@ h1 {
 }
 /* Colores extras para alertas meteorológicas */
 .alert-naranja { background-color: #ffeedb; color: #c44e00; }
-.alert-rojo { background-color: #fde8e8; color: #9c1c1c; }
-
-/* ==========================================================================
-   ESTILOS DEL SISMÓGRAFO EXPERIMENTAL (FASE 3) - UNIFICADO Y OPTIMIZADO
-   ========================================================================== */
-
-/* 1. Contenedor Elástico de los Ejes (Solución definitiva al desborde) */
-.ejes-container {
- display: flex;
- flex-direction: column; /* Una fila por cada eje en teléfonos móviles */
- gap: 8px;
- margin: 20px 0;
- width: 100%;
+.alert-rojo { background-color: #fde8e8; color: #9c1c1c; 
+}
+.recursos-tecnicos {
+    background: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 4px;
+}
+.lista-descargas {
+    list-style: none;
+    padding-left: 0;
+}
+.lista-descargas li {
+    margin-bottom: 12px;
+}
+.lista-descargas a {
+    color: #212529;
+    text-decoration: none;
+    display: inline-block;
+}
+.lista-descargas a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
 }
 
-/* 2. Tarjetas de los Ejes de Lectura (Estilo barra horizontal en móviles) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ESTILOS DEL SISMÓGRAFO EXPERIMENTAL (Fase 3) */
+.ejes-container {
+ display: grid;
+ /* Forzamos 3 columnas idénticas siempre, sin importar el ancho físico de la pantalla */
+ grid-template-columns: repeat(3, 1fr);
+ gap: 10px; /* Reducimos ligeramente el espacio entre tarjetas en pantallas pequeñas */
+ margin: 20px 0;
+}
+
 .eje-card {
- display: flex;
- justify-content: space-between; /* Eje a la izquierda, valor numérico a la derecha */
- align-items: center;
  background: var(--bg-light);
  border: 1px solid var(--border-color);
- padding: 8px 16px;
+ padding: 10px 5px; /* Padding vertical cómodo y horizontal mínimo para no empujar el texto */
  border-radius: 6px;
  font-family: monospace;
- font-size: 0.95rem;
+ /* Bajamos sutilmente el tamaño base para garantizar que los decimales quepan sin romperse */
+ font-size: 0.9rem; 
  font-weight: bold;
- width: 100%; 
- box-sizing: border-box;
+ text-align: center; /* Centramos el contenido para mejorar la simetría visual */
 }
 
-/* 3. Adaptación Automática para Pantallas Grandes (Tablets y Escritorio) */
-@media (min-width: 480px) {
+/* Optimizaciones específicas para pantallas muy estrechas (Móviles de hasta 480px) */
+@media (max-width: 480px) {
  .ejes-container {
-  flex-direction: row; /* Vuelve a ponerse en 3 columnas horizontales si hay espacio */
+  gap: 6px; /* Ajuste crítico de proximidad estructural */
  }
  .eje-card {
-  flex: 1; /* Reparte el ancho equitativamente entre X, Y y Z */
-  justify-content: center;
-  flex-direction: column; /* En pantallas grandes, el identificador va arriba y el número abajo */
-  padding: 12px;
+  font-size: 0.8rem; /* Tamaño de seguridad para lecturas dinámicas tipo "-10.22" */
+  padding: 8px 2px;
  }
 }
-
-/* 4. Estilos de la Barra de Intensidad (MANTENIDOS) */
 .vibracion-barra-bg {
- background: #e2e8f0;
- border-radius: 10px;
- height: 15px;
- width: 100%;
- overflow: hidden;
- margin-top: 25px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    height: 15px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 25px;
 }
-
 .vibracion-barra-fg {
- background: var(--secondary-color);
- height: 100%;
- width: 0%;
- transition: width 0.1s ease;
+    background: var(--secondary-color);
+    height: 100%;
+    width: 0%;
+    transition: width 0.1s ease;
 }
-
-/* 5. Terminal Oscura del Historial de Eventos / Log (MANTENIDOS) */
 .log-container {
- background: #1e293b;
- color: #38bdf8;
- padding: 15px;
- border-radius: 6px;
- text-align: left;
- font-family: monospace;
- font-size: 0.85rem;
- max-height: 150px;
- overflow-y: auto;
+    background: #1e293b;
+    color: #38bdf8;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: left;
+    font-family: monospace;
+    font-size: 0.85rem;
+    max-height: 150px;
+    overflow-y: auto;
 }
-
-.log-container h4 { 
- color: #f8fafc; 
- margin-bottom: 8px; 
-}
-
-.log-container ul { 
- list-style: none; 
- padding-left: 0; 
-}
-
-.log-container li { 
- margin-bottom: 4px; 
- border-bottom: 1px solid #334155; 
- padding-bottom: 20px; 
-}
-
+.log-container h4 { color: #f8fafc; margin-bottom: 8px; }
+.log-container ul { list-style: none; padding-left: 0; }
+.log-container li { margin-bottom: 4px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
 
