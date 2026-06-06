@@ -5,7 +5,7 @@
 
 **Grazalema Resiliente** es una plataforma de ciencia ciudadana y código abierto co-diseñada para anticipar riesgos meteorológicos y geológicos en entornos kársticos. El sistema busca transformar teléfonos móviles comerciales en una malla de alerta temprana al servicio de la seguridad comunitaria.
 
-🌍 **Live Prototype:** [https://github.io]([[https://github.io](https://lmgch.github.io/grazalema-resiliente/)](https://lmgch.github.io)
+🌍 **Live Prototype:** [https://github.io]([[https://github.io](https://lmgch.github.io/grazalema-resiliente/)]])
 
 ---
 
