@@ -1,7 +1,7 @@
 # Grazalema Resiliente - KarstAlerta 🚀🏔️
 
-[![License: MIT](https://shields.io/img.shields.io/badge/)](https://opensource.org)
-[![Status: Prototype](https://shields.io/img.shields.io/badge/)](https://opensource.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Status: Prototype](https://img.shields.io/badge/Status-Prototype-orange.svg)](https://opensource.org)
 
 **Grazalema Resiliente** es una plataforma de ciencia ciudadana y código abierto co-diseñada para anticipar riesgos meteorológicos y geológicos en entornos kársticos. El sistema busca transformar teléfonos móviles comerciales en una malla de alerta temprana al servicio de la seguridad comunitaria.
 
