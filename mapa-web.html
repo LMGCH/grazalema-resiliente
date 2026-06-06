@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa del Sitio - Grazalema Resiliente</title>
+    <!-- Enlace a tu hoja de estilos existente -->
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        /* Estructura fija y liviana para el sitemap */
+        :root {
+            --color-verde-karst: #2e7d32;
+            --color-alerta: #ff9800;
+            --color-texto: #333333;
+        }
+
+        body {
+            margin: 0;
+            padding-top: 70px; /* Espacio para evitar solapamiento con el header fijo */
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #fafafa;
+            color: var(--color-texto);
+        }
+	/* Cabecera fija replicando el modelo institucional */
+        .header-fijo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .btn-retorno {
+            background-color: var(--color-verde-karst);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-retorno:hover {
+            opacity: 0.9;
+        }
+   
+	/* Estilos complementarios para asegurar el aspecto profesional del sitemap */
+        .sitemap-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .sitemap-tree {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .sitemap-tree li {
+            position: relative;
+            margin: 10px 0;
+            padding-left: 30px;
+            line-height: 1.6;
+        }
+        /* Líneas guía visuales para la estructura de árbol */
+        .sitemap-tree li::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 10px;
+            width: 2px;
+            height: 100%;
+            background: #e0e0e0;
+        }
+        .sitemap-tree li::after {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 10px;
+            width: 15px;
+            height: 2px;
+            background: #e0e0e0;
+        }
+        .sitemap-tree li:last-child::before {
+            height: 12px;
+        }
+        .sitemap-tree ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        .badge-upcoming {
+            background-color: #ff9800;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-weight: bold;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .badge-mobile {
+            background-color: #00bcd4;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Fijo Institucional -->
+    <header class="header-fijo">
+        <div class="logo-area">
+            <strong>Grazalema Resiliente</strong> / Mapa Web
+        </div>
+        <!-- Botón con la acción de retorno nativa del proyecto -->
+        <a href="index.html" class="btn-retorno" onclick="retornarNavegacion(event)">
+            ← Volver al Portal
+        </a>
+    </header>
+
+    <main class="sitemap-container">
+        <h1>Mapa del Sitio Web</h1>
+        <p>Estructura de navegación de la Plataforma de Ciencia Ciudadana e Investigación Kárstica.</p>
+        <hr>
+
+        <ul class="sitemap-tree">
+            <!-- Raíz -->
+            <li>
+                <strong>🏠 <a href="https://lmgch.github.io/grazalema-resiliente/">Inicio - Portal Principal</a></strong>
+                <ul>
+                    
+                    <!-- Rama 1: Especialistas -->
+                    <li>
+                        🏔️ <a href="https://lmgch.github.io/grazalema-resiliente/especialista.html">Mesa de Trabajo de Especialistas de Campo</a>
+                        <ul>
+                            <li>
+                                📊 <a href="https://lmgch.github.io/grazalema-resiliente/analisis.html">Repositorio de Riesgo Kárstico y Documentación</a>
+                                <ul>
+                                    <!-- Descargas -->
+                                    <li>📥 Documentación Científica y Descargas:
+                                        <ul>
+                                            <li>📄 <a href="https://aguas.igme.es/igme/publica/pdflib1/kars.pdf" target="_blank">El Karst en Andalucía (IGME)</a></li>
+                                            <li>📄 <a href="https://www.dipucadiz.es/export/sites/default/idecadiz/.galerias_de_ficheros/Descargas/Atlas_Hidrogeologico_Cadiz.pdf" target="_blank">Atlas Hidrogeológico de la Provincia de Cádiz</a></li>
+                                            <li>📄 <a href="https://www.dipucadiz.es/export/sites/default/transicion-ecologica-y-desarrollo-urbano-sostenible/.galeria_de_ficheros/docu_cursos_jornadas/jornada-agua-subterranea/aguas-subteraneas-cadiz/Hidrogeologia-general-de-la-provincia.Cadiz.pdf" target="_blank">Hidrogeología general de la provincia (Diputación de Cádiz)</a></li>
+                                            <li>📄 <a href="https://www.um.es/documents/4874468/14649482/grandes-cavidades-andalucia.pdf/fc31ca67-594b-4640-bf22-dee18be7c18e" target="_blank">Catálogo de Grandes Cavidades de Andalucía</a></li>
+                                            <li>📄 <a href="https://espeleo.com/wp-content/uploads/2021/10/AS-27.pdf" target="_blank">Revista Andalucía Subterránea 27 (FAE)</a></li>
+                                        </ul>
+                                    </li>
+                                    <!-- Visores -->
+                                    <li>🌐 Visores Cartográficos Interactivos:
+                                        <ul>
+                                            <li>🗺️ <a href="https://visualizadores.ign.es/tproximos" target="_blank">Visor de Terremotos Próximos (IGN)</a></li>
+                                            <li>🗺️ <a href="https://info.igme.es/ielig/LIGInfo.aspx?Codigo=SBs010" target="_blank">Ficha Oficial IELIG - Código SBs010 (IGME-CSIC)</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>💬 Chat de Discusión en Tiempo Real <span class="badge-upcoming">Previsto</span></li>
+                        </ul>
+                    </li>
+
+                    <!-- Rama 2: Tecnólogos -->
+                    <li>
+                        💻 <a href="https://lmgch.github.io/grazalema-resiliente/tecnologo.html">Área de Profesionales de TI y Tecnólogos</a>
+                        <ul>
+                            <li>⚙️ <a href="https://github.com/LMGCH/grazalema-resiliente/" target="_blank">Repositorio de Código Abierto (GitHub)</a></li>
+                            <li>📖 <a href="https://lmgch.github.io/grazalema-resiliente/manual-tecnologo.html">Manual Técnico e Integración de Datos</a></li>
+                            <li>💬 Chat de Coordinación Algorítmica Hangar-IT <span class="badge-upcoming">Previsto</span></li>
+                        </ul>
+                    </li>
+
+                    <!-- Rama 3: Vecinos -->
+                    <li>
+                        📢 <a href="https://lmgch.github.io/grazalema-resiliente/vecino.html">Espacio Vecinal de la Sierra</a>
+                        <ul>
+                            <li>📱 <a href="https://lmgch.github.io/grazalema-resiliente/experimento.html">Inscripción al Experimento Científico Celular</a> <span class="badge-mobile">Requiere Sensor de Movimiento</span></li>
+                            <li>💬 Chat Comunitario de Alerta Temprana <span class="badge-upcoming">Previsto</span></li>
+                        </ul>
+                    </li>
+
+                    <!-- Rama 4: Autoprotección -->
+                    <li>
+                        🚨 <a href="https://lmgch.github.io/grazalema-resiliente/autoproteccion.html">Guía Ciudadana de Autoprotección Sísmica y Protocolos</a>
+                        <ul>
+                            <li>📞 Acceso directo a Llamadas de Emergencias <span class="badge-mobile">Marcación Móvil 112 / 061</span></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </main>
+
+</body>
+</html>
+
+
+						
