@@ -137,6 +137,19 @@ h1 {
     margin-bottom: 40px;
 }
 
+#contenedor-alertas {
+    display: flex;
+    justify-content: center;
+}
+
+.alerta-verde,
+.alerta-roja {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 /* MANIFIESTO CARD */
 .manifiesto-card {
     background: #ffffff;
