@@ -23,7 +23,7 @@ jobs:
 
       - name: Instalar dependencias
         run: |
-          pip install feedparser
+          pip install feedparser requests
 
       - name: Ejecutar script
         run: |
