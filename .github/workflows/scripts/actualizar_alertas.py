@@ -13,33 +13,28 @@ datos = {
     "enlace": ""
 }
 
-if len(feed.entries) > 0:
+# Comprobamos si hay entradas reales
+if hasattr(feed, "entries") and len(feed.entries) > 0:
 
     item = feed.entries[0]
 
-    titulo = item.title
+    titulo = getattr(item, "title", "")
 
     datos["titulo"] = titulo
-    datos["fecha"] = item.published
-    datos["enlace"] = item.link
+    datos["fecha"] = getattr(item, "published", "")
+    datos["enlace"] = getattr(item, "link", "")
 
-    datos["hayAvisos"] = (
-        "No hay avisos para Grazalema"
-        not in titulo
-    )
+    # Detectamos si hay avisos reales
+    datos["hayAvisos"] = "No hay avisos" not in titulo
+
+else:
+    # Caso seguro: no hay avisos o feed vacío
+    datos["titulo"] = "No hay avisos para Grazalema"
+    datos["hayAvisos"] = False
 
 os.makedirs("datos", exist_ok=True)
 
-with open(
-    "datos/alertas.json",
-    "w",
-    encoding="utf-8"
-) as f:
-    json.dump(
-        datos,
-        f,
-        ensure_ascii=False,
-        indent=2
-    )
+with open("datos/alertas.json", "w", encoding="utf-8") as f:
+    json.dump(datos, f, ensure_ascii=False, indent=2)
 
-print("alertas.json actualizado")
+print("OK - alertas.json generado")
