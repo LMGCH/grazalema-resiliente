@@ -134,14 +134,17 @@ h1 {
 .section-subtitle {
     color: #64748b;
     margin-top: -30px;
-    margin-bottom: 40px;
+    margin-bottom: 40px; 
 }
 
 .titulo-alertas {
     text-align: center;
-    color: #1e3a8a; /* azul marino */
-    font-weight: 700;
-    margin-bottom: 20px;
+    color: #1e3a8a;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+    text-transform: uppercase;
 }
 
 #contenedor-alertas {
