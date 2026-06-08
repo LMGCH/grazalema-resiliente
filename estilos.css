@@ -1,4 +1,6 @@
-/* VARIABLES DE DISEÑO SOBRIO (Colores que dan seguridad) */
+/* ==========================================================================
+   VARIABLES DE DISEÑO SOBRIO Y CONFIGURACIÓN BASE
+   ========================================================================== */
 html {
     scroll-behavior: smooth;
 }
@@ -39,7 +41,9 @@ body {
 .text-center { text-align: center; }
 .bg-light { background-color: var(--bg-light); }
 
-/* CABECERA RESUENTEMENTE RESPONSIVA */
+/* ==========================================================================
+   CABECERA INTEGRADA Y DEPURADA (GEOALERTA)
+   ========================================================================== */
 .main-header {
     background: #ffffff;
     border-bottom: 1px solid var(--border-color);
@@ -53,12 +57,22 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
 }
 
-.logo {
+/* Caja contenedora para el logotipo y las letras */
+.logo-geoalerta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-size: 1.25rem;
     color: var(--primary-color);
+}
+
+/* Ajuste proporcional de la imagen redonda */
+.brand-image {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 
 .main-nav a {
@@ -80,7 +94,9 @@ body {
     border-radius: 4px;
 }
 
-/* SECCIÓN HÉROE */
+/* ==========================================================================
+   SECCIÓN HÉROE PRINCIPAL
+   ========================================================================== */
 .hero-section {
     padding: 80px 0;
     background: radial-gradient(circle at top right, #eff6ff 0%, #ffffff 100%);
@@ -99,7 +115,7 @@ h1 {
     margin-bottom: 30px;
 }
 
-/* PÍLDORA DE ESTADO (Da sensación de control) */
+/* PÍLDORA DE ESTADO */
 .status-pill {
     display: inline-flex;
     align-items: center;
@@ -119,7 +135,9 @@ h1 {
     margin-right: 8px;
 }
 
-/* SECCIONES Y CONTENIDOS */
+/* ==========================================================================
+   SECCIONES GENERALES Y MANIFIESTO
+   ========================================================================== */
 .content-section {
     padding: 60px 0;
 }
@@ -134,33 +152,9 @@ h1 {
 .section-subtitle {
     color: #64748b;
     margin-top: -30px;
-    margin-bottom: 40px; 
+    margin-bottom: 40px;
 }
 
-.titulo-alertas {
-    text-align: center;
-    color: #1e3a8a;
-    font-weight: 800;
-    font-size: 1.15rem;
-    letter-spacing: 0.3px;
-    margin: 20px 0;
-    text-transform: uppercase;
-}
-
-#contenedor-alertas {
-    display: flex;
-    justify-content: center;
-}
-
-.alerta-verde,
-.alerta-roja {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-/* MANIFIESTO CARD */
 .manifiesto-card {
     background: #ffffff;
     border: 1px solid var(--border-color);
@@ -189,7 +183,9 @@ h1 {
     color: #64748b;
 }
 
-/* TARJETAS DE ACCIÓN TRICOLUMNA */
+/* ==========================================================================
+   TARJETAS DE ACCIÓN TRICOLUMNA
+   ========================================================================== */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -250,22 +246,9 @@ h1 {
     color: #ffffff;
 }
 
-/* PIE DE PÁGINA */
-.main-footer {
-    background: var(--primary-color);
-    color: #94a3b8;
-    padding: 30px 0;
-    font-size: 0.85rem;
-}
-
-/* DISEÑO ADAPTABLE (MÓVILES) */
-@media (max-width: 768px) {
-    .header-flex { flex-direction: column; text-align: center; }
-    .main-nav { margin-top: 15px; }
-    .main-nav a { margin: 0 10px; font-size: 0.85rem; }
-    h1 { font-size: 1.75rem; }
-}
-/* ESTILOS DEL AULA KÁRSTICA */
+/* ==========================================================================
+   ESTILOS DEL AULA KÁRSTICA
+   ========================================================================== */
 .aula-container {
     display: flex;
     flex-direction: column;
@@ -283,7 +266,6 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-/* Estilo para alternar el orden visual en pantallas grandes (da dinamismo y orden) */
 .aula-bloque.reverse {
     background-color: var(--bg-light);
 }
@@ -300,16 +282,9 @@ h1 {
     text-align: justify;
 }
 
-/* Adaptación para pantallas de teléfonos móviles */
-@media (max-width: 768px) {
-    .aula-bloque {
-        padding: 20px;
-    }
-    .aula-texto h3 {
-        font-size: 1.15rem;
-    }
-}
-/* ESTILOS DEL FORMULARIO DE CAPTACIÓN */
+/* ==========================================================================
+   ESTILOS DEL FORMULARIO DE CAPTACIÓN
+   ========================================================================== */
 .form-container {
     background: #ffffff;
     border: 1px solid var(--border-color);
@@ -405,18 +380,134 @@ h1 {
     background-color: #1d4ed8;
 }
 
-/* Ajuste móvil para los campos en paralelo */
-@media (max-width: 600px) {
-    .form-group-row {
-        flex-direction: column;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-    .form-container {
-        padding: 20px;
-    }
+/* ==========================================================================
+   ACTUALIZACIÓN PANEL DOBLE API (DATOS EN VIVO)
+   ========================================================================== */
+.panel-monitoreo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 15px;
 }
-/* ESTILOS DE TRANSPARENCIA LEGAL */
+
+.indicador-tarjeta {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.info-dinamica {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.sync-banner {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   ESTILOS DEL SISMÓGRAFO EXPERIMENTAL
+   ========================================================================== */
+.ejes-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.eje-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 10px 5px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.9rem; 
+    font-weight: bold;
+    text-align: center;
+}
+
+.vibracion-barra-bg {
+    background: #e2e8f0;
+    border-radius: 10px;
+    height: 15px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 25px;
+}
+
+.vibracion-barra-fg {
+    background: var(--secondary-color);
+    height: 100%;
+    width: 0%;
+    transition: width 0.1s ease;
+}
+
+.log-container {
+    background: #1e293b;
+    color: #38bdf8;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: left;
+    font-family: monospace;
+    font-size: 0.85rem;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.log-container h4 { color: #f8fafc; margin-bottom: 8px; }
+.log-container ul { list-style: none; padding-left: 0; }
+.log-container li { margin-bottom: 4px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
+
+/* Colores extras para alertas meteorológicas */
+.alert-naranja { background-color: #ffeedb; color: #c44e00; }
+.alert-rojo { background-color: #fde8e8; color: #9c1c1c; }
+
+.recursos-tecnicos {
+    background: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 4px;
+}
+
+.lista-descargas {
+    list-style: none;
+    padding-left: 0;
+}
+
+.lista-descargas li {
+    margin-bottom: 12px;
+}
+
+.lista-descargas a {
+    color: #212529;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.lista-descargas a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   PIE DE PÁGINA Y TRANSPARENCIA LEGAL
+   ========================================================================== */
+.main-footer {
+    background: var(--primary-color);
+    color: #94a3b8;
+    padding: 30px 0;
+    font-size: 0.85rem;
+}
+
 .legal-notice {
     padding: 20px 0;
     border-top: 1px solid var(--border-color);
@@ -430,144 +521,44 @@ h1 {
     line-height: 1.5;
     text-align: justify;
 }
-/* ACTUALIZACIÓN PANEL DOBLE API */
-.panel-monitoreo {
- display: grid;
- grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
- gap: 25px;
- margin-bottom: 15px;
-}
-.indicador-tarjeta {
- background: #ffffff;
- border: 1px solid var(--border-color);
- border-radius: 8px;
- padding: 25px;
- display: flex;
- flex-direction: column;
- align-items: center;
- text-align: center;
- box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-.info-dinamica {
- margin-top: 15px;
- font-size: 0.95rem;
- color: var(--text-color);
-}
-.sync-banner {
- text-align: center;
- margin-top: 10px;
-}
-/* Colores extras para alertas meteorológicas */
-.alert-naranja { background-color: #ffeedb; color: #c44e00; }
-.alert-rojo { background-color: #fde8e8; color: #9c1c1c; 
-}
-.recursos-tecnicos {
-    background: #f8f9fa;
-    border-left: 4px solid #0d6efd;
-    padding: 20px;
-    margin-top: 30px;
-    border-radius: 4px;
-}
-.lista-descargas {
-    list-style: none;
-    padding-left: 0;
-}
-.lista-descargas li {
-    margin-bottom: 12px;
-}
-.lista-descargas a {
-    color: #212529;
-    text-decoration: none;
-    display: inline-block;
-}
-.lista-descargas a:hover {
-    color: #0d6efd;
-    text-decoration: underline;
+
+/* ==========================================================================
+   DISEÑO ADAPTABLE (MÓVILES Y MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header-flex { 
+        flex-direction: column; 
+        text-align: center; 
+        gap: 12px;
+    }
+    .logo-geoalerta {
+        justify-content: center;
+    }
+    .main-nav { 
+        margin-top: 5px; 
+    }
+    .main-nav a { 
+        margin: 0 10px; 
+        font-size: 0.85rem; 
+    }
+    h1 { font-size: 1.75rem; }
+    .aula-bloque { padding: 20px; }
+    .aula-texto h3 { font-size: 1.15rem; }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ESTILOS DEL SISMÓGRAFO EXPERIMENTAL (Fase 3) */
-.ejes-container {
- display: grid;
- /* Forzamos 3 columnas idénticas siempre, sin importar el ancho físico de la pantalla */
- grid-template-columns: repeat(3, 1fr);
- gap: 10px; /* Reducimos ligeramente el espacio entre tarjetas en pantallas pequeñas */
- margin: 20px 0;
+@media (max-width: 600px) {
+    .form-group-row {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    .form-container { padding: 20px; }
 }
 
-.eje-card {
- background: var(--bg-light);
- border: 1px solid var(--border-color);
- padding: 10px 5px; /* Padding vertical cómodo y horizontal mínimo para no empujar el texto */
- border-radius: 6px;
- font-family: monospace;
- /* Bajamos sutilmente el tamaño base para garantizar que los decimales quepan sin romperse */
- font-size: 0.9rem; 
- font-weight: bold;
- text-align: center; /* Centramos el contenido para mejorar la simetría visual */
-}
-
-/* Optimizaciones específicas para pantallas muy estrechas (Móviles de hasta 480px) */
 @media (max-width: 480px) {
- .ejes-container {
-  gap: 6px; /* Ajuste crítico de proximidad estructural */
- }
- .eje-card {
-  font-size: 0.8rem; /* Tamaño de seguridad para lecturas dinámicas tipo "-10.22" */
-  padding: 8px 2px;
- }
+    .ejes-container { gap: 6px; }
+    .eje-card {
+        font-size: 0.8rem;
+        padding: 8px 2px;
+    }
 }
-.vibracion-barra-bg {
-    background: #e2e8f0;
-    border-radius: 10px;
-    height: 15px;
-    width: 100%;
-    overflow: hidden;
-    margin-top: 25px;
-}
-.vibracion-barra-fg {
-    background: var(--secondary-color);
-    height: 100%;
-    width: 0%;
-    transition: width 0.1s ease;
-}
-.log-container {
-    background: #1e293b;
-    color: #38bdf8;
-    padding: 15px;
-    border-radius: 6px;
-    text-align: left;
-    font-family: monospace;
-    font-size: 0.85rem;
-    max-height: 150px;
-    overflow-y: auto;
-}
-.log-container h4 { color: #f8fafc; margin-bottom: 8px; }
-.log-container ul { list-style: none; padding-left: 0; }
-.log-container li { margin-bottom: 4px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
-
