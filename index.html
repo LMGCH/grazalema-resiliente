@@ -37,7 +37,7 @@
         </div>
     </section>
 
-     <!-- 3. SECCIÓN DE DATOS EN TIEMPO REAL (Doble Conexión API: EMSC + AEMET) -->
+     <!-- 3. SECCIÓN DE DATOS EN TIEMPO REAL (Doble Conexión API: EMSC + OPEN-METEO) -->
  <section id="datos" class="content-section">
  <div class="container">
  <h2 class="section-title">Monitorización y Alertas en Vivo</h2>
@@ -64,17 +64,21 @@
  </div>
  </div>
  </section>
-     <div class="indicador-tarjeta" style="margin-top: 25px; width: 100%; max-width: 100%; border-left: 4px solid #dc2626;">
-        <h3 style="color: #dc2626; display: flex; align-items: center; gap: 8px;">
-            🚨 Avisos Recientes 112 (Cádiz / Sierra)
-        </h3>
-        <div id="contenedor-alertas" style="font-size: 0.95rem; line-height: 1.5; color: #334155; margin-top: 10px;">
-            Conectando con el canal de emergencias...
+ 
+    <!-- SECCIÓN DE AVISOS METEOROLÓGICOS (ESTRUCTURA RESTAURADA) -->
+<section id="alertas" class="content-section">
+    <div class="container container-narrow">
+        
+        <!-- Al usar la clase section-title recuperas la tipografía institucional y su tamaño original -->
+        <h2 class="section-title">⚠️ Avisos meteorológicos (AEMET Grazalema)</h2>
+        
+        <!-- El contenedor limpio donde el JavaScript inyectará el cuadro verde o rojo -->
+        <div id="contenedor-alertas" class="text-center" style="margin-top: 20px;">
+            Cargando alertas...
         </div>
-    </div>
 
- </div> <!-- Cierre del div class="container" -->
-</section> <!-- Cierre de la sección de datos -->
+    </div>
+</section>
 
     <!-- 4. EL MANIFIESTO: EL CORAZÓN EMOCIONAL -->
     <section class="content-section bg-light">
