@@ -1,4 +1,4 @@
-# Grazalema Resiliente - KarstAlerta 🚀🏔️
+# Grazalema Resiliente - GeoAlerta 🚀🏔️
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Status: Prototype](https://img.shields.io/badge/Status-Prototype-orange.svg)](https://opensource.org)
