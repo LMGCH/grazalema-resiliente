@@ -96,8 +96,9 @@ async function cargarMeteorologia() {
 
 	    // Actualización de la interfaz
             meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°) | Lluvia: ${lluviaActual} mm/h | <strong>Saturación 7d: ${indiceSaturacionTerreno.toFixed(1)} mm</strong>`;
-
-            // SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL
+// ==========================================
+// 4. SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL (AEMET)
+// ==========================================
             if (semaforoMeteo) {
                 const velViento = parseFloat(viento);
 
@@ -132,6 +133,52 @@ async function cargarMeteorologia() {
     } catch (error) {
         console.error("Error en el modelo meteorológico/hidrológico:", error);
         meteoInfo.innerHTML = "<span style='color:#7f8c8d;'>Esperando actualización de red...</span>";
+    }
+}
+// ==========================================
+// Función para obtener y filtrar las alertas de AEMET
+// ==========================================
+async function cargarAlertas112() {
+    const contenedorAvisos = document.querySelector('.avisos-meteorologicos'); 
+    const urlOriginal = "https://raw.githubusercontent.com/LMGCH/grazalema-resiliente/main/datos/alertas.json"; // Pon tu URL real
+    const urlConProxy = `https://allorigins.win${encodeURIComponent(https://www.aemet.es/documentos_d/eltiempo/prediccion/avisos/cap/Z_CAP_C_LEMM_20260612215001_AFAZ611101.tar.gz)}`;
+
+    try {
+        const respuesta = await fetch(urlConProxy);
+        if (!respuesta.ok) throw new Error(`HTTP Error: ${respuesta.status}`);
+        
+        const contenedorProxy = await respuesta.json();
+        const datos = JSON.parse(contenedorProxy.contents);
+
+        if (contenedorAvisos) {
+            if (datos && datos.hayAvisos === true) {
+                // Si hay avisos, pintamos el bloque en rojo
+                contenedorAvisos.innerHTML = `
+                    <div class="status-badge alert-rojo" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block;">🔴 AVISO METEOROLÓGICO ACTIVO</div>
+                    <p style="margin-top: 15px; font-weight: bold;">${datos.titulo}</p>
+                    <p style="margin-top: 10px;"><a href="${datos.enlace}" target="_blank" style="color: #9b59b6; text-decoration: underline; font-weight: bold;">Ver aviso oficial AEMET</a></p>
+                `;
+            } else {
+                // Si NO hay avisos, llamamos a tu función auxiliar para ponerlo en verde
+                formatearAvisosVerdes();
+            }
+        }
+    } catch (error) {
+        console.error("Hubo un error al leer los datos del 112:", error);
+        // Si hay un fallo de red o servidor, por seguridad llamamos a la verde
+        formatearAvisosVerdes(); 
+    }
+}
+// ==========================================
+// FUNCIÓN AUXILIAR (La mantienes abajo de forma limpia)
+// ==========================================
+function formatearAvisosVerdes() {
+    const bloqueAvisos = document.querySelector('.avisos-meteorologicos'); 
+    if (bloqueAvisos) {
+        bloqueAvisos.innerHTML = `
+            <div class="status-badge alert-verde" style="background-color: #2ecc71; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block;">✅ Sin avisos activos</div>
+            <p style="margin-top: 10px; color: #7f8c8d;">No hay alertas meteorológicas vigentes para el término de Grazalema.</p>
+        `;
     }
 }
 
@@ -169,51 +216,9 @@ function ejecutarCargaCompleta() {
     iniciarContadorRegresivo();
 }
 
-// Función para obtener y filtrar las alertas del 112
-async function cargarAlertas112() {
-    const contenedorAvisos = document.querySelector('.avisos-meteorologicos'); 
-    const urlOriginal = "https://raw.githubusercontent.com/LMGCH/grazalema-resiliente/main/datos/alertas.json"; // Pon tu URL real
-    const urlConProxy = `https://allorigins.win${encodeURIComponent(https://www.aemet.es/documentos_d/eltiempo/prediccion/avisos/cap/Z_CAP_C_LEMM_20260612215001_AFAZ611101.tar.gz)}`;
-
-    try {
-        const respuesta = await fetch(urlConProxy);
-        if (!respuesta.ok) throw new Error(`HTTP Error: ${respuesta.status}`);
-        
-        const contenedorProxy = await respuesta.json();
-        const datos = JSON.parse(contenedorProxy.contents);
-
-        if (contenedorAvisos) {
-            if (datos && datos.hayAvisos === true) {
-                // Si hay avisos, pintamos el bloque en rojo
-                contenedorAvisos.innerHTML = `
-                    <div class="status-badge alert-rojo" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block;">🔴 AVISO METEOROLÓGICO ACTIVO</div>
-                    <p style="margin-top: 15px; font-weight: bold;">${datos.titulo}</p>
-                    <p style="margin-top: 10px;"><a href="${datos.enlace}" target="_blank" style="color: #9b59b6; text-decoration: underline; font-weight: bold;">Ver aviso oficial AEMET</a></p>
-                `;
-            } else {
-                // Si NO hay avisos, llamamos a tu función auxiliar para ponerlo en verde
-                formatearAvisosVerdes();
-            }
-        }
-    } catch (error) {
-        console.error("Hubo un error al leer los datos del 112:", error);
-        // Si hay un fallo de red o servidor, por seguridad llamamos a la verde
-        formatearAvisosVerdes(); 
-    }
-}
-
-// TU FUNCIÓN AUXILIAR (La mantienes abajo de forma limpia)
-function formatearAvisosVerdes() {
-    const bloqueAvisos = document.querySelector('.avisos-meteorologicos'); 
-    if (bloqueAvisos) {
-        bloqueAvisos.innerHTML = `
-            <div class="status-badge alert-verde" style="background-color: #2ecc71; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block;">✅ Sin avisos activos</div>
-            <p style="margin-top: 10px; color: #7f8c8d;">No hay alertas meteorológicas vigentes para el término de Grazalema.</p>
-        `;
-    }
-}
-
+// ==========================================
 // Ejecutamos la función automáticamente cuando se cargue la web
+// ==========================================
 document.addEventListener("DOMContentLoaded", cargarAlertas112);
 
 window.addEventListener('DOMContentLoaded', () => {
