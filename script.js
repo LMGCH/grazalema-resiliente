@@ -1,7 +1,6 @@
 // ==========================================
 // 1. CONFIGURACIÓN GENERAL Y VARIABLES DE CONTROL
 // ==========================================
-
 let tiempoRestante = 60;
 let temporizadorRegresivo = null;
 
@@ -9,11 +8,17 @@ let temporizadorRegresivo = null;
 const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
-// ELEMENTOS DEL DOM GLOBALES (Añade esto aquí arriba para solucionar el error)
+// >>> INSERTA ESTAS CUATRO LÍNEAS AQUÍ ABAJO <<<
+const urlEMSCBase = "https://emsc-csem.org((-6.0%2036.0,-4.5%2036.0,-4.5%2037.5,-6.0%2037.5,-6.0%2036.0))&min_magnitude=1.0&limit=1";
+const urlMeteoCompleta = `https://open-meteo.com{latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&daily=precipitation_sum&past_days=7&timezone=Europe%2FMadrid`;
+// ==========================================
+
+// ELEMENTOS DEL DOM GLOBALES
 const sismoInfo = document.getElementById('sismo-info');
 const semaforoSismico = document.getElementById('semaforo-sismico');
 const meteoInfo = document.getElementById('meteo-info');
-const semaforoMeteo = document.getElementById('semaforo-meteo'); // <-- Ahora es global y visible para todo el script
+const semaforoMeteo = document.getElementById('semaforo-meteo');
+
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
