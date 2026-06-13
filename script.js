@@ -10,8 +10,7 @@ const lonGrazalema = "-5.3649";
 
 // SOLUCIÓN TOTAL: Direcciones de consulta estables
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
-const urlMeteoCompleta = const urlMeteoCompleta =
-`https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&daily=precipitation_sum&past_days=7&timezone=Europe/Madrid`;
+const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&daily=precipitation_sum&past_days=7&timezone=Europe/Madrid`;
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
@@ -77,6 +76,7 @@ async function cargarMeteorologia() {
     if (!meteoInfo) return;
 
     try {
+        console.log(urlMeteoCompleta);
         const respuesta = await fetch(urlMeteoCompleta);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
         const datos = await respuesta.json();
@@ -87,8 +87,6 @@ async function cargarMeteorologia() {
             const viento = clima.wind_speed_10m ?? 'N/A';
             const direccion = clima.wind_direction_10m ?? 'N/A';
             const lluviaActual = clima.rain ?? 0;
-
-            const lluviasSemanales = datos.daily.precipitation_sum;
             const lluviasSemanales =
 Array.isArray(datos.daily.precipitation_sum)
     ? datos.daily.precipitation_sum
