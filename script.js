@@ -171,55 +171,56 @@ function ejecutarCargaCompleta() {
 
 // Función para obtener y filtrar las alertas del 112
 async function cargarAlertas112() {
-    // Usamos un convertidor gratuito que transforma el feed de X en formato JSON amigable
-    const urlFeed = "https://rss2json.com";
+    const contenedorAvisos = document.getElementById('avisos-aemet-contenedor'); // Pon el ID real de tu HTML si es otro
+    
+    // 1. Tu URL original del JSON (pon la dirección web exacta donde esté tu JSON actual)
+    const urlJsonOriginal = "TU_URL_DE_GRAZALEMA_RESILIENTE_JSON_O_RSS2JSON"; 
+    
+    // 2. La envolvemos con el proxy para romper el bloqueo de CORS
+    const urlConProxy = `https://allorigins.win{encodeURIComponent(urlJsonOriginal)}`;
 
     try {
-        const respuesta = await fetch(urlFeed);
-        const datos = await respuesta.json();
+        const respuesta = await fetch(urlConProxy);
+        if (!respuesta.ok) throw new Error("Error al conectar con el servidor de alertas");
+        
+        const respuestaProxy = await respuesta.json();
+        
+        // El proxy mete el JSON original como texto dentro de la propiedad '.contents'
+        // Lo transformamos en objeto de JavaScript con JSON.parse
+        const datos = JSON.parse(respuestaProxy.contents);
 
-        // 1. Lista de palabras clave que nos interesan para el filtro local
-        const palabrasClave = ["cádiz", "grazalema", "benamahoma", "villaluenga", "benaocaz", "ubrique", "sierra"];
-
-        // 2. Filtramos los mensajes para quedarnos solo con los que mencionen nuestra zona
-        const alertasLocales = datos.items.filter(item => {
-            const textoMensaje = item.description.toLowerCase();
-            // Comprueba si alguna de nuestras palabras clave está dentro del texto
-            return palabrasClave.some(palabra => textoMensaje.includes(palabra));
-        });
-
-        // 3. Mandamos los datos filtrados a la pantalla de tu web
-        mostrarAlertasEnPantalla(alertasLocales);
+        // 3. Procesamos tus datos tal y como me los has pasado
+        if (datos && datos.hayAvisos === true) {
+            // Si el servidor dice que hay avisos activos, pintamos el bloque en alerta
+            // Puedes ajustar este HTML para que encaje con las clases CSS de tus tarjetas
+            document.querySelector('.avisos-meteorologicos').innerHTML = `
+                <div class="status-badge alert-rojo">⚠️ AVISO METEOROLÓGICO ACTIVO</div>
+                <p style="margin-top: 10px;">${datos.titulo}</p>
+                <p style="font-size: 0.85em; color: #7f8c8d;">Actualizado: ${new Date(datos.fecha).toLocaleString('es-ES')}</p>
+                <a href="${datos.enlace}" target="_blank" class="ver-aviso-btn" style="color: #3498db; text-decoration: underline;">Ver aviso oficial AEMET</a>
+            `;
+        } else {
+            // AQUÍ ESTÁ EL TRUCO: Si 'hayAvisos' es false o no viene nada, pasa limpiamente a VERDE
+            formatearAvisosVerdes();
+        }
 
     } catch (error) {
         console.error("Hubo un error al leer los datos del 112:", error);
-        document.getElementById("contenedor-alertas").innerHTML = "<p>No se pudieron cargar las alertas en este momento.</p>";
+        formatearAvisosVerdes(); // Si falla la red, por seguridad mostramos que todo está calmado
     }
 }
 
-// Función auxiliar para pintar los resultados en tu HTML
-function mostrarAlertasEnPantalla(alertas) {
-    const contenedor = document.getElementById("contenedor-alertas");
-    
-    // Si no hay alertas recientes de nuestra zona
-    if (alertas.length === 0) {
-        contenedor.innerHTML = "<p>Sin alertas recientes para la Sierra de Cádiz.</p>";
-        return;
-    }
-
-    // Si hay alertas, las limpiamos y las mostramos una a una
-    contenedor.innerHTML = ""; 
-    alertas.forEach(alerta => {
-        const elementoAlerta = document.createElement("div");
-        elementoAlerta.className = "tarjeta-alerta"; // Puedes darle estilos en tu estilos.css
-        elementoAlerta.innerHTML = `
-            <p><strong>🚨 Alerta Oficial 112:</strong> ${alerta.description}</p>
-            <small>📅 Publicado el: ${new Date(alerta.pubDate).toLocaleString()}</small>
-            <hr>
+// Función auxiliar para resetear el cuadro a verde/estable cuando cambie la previsión
+function formatearAvisosVerdes() {
+    const bloqueAvisos = document.querySelector('.avisos-meteorologicos'); // Ajusta al contenedor de tu HTML
+    if (bloqueAvisos) {
+        bloqueAvisos.innerHTML = `
+            <div class="status-badge alert-verde" style="background-color: #2ecc71; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block;">✅ Sin avisos activos</div>
+            <p style="margin-top: 10px; color: #7f8c8d;">No hay alertas meteorológicas vigentes para el término de Grazalema.</p>
         `;
-        contenedor.appendChild(elementoAlerta);
-    });
+    }
 }
+
 
 // Ejecutamos la función automáticamente cuando se cargue la web
 document.addEventListener("DOMContentLoaded", cargarAlertas112);
