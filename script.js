@@ -8,12 +8,9 @@ let temporizadorRegresivo = null;
 const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
-// SOLUCIÓN TOTAL: Direcciones blindadas y limpias sin variables duplicadas
+// SOLUCIÓN TOTAL: Direcciones de consulta estables
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
-
-// URL INTEGRAL REVISADA: Añadido obligatoriamente el parámetro '&daily=precipitation_sum' para que no falle el filtro
-const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&hourly=rain&daily=precipitation_sum&past_days=7&timezone=Europe%2FMadrid`;
-
+const urlMeteoCompleta = `https://open-meteo.com${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&hourly=rain&daily=precipitation_sum&past_days=7&timezone=Europe%2FMadrid`;
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
@@ -90,29 +87,30 @@ async function cargarMeteorologia() {
             const direccion = clima.wind_direction_10m ?? 'N/A';
             const lluviaActual = clima.rain ?? 0;
 
-            // Calcular el acumulado total de los últimos 7 días (Litros por m²)
             const lluviasSemanales = datos.daily.precipitation_sum;
             indiceSaturacionTerreno = lluviasSemanales.reduce((total, dia) => total + (dia || 0), 0);
 
-	    // Actualización de la interfaz
             meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°) | Lluvia: ${lluviaActual} mm/h | <strong>Saturación 7d: ${indiceSaturacionTerreno.toFixed(1)} mm</strong>`;
-// ==========================================
-// 4. SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL (EMSC/OPEN-METEO)
-// ==========================================
+            
             if (semaforoMeteo) {
                 const velViento = parseFloat(viento);
 
-                // PRIORIDAD 1: Criterio hidrológico de colmatación por lluvias torrenciales/persistentes
-                if (indiceSaturacionTerreno >= 250 || lluviaActual > 25) {
-                    semaforoMeteo.textContent = "Alerta: Riesgo Hidroseísmico";
+                // PRIORIDAD 1: Lluvia crítica inmediata (Peligro actual directo)
+                if (lluviaActual > 25) {
+                    semaforoMeteo.textContent = "Alerta: Lluvia Torrencial";
                     semaforoMeteo.className = "status-badge alert-rojo";
                 } 
-                // PRIORIDAD 2: Criterio de alertas por vientos severos en la sierra
+                // PRIORIDAD 2: Vientos severos inmediatos en la sierra (Peligro actual directo)
                 else if (velViento > 50) {
                     semaforoMeteo.textContent = "Alerta: Viento Fuerte";
                     semaforoMeteo.className = "status-badge alert-rojo";
                 } 
-                // PRIORIDAD 3: Atención por acumulación moderada de agua en el subsuelo
+                // PRIORIDAD 3: Criterio hidrológico de colmatación por lluvias acumuladas (Riesgo diferido)
+                else if (indiceSaturacionTerreno >= 250) {
+                    semaforoMeteo.textContent = "Alerta: Riesgo Hidroseísmico";
+                    semaforoMeteo.className = "status-badge alert-rojo";
+                } 
+                // PRIORIDAD 4: Atención por acumulación moderada de agua en el subsuelo
                 else if (indiceSaturacionTerreno >= 120) {
                     semaforoMeteo.textContent = "Atención: Acuífero Cargado";
                     semaforoMeteo.className = "status-badge alert-naranja";
@@ -121,7 +119,7 @@ async function cargarMeteorologia() {
                     semaforoMeteo.textContent = "Riesgo Moderado Viento";
                     semaforoMeteo.className = "status-badge alert-naranja";
                 } 
-                // SITUACIÓN ESTABLE
+                // SITUACIÓN ESTABLE: Si no hay peligros actuales ni acumulados críticos
                 else {
                     semaforoMeteo.textContent = "Terreno Estable";
                     semaforoMeteo.className = "status-badge alert-verde";
@@ -135,43 +133,38 @@ async function cargarMeteorologia() {
         meteoInfo.innerHTML = "<span style='color:#7f8c8d;'>Esperando actualización de red...</span>";
     }
 }
+
 // ==========================================
-// FUNCIÓN PARA OBTENER LOS AVISOS METEOROLÓGICOS DE AEMET
+// 4. FUNCIÓN PARA OBTENER LOS AVISOS METEOROLÓGICOS DE AEMET (LLAMADA LOCAL DIRECTA)
 // ==========================================
 async function cargarAvisosAemet() {
     const contenedorAvisos = document.querySelector('.avisos-meteorologicos'); 
-    const urlOriginal = "https://raw.githubusercontent.com/LMGCH/grazalema-resiliente/main/datos/alertas.json"; 
-    const urlConProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(urlOriginal)}`;
-																	
+    // Usamos la ruta local relativa directa para fulminar el error de CORS y no depender de AllOrigins
+    const urlOriginal = "./datos/alertas.json"; 
+
     try {
-        const respuesta = await fetch(urlConProxy);
+        const respuesta = await fetch(urlOriginal);
         if (!respuesta.ok) throw new Error(`HTTP Error: ${respuesta.status}`);
         
-        const contenedorProxy = await respuesta.json();
-        const datos = JSON.parse(contenedorProxy.contents);
+        const datos = await respuesta.json();
 
         if (contenedorAvisos) {
             if (datos && datos.hayAvisos === true) {
-                // Si hay avisos, pintamos el bloque en rojo
                 contenedorAvisos.innerHTML = `
                     <div class="status-badge alert-rojo" style="background-color: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block;">🔴 AVISO METEOROLÓGICO ACTIVO</div>
                     <p style="margin-top: 15px; font-weight: bold;">${datos.titulo}</p>
                     <p style="margin-top: 10px;"><a href="${datos.enlace}" target="_blank" style="color: #9b59b6; text-decoration: underline; font-weight: bold;">Ver aviso oficial AEMET</a></p>
                 `;
             } else {
-                // Si NO hay avisos, llamamos a tu función auxiliar para ponerlo en verde
                 formatearAvisosVerdes();
             }
         }
     } catch (error) {
         console.error("Hubo un error al leer los datos de la AEMET:", error);
-        // Si hay un fallo de red o servidor, por seguridad llamamos a la verde
         formatearAvisosVerdes(); 
     }
 }
-// ==========================================
-// FUNCIÓN AUXILIAR (La mantienes abajo de forma limpia)
-// ==========================================
+
 function formatearAvisosVerdes() {
     const bloqueAvisos = document.querySelector('.avisos-meteorologicos'); 
     if (bloqueAvisos) {
@@ -183,7 +176,7 @@ function formatearAvisosVerdes() {
 }
 
 // ==========================================
-// 4. TEMPORIZADOR, RELOJ Y CONTROLADORES
+// 5. TEMPORIZADOR, RELOJ Y CONTROLADORES UNIFICADOS
 // ==========================================
 function actualizarHoraSincronizacion() {
     const horaSync = document.getElementById('hora-sync');
@@ -212,15 +205,12 @@ function iniciarContadorRegresivo() {
 function ejecutarCargaCompleta() {
     cargarTerremotos();
     cargarMeteorologia();
+    cargarAvisosAemet(); // <--- INCORPORADO AQUÍ PARA REFRESCARSE CADA 60 SEGUNDOS
     actualizarHoraSincronizacion();
     iniciarContadorRegresivo();
 }
 
-// ==========================================
-// Ejecutamos la función automáticamente cuando se cargue la web
-// ==========================================
-document.addEventListener("DOMContentLoaded", cargarAvisosAemet);
-
+// UNIFICADO: Un único punto de entrada limpio cuando el documento HTML esté completamente listo
 window.addEventListener('DOMContentLoaded', () => {
     ejecutarCargaCompleta();
 });
