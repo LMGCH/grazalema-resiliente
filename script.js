@@ -67,71 +67,39 @@ async function cargarTerremotos() {
         sismoInfo.innerHTML = "<span style='color:#7f8c8d;'>Dato sísmico retenido por filtro local o red.</span>";
     }
 }
-
 // ==========================================
-// 3. CAPTURA METEOROLÓGICA PREDICTIVA (OPEN-METEO) - UNIFICADO INVIERNO
+// SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL (REVISADO)
 // ==========================================
-let indiceSaturacionTerreno = 0; 
+if (semaforoMeteo) {
+    const velViento = parseFloat(viento);
 
-async function cargarMeteorologia() {
-    const meteoInfo = document.getElementById('meteo-info');
-    const semaforoMeteo = document.getElementById('semaforo-meteo');
-    if (!meteoInfo) return;
-
-    try {
-        const respuesta = await fetch(urlMeteoCompleta);
-        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-        const datos = await respuesta.json();
-        
-        if (datos && datos.current && datos.daily && datos.daily.precipitation_sum) {
-            const clima = datos.current;
-            const temp = clima.temperature_2m ?? 'N/A';
-            const viento = clima.wind_speed_10m ?? 'N/A';
-            const direccion = clima.wind_direction_10m ?? 'N/A';
-            const lluviaActual = clima.rain ?? 0;
-
-            // Calcular el acumulado total de los últimos 7 días (Litros por m²)
-            const lluviasSemanales = datos.daily.precipitation_sum;
-            indiceSaturacionTerreno = lluviasSemanales.reduce((total, dia) => total + (dia || 0), 0);
-
-	    // Actualización de la interfaz
-            meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°) | Lluvia: ${lluviaActual} mm/h | <strong>Saturación 7d: ${indiceSaturacionTerreno.toFixed(1)} mm</strong>`;
-
-            // SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL
-            if (semaforoMeteo) {
-                const velViento = parseFloat(viento);
-
-                // PRIORIDAD 1: Criterio hidrológico de colmatación por lluvias torrenciales/persistentes
-                if (indiceSaturacionTerreno >= 250 || lluviaActual > 25) {
-                    semaforoMeteo.textContent = "Alerta: Riesgo Hidroseísmico";
-                    semaforoMeteo.className = "status-badge alert-rojo";
-                } 
-                // PRIORIDAD 2: Criterio de alertas por vientos severos en la sierra
-                else if (velViento > 50) {
-                    semaforoMeteo.textContent = "Alerta: Viento Fuerte";
-                    semaforoMeteo.className = "status-badge alert-rojo";
-                } 
-                // PRIORIDAD 3: Atención por acumulación moderada de agua en el subsuelo
-                else if (indiceSaturacionTerreno >= 120) {
-                    semaforoMeteo.textContent = "Atención: Acuífero Cargado";
-                    semaforoMeteo.className = "status-badge alert-naranja";
-                } 
-                else if (velViento > 25) {
-                    semaforoMeteo.textContent = "Riesgo Moderado Viento";
-                    semaforoMeteo.className = "status-badge alert-naranja";
-                } 
-                // SITUACIÓN ESTABLE
-                else {
-                    semaforoMeteo.textContent = "Terreno Estable";
-                    semaforoMeteo.className = "status-badge alert-verde";
-                }
-            }
+    // 1. CRITERIO CRÍTICO ACTUAL: Si hay tormenta severa o viento peligroso AHORA
+    if (lluviaActual > 25 || velViento > 50) {
+        if (lluviaActual > 25) {
+            semaforoMeteo.textContent = "Alerta: Lluvia Torrencial";
         } else {
-            throw new Error("Estructura JSON incompatible.");
+            semaforoMeteo.textContent = "Alerta: Viento Fuerte";
         }
-    } catch (error) {
-        console.error("Error en el modelo meteorológico/hidrológico:", error);
-        meteoInfo.innerHTML = "<span style='color:#7f8c8d;'>Esperando actualización de red...</span>";
+        semaforoMeteo.className = "status-badge alert-rojo";
+    } 
+    // 2. CRITERIO HISTÓRICO KÁRSTICO: El suelo sigue lleno de agua (Riesgo de Reventón / Hidroseísmico)
+    else if (indiceSaturacionTerreno >= 250) {
+        semaforoMeteo.textContent = "Alerta: Riesgo Hidroseísmico";
+        semaforoMeteo.className = "status-badge alert-rojo";
+    } 
+    // 3. ADVERTENCIAS MODERADAS
+    else if (indiceSaturacionTerreno >= 120) {
+        semaforoMeteo.textContent = "Atención: Acuífero Cargado";
+        semaforoMeteo.className = "status-badge alert-naranja";
+    } 
+    else if (velViento > 25) {
+        semaforoMeteo.textContent = "Riesgo Moderado Viento";
+        semaforoMeteo.className = "status-badge alert-naranja";
+    } 
+    // 4. SITUACIÓN ESTABLE: Si no se cumple nada de lo anterior, vuelve a verde limpiamente
+    else {
+        semaforoMeteo.textContent = "Terreno Estable";
+        semaforoMeteo.className = "status-badge alert-verde";
     }
 }
 
