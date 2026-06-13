@@ -1,6 +1,7 @@
 // ==========================================
 // 1. CONFIGURACIÓN GENERAL Y VARIABLES DE CONTROL
 // ==========================================
+
 let tiempoRestante = 60;
 let temporizadorRegresivo = null;
 
@@ -8,12 +9,11 @@ let temporizadorRegresivo = null;
 const latGrazalema = "36.7589";
 const lonGrazalema = "-5.3649";
 
-// SOLUCIÓN TOTAL: Direcciones blindadas y limpias sin variables duplicadas
-const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
-
-// URL INTEGRAL REVISADA: Añadido obligatoriamente el parámetro '&daily=precipitation_sum' para que no falle el filtro
-const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&hourly=rain&daily=precipitation_sum&past_days=7&timezone=Europe%2FMadrid`;
-
+// ELEMENTOS DEL DOM GLOBALES (Añade esto aquí arriba para solucionar el error)
+const sismoInfo = document.getElementById('sismo-info');
+const semaforoSismico = document.getElementById('semaforo-sismico');
+const meteoInfo = document.getElementById('meteo-info');
+const semaforoMeteo = document.getElementById('semaforo-meteo'); // <-- Ahora es global y visible para todo el script
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
