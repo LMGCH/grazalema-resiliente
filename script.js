@@ -97,7 +97,7 @@ async function cargarMeteorologia() {
 	    // Actualización de la interfaz
             meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°) | Lluvia: ${lluviaActual} mm/h | <strong>Saturación 7d: ${indiceSaturacionTerreno.toFixed(1)} mm</strong>`;
 // ==========================================
-// 4. SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL (AEMET)
+// 4. SEMÁFORO DE LOGÍSTICA KÁRSTICA E INVERNAL (EMSC/OPEN-METEO)
 // ==========================================
             if (semaforoMeteo) {
                 const velViento = parseFloat(viento);
@@ -140,8 +140,8 @@ async function cargarMeteorologia() {
 // ==========================================
 async function cargarAvisosAemet() {
     const contenedorAvisos = document.querySelector('.avisos-meteorologicos'); 
-    const urlOriginal = "https://raw.githubusercontent.com/LMGCH/grazalema-resiliente/main/datos/alertas.json"; // Pon tu URL real
-    const urlConProxy = `https://allorigins.win ${encodeURIComponent(https://www.aemet.es/documentos_d/eltiempo/prediccion/avisos/cap/Z_CAP_C_LEMM_20260612215001_AFAZ611101.tar.gz)}`;
+    const urlOriginal = "https://raw.githubusercontent.com/LMGCH/grazalema-resiliente/main/datos/alertas.json"; 
+    const urlConProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(urlOriginal)}`;
 																	
     try {
         const respuesta = await fetch(urlConProxy);
