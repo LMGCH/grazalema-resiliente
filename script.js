@@ -10,7 +10,8 @@ const lonGrazalema = "-5.3649";
 
 // SOLUCIÓN TOTAL: Direcciones de consulta estables
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
-const urlMeteoCompleta = `https://open-meteo.com?${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&hourly=rain&daily=precipitation_sum&past_days=7&timezone=Europe%2FMadrid`;
+const urlMeteoCompleta = const urlMeteoCompleta =
+`https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&daily=precipitation_sum&past_days=7&timezone=Europe/Madrid`;
 
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
@@ -37,7 +38,7 @@ async function cargarTerremotos() {
 
         const primerSeismo = seismos[0];
         const prop = primerSeismo.properties;
-        const magnitud = prop.mag;
+        const magnitud = parseFloat(prop.mag) || 0;
         const lugar = prop.flynn_region || "Sur de España";
         let horaSismo = "--:--";
 
@@ -88,7 +89,13 @@ async function cargarMeteorologia() {
             const lluviaActual = clima.rain ?? 0;
 
             const lluviasSemanales = datos.daily.precipitation_sum;
-            indiceSaturacionTerreno = lluviasSemanales.reduce((total, dia) => total + (dia || 0), 0);
+            const lluviasSemanales =
+Array.isArray(datos.daily.precipitation_sum)
+    ? datos.daily.precipitation_sum
+    : [];
+
+indiceSaturacionTerreno =
+lluviasSemanales.reduce((t, d) => t + (d || 0), 0);
 
             meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°) | Lluvia: ${lluviaActual} mm/h | <strong>Saturación 7d: ${indiceSaturacionTerreno.toFixed(1)} mm</strong>`;
             
