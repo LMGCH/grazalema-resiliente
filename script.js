@@ -173,7 +173,7 @@ function ejecutarCargaCompleta() {
 async function cargarAlertas112() {
     const contenedorAvisos = document.querySelector('.avisos-meteorologicos'); 
     const urlOriginal = "https://raw.githubusercontent.com/LMGCH/grazalema-resiliente/main/datos/alertas.json"; // Pon tu URL real
-    const urlConProxy = `https://allorigins.win{encodeURIComponent(https://www.aemet.es/documentos_d/eltiempo/prediccion/avisos/cap/Z_CAP_C_LEMM_20260612215001_AFAZ611101.tar.gz)}`;
+    const urlConProxy = `https://allorigins.win${encodeURIComponent(https://www.aemet.es/documentos_d/eltiempo/prediccion/avisos/cap/Z_CAP_C_LEMM_20260612215001_AFAZ611101.tar.gz)}`;
 
     try {
         const respuesta = await fetch(urlConProxy);
