@@ -39,7 +39,7 @@ async function cargarTerremotos() {
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`); 
         
         const datos = await respuesta.json(); 
-        const seismos = datos.features || [];
+        const seismos = (datos && datos.features) ? datos.features : [];
 
         if (seismos.length === 0) {
             sismoInfo.innerHTML = "Sin actividad reciente en la zona.";
@@ -51,6 +51,9 @@ async function cargarTerremotos() {
         }
 
         const primerSeismo = seismos[0];
+	if (!primerSeismo || !primerSeismo.properties) {
+            throw new Error("Estructura de sismo inválida.");
+        }
         const prop = primerSeismo.properties;
         const magnitud = parseFloat(prop.mag) || 0;
         const lugar = prop.flynn_region || "Sur de España";
