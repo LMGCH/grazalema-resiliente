@@ -86,22 +86,27 @@ header, .main-header {
     padding-bottom: 4px;
 }
 
-/* Estilo base del botón */
+/* ==========================================================================
+   ESTILO BASE DEL BOTÓN COLABORAR (PÁG 2 DE TU CSS)
+   ========================================================================== */
 .btn-nav {
     background: #16a085 !important;
-    color: #ffffff !important; /* Texto blanco nativo */
+    color: #ffffff !important; /* Texto blanco nativo al cargar */
     padding: 6px 12px;
     border-radius: 4px;
     text-decoration: none;
     font-weight: 600;
+    display: inline-block;
 }
 
-/* REGLA NUEVA: Evita que las letras se vuelvan verdes al pasar el ratón */
+/* REGLA DEFINITIVA: Mantiene las letras blancas al pasar el ratón */
+.main-nav a.btn-nav:hover, 
 .btn-nav:hover {
-    color: #ffffff !important;       /* Fuerza el texto a seguir siendo blanco */
-    background-color: #117a65 !important;  /* Oscurece un poco el fondo verde como feedback */
-    text-decoration: none;
+    color: #ffffff !important;        /* Fuerza el texto a seguir siendo blanco puro */
+    background-color: #117a65 !important; /* Oscurece un poco el fondo verde como feedback */
+    text-decoration: none !important;
 }
+
 
 /* ==========================================================================
    SECCIÓN HÉROE PRINCIPAL
