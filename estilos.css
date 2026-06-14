@@ -76,22 +76,23 @@ body {
 }
 
 .main-nav a {
-    color: #ffffff !important; /* Forzamos blanco puro para que resalte sobre el fondo oscuro */
+    color: #2c3e50 !important; /* Gris oscuro elegante, visible sobre fondo claro o gris */
     text-decoration: none;
     margin-left: 20px;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;          /* Aumentamos a 600 para que tenga más cuerpo y legibilidad */
 }
 
-/* El enlace activo y el hover ahora usan un turquesa/verde de alta visibilidad */
+/* El enlace activo y el hover usan tu verde turquesa corporativo, que contrasta muy bien sobre claro */
 .main-nav a.active, .main-nav a:hover {
-    color: #51e2c2 !important; /* Color turquesa brillante que contrasta al 100% */
-    font-weight: 700;          /* Hacemos el texto un poco más grueso al pasar el cursor */
+    color: #16a085 !important; /* Verde turquesa oscuro accesible */
+    border-bottom: 2px solid #16a085; /* Añade una línea sutil abajo para reforzar visualmente */
+    padding-bottom: 4px;
 }
 
 .btn-nav {
-    background: #16a085;       /* Cambiamos a un color sólido visible */
-    color: #ffffff !important; /* Blanco puro obligatorio para cumplir el contraste */
+    background: #16a085;       /* Fondo verde corporativo */
+    color: #ffffff !important; /* Texto blanco puro obligatorio para el contraste */
     padding: 6px 12px;
     border-radius: 4px;
 }
