@@ -560,7 +560,18 @@ h1 {
         grid-template-columns: 1fr !important; 
         gap: 10px !important; 
     }
-    
+   /* ==========================================================================
+      Espaciado táctil exclusivo para pantallas móviles
+   /* ==========================================================================
+@media (max-width: 768px) {
+    .main-nav a {
+        padding: 1rem 1.2rem !important; /* Amplía la zona de pulsación del dedo */
+        margin: 0.4rem 0.2rem !important;  /* Separa físicamente un enlace de otro */
+        display: inline-block !important;
+    }
+}
+
+   
     /* Rediseñamos la tarjeta para que el texto y el número se organicen en horizontal */
     .eje-card {
         font-size: 0.9rem !important;
