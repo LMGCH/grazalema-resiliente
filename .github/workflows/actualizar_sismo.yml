@@ -18,7 +18,7 @@ jobs:
 
       - name: Consultar API EMSC sin restricciones de CORS
         run: |
-          curl -s "https%3A%2F%2Fwww.seismicportal.eu%2Ffdsnws%2Fevent%2F1%2Fquery%3Fformat%3Djson%26limit%3D1" > datos/sismicidad.json
+          curl -s "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1" > datos/sismicidad.json
 
       - name: Confirmar y subir los datos actualizados al repositorio
         run: |
