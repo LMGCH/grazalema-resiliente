@@ -65,15 +65,32 @@ async function cargarTerremotos() {
         
         sismoInfo.innerHTML = `Mág: <strong style="color:#e74c3c;">${magnitud} mbLg</strong> en ${lugar} (${horaSismo}h).`;
 
-        if (semaforoSismico) {
+       if (semaforoSismico) {
             if (magnitud >= 4.0) {
                 semaforoSismico.textContent = "Peligro";
-                semaforoSismico.className = "status-badge alert-rojo"; 
+                // 🔴 Añadida la clase badge-pulso junto a alert-rojo
+                semaforoSismico.className = "status-badge alert-rojo badge-pulso"; 
             } else if (magnitud >= 2.5) {
                 semaforoSismico.textContent = "Atención";
-                semaforoSismico.className = "status-badge alert-naranja";
+                // 🟠 Añadida la clase badge-pulso junto a alert-naranja
+                semaforoSismico.className = "status-badge alert-naranja badge-pulso";
             } else {
                 semaforoSismico.textContent = "Estable";
+                // 🟢 Se queda igual (estático) cuando el terreno está tranquilo
+                semaforoSismico.className = "status-badge alert-verde";
+            }
+        }if (semaforoSismico) {
+            if (magnitud >= 4.0) {
+                semaforoSismico.textContent = "Peligro";
+                // 🔴 Añadida la clase badge-pulso junto a alert-rojo
+                semaforoSismico.className = "status-badge alert-rojo badge-pulso"; 
+            } else if (magnitud >= 2.5) {
+                semaforoSismico.textContent = "Atención";
+                // 🟠 Añadida la clase badge-pulso junto a alert-naranja
+                semaforoSismico.className = "status-badge alert-naranja badge-pulso";
+            } else {
+                semaforoSismico.textContent = "Estable";
+                // 🟢 Se queda igual (estático) cuando el terreno está tranquilo
                 semaforoSismico.className = "status-badge alert-verde";
             }
         }
