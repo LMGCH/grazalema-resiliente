@@ -92,6 +92,22 @@ header, .main-header {
     padding: 6px 12px;
     border-radius: 4px;
 }
+/* Estilo base del botón colaborar (Fondo verde, letras blancas) */
+.btn-nav {
+    background: #16a085 !important;       
+    color: #ffffff !important; /* Fuerza las letras a blanco al cargar */
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* NUEVA REGLA: Forzar letras blancas también al pasar el ratón */
+.btn-nav:hover {
+    color: #ffffff !important;      /* Evita que las letras se vuelvan verdes */
+    background-color: #117a65 !important; /* Oscurece un poco el fondo verde para dar feedback visual */
+    text-decoration: none;
+}
 
 /* ==========================================================================
    SECCIÓN HÉROE PRINCIPAL
