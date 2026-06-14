@@ -23,9 +23,11 @@ async function cargarTerremotos() {
     try {
         const respuesta = await fetch(urlEMSCBase);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-        const texto = await respuesta.text();
+        
+        // CORRECCIÓN 1: Leer como JSON directamente
+        const datos = await respuesta.json(); 
 
-console.log(texto);
+        // CORRECCIÓN 2: Ahora 'datos' ya existe y tiene la propiedad 'features'
         const seismos = datos.features || [];
 
         if (seismos.length === 0) {
