@@ -1,0 +1,29 @@
+name: Actualizar Datos de Sismicidad EMSC
+
+on:
+  schedule:
+    # Se ejecuta de forma automática cada 5 minutos (límite estándar de GitHub)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Te permite ejecutarlo manualmente desde GitHub cuando quieras
+
+jobs:
+  actualizar-datos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Crear carpeta de datos si no existe
+        run: mkdir -p datos
+
+      - name: Consultar API EMSC sin restricciones de CORS
+        run: |
+          curl -s "https%3A%2F%2Fwww.seismicportal.eu%2Ffdsnws%2Fevent%2F1%2Fquery%3Fformat%3Djson%26limit%3D1" > datos/sismicidad.json
+
+      - name: Confirmar y subir los datos actualizados al repositorio
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@://github.com"
+          git add datos/sismicidad.json
+          # Solo sube cambios si los datos sísmicos han variado realmente
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Automatización: Datos sísmicos actualizados" && git push)
