@@ -135,21 +135,6 @@ h1 {
     margin-right: 8px;
 }
 /* ==========================================================================
-    Animación de parpadeo suave
-   ========================================================================== */
-@keyframes parpadeoAlerta {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
-}
-
-/* Clase que aplicará el efecto solo cuando haya riesgo */
-.badge-pulso {
-    animation: parpadeoAlerta 2s infinite ease-in-out;
-}
-
-
-/* ==========================================================================
    SECCIONES GENERALES Y MANIFIESTO
    ========================================================================== */
 .content-section {
