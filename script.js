@@ -34,7 +34,7 @@ async function cargarTerremotos() {
         }
 
 		const urlLocalSismo = "./datos/sismicidad.json";
-        const respuesta = await fetch(`${urlLocalSismo}?_=${new Date().getTime()`});
+        const respuesta = await fetch(`${urlLocalSismo}?_=${new Date().getTime()}`);
 
 		if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`); 
         
