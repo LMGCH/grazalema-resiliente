@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laboratorio Ciudadano - Sensor Celular</title>
-    <!-- Mantenemos tus estilos globales correctos -->
-    <link rel="stylesheet" href="estilos.css">
     <style>
         /* Añadimos los elementos visuales interactivos de la versión 1 */
         .ejes-container {
@@ -56,7 +54,34 @@
         }
         .log-container ul { list-style: none; padding: 0; }
         .log-container li { margin-bottom: 5px; color: #38bdf8; }
+
+        /* ==========================================
+           DISEÑO CORRECTOR PARA MÓVILES EXTREMOS
+           ========================================== */
+        @media (max-width: 480px) {
+            /* Apilamos los ejes verticalmente */
+            .ejes-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            /* Optimizamos el espacio interno de las tarjetas en móvil */
+            .eje-card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                text-align: left;
+            }
+            /* Quitamos el salto de línea del número para que se quede a la derecha */
+            .eje-card span {
+                display: inline-block;
+                margin-top: 0;
+                font-size: 1.2rem;
+            }
+        }
     </style>
+
 </head>
 <body class="bg-light">
     <header class="main-header">
