@@ -215,7 +215,7 @@ function iniciarContadorRegresivo() {
         tiempoRestante--;
         const elementoContador = document.getElementById('contador-regresivo');
         if (elementoContador) {
-            elementoContador.textContent = `${tiempoRestante} s`;
+            elementoContador.textContent = `${tiempoRestante}`;
         }
         if (tiempoRestante <= 0) {
             clearInterval(temporizadorRegresivo);
