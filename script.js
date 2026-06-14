@@ -12,6 +12,8 @@ const lonGrazalema = "-5.3649";
 const urlEMSCBase = "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1";
 const urlMeteoCompleta = `https://api.open-meteo.com/v1/forecast?latitude=${latGrazalema}&longitude=${lonGrazalema}&current=temperature_2m,wind_speed_10m,wind_direction_10m,rain&daily=precipitation_sum&past_days=7&timezone=Europe/Madrid`;
 
+let indiceSaturacionTerreno = 0;
+
 // ==========================================
 // 2. CAPTURA DE SISMICIDAD (EMSC) - COMPROBADO
 // ==========================================
@@ -21,13 +23,22 @@ async function cargarTerremotos() {
     if (!sismoInfo) return;
 
     try {
-        const respuesta = await fetch(urlEMSCBase);
-        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);    
-          
-        // CORRECCIÓN 1: Leer como JSON directamente
-        const datos = await respuesta.json(); 
+        // Gestión Offline: Evitamos peticiones fallidas si el vecino no tiene red
+        if (!navigator.onLine) {
+            sismoInfo.innerHTML = "<span style='color:#e67e22;'>Sin conexión a internet. Modo de espera.</span>";
+            if (semaforoSismico) {
+                semaforoSismico.textContent = "Desconectado";
+                semaforoSismico.className = "status-badge alert-naranja";
+            }
+            return;
+        }
 
-        // CORRECCIÓN 2: Ahora 'datos' ya existe y tiene la propiedad 'features'
+        // Anti-Caché: Forzamos datos frescos añadiendo el timestamp a la URL
+        const urlConAntiCache = `${urlEMSCBase}&_=${new Date().getTime()}`;
+        const respuesta = await fetch(urlConAntiCache);
+        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`); 
+        
+        const datos = await respuesta.json(); 
         const seismos = datos.features || [];
 
         if (seismos.length === 0) {
@@ -72,7 +83,6 @@ async function cargarTerremotos() {
 // ==========================================
 // 3. CAPTURA METEOROLÓGICA PREDICTIVA (OPEN-METEO) - UNIFICADO INVIERNO
 // ==========================================
-let indiceSaturacionTerreno = 0; 
 
 async function cargarMeteorologia() {
     const meteoInfo = document.getElementById('meteo-info');
@@ -80,8 +90,13 @@ async function cargarMeteorologia() {
     if (!meteoInfo) return;
 
     try {
-        console.log(urlMeteoCompleta);
-        const respuesta = await fetch(urlMeteoCompleta);
+        if (!navigator.onLine) {
+            meteoInfo.innerHTML = "<span style='color:#e67e22;'>Esperando red...</span>";
+            return;
+        }
+
+        const urlConAntiCache = `${urlMeteoCompleta}&_=${new Date().getTime()}`;
+        const respuesta = await fetch(urlConAntiCache);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
         const datos = await respuesta.json();
         
@@ -91,13 +106,9 @@ async function cargarMeteorologia() {
             const viento = clima.wind_speed_10m ?? 'N/A';
             const direccion = clima.wind_direction_10m ?? 'N/A';
             const lluviaActual = clima.rain ?? 0;
-            const lluviasSemanales =
-Array.isArray(datos.daily.precipitation_sum)
-    ? datos.daily.precipitation_sum
-    : [];
+            const lluviasSemanales = Array.isArray(datos.daily.precipitation_sum) ?  datos.daily.precipitation_sum : [];
 
-indiceSaturacionTerreno =
-lluviasSemanales.reduce((t, d) => t + (d || 0), 0);
+indiceSaturacionTerreno = lluviasSemanales.reduce((t, d) => t + (d || 0), 0);
 
             meteoInfo.innerHTML = `${temp}°C | Viento: ${viento} km/h (Dir: ${direccion}°) | Lluvia: ${lluviaActual} mm/h | <strong>Saturación 7d: ${indiceSaturacionTerreno.toFixed(1)} mm</strong>`;
             
@@ -152,7 +163,9 @@ async function cargarAvisosAemet() {
     const urlOriginal = "./datos/alertas.json"; 
 
     try {
-        const respuesta = await fetch(urlOriginal);
+        if (!navigator.onLine) return formatearAvisosVerdes();
+
+        const respuesta = await fetch(`${urlOriginal}?_=${new Date().getTime()}`);
         if (!respuesta.ok) throw new Error(`HTTP Error: ${respuesta.status}`);
         
         const datos = await respuesta.json();
@@ -202,7 +215,7 @@ function iniciarContadorRegresivo() {
         tiempoRestante--;
         const elementoContador = document.getElementById('contador-regresivo');
         if (elementoContador) {
-            elementoContador.textContent = tiempoRestante;
+            elementoContador.textContent = `${tiempoRestante} s`;
         }
         if (tiempoRestante <= 0) {
             clearInterval(temporizadorRegresivo);
@@ -222,4 +235,5 @@ function ejecutarCargaCompleta() {
 // UNIFICADO: Un único punto de entrada limpio cuando el documento HTML esté completamente listo
 window.addEventListener('DOMContentLoaded', () => {
     ejecutarCargaCompleta();
+// Escuchas dinámicas para actualizar al instante cuando el usuario recupera internetwindow.addEventListener('online', ejecutarCargaCompleta);window.addEventListener('offline', ejecutarCargaCompleta);
 });
