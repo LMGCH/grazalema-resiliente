@@ -29,14 +29,15 @@
             background-color: #ffffff;
         }
 
-        /* Encabezado Principal */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            color: white;
-            padding: 3rem 1.5rem;
-            text-align: center;
-            border-bottom: 5px solid var(--secondary);
-        }
+        /* Encabezado Principal Ajustado Claro */
+			 header.main-header {
+			 background: #ffffff !important; 
+			 color: #2c3e50 !important;     
+		 	 padding: 1rem 0 !important;     
+ 			 border-bottom: 3px solid var(--secondary) !important; 
+ 			 text-align: left; 
+ 		}
+
 
         header h1 {
             font-size: 2.5rem;
@@ -51,38 +52,36 @@
             margin: 0 auto;
         }
 
-        /* Barra de Navegación */
-        nav {
-            background-color: var(--light);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        /* Sub-Navegación Ajustada */
+ nav.sub-nav {
+ background-color: var(--light);
+ border-bottom: 1px solid var(--border);
+ position: sticky;
+ top: 0;
+ z-index: 1000;
+ }
+ nav.sub-nav ul {
+ display: flex;
+ justify-content: center;
+ list-style: none;
+ max-width: 1200px;
+ margin: 0 auto;
+ }
+ nav.sub-nav a {
+ display: block;
+ padding: 0.8rem 1.5rem;
+ color: var(--dark);
+ text-decoration: none;
+ font-weight: 600;
+ font-size: 0.9rem;
+ transition: all 0.3s ease;
+ }
+ nav.sub-nav a:hover {
+ color: var(--secondary);
+ background-color: rgba(22, 160, 133, 0.05);
+ }
 
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        nav a {
-            display: block;
-            padding: 1rem 1.5rem;
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--secondary);
-            background-color: rgba(22, 160, 133, 0.05);
-        }
-
-        /* Contenedor de Contenido */
+		/* Contenedor de Contenido */
         main {
             max-width: 1200px;
             margin: 2rem auto;
@@ -225,30 +224,37 @@
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="container header-flex">
-            <!-- Bloque de marca único y depurado -->
-            <div class="logo-geoalerta">
-                <img src="logo-geoalerta.webp" alt="Logo GeoAlerta" class="brand-image" width="150" height="150">
-                <span><strong>Grazalema</strong> Resiliente</span>
-            </div>
-            <nav class="main-nav">
-                <!-- En analisis.html, el enlace activo cambia de lugar -->
-			<a href="index.html">Inicio</a>
-			<a href="analisis.html" class="active">Análisis</a>
-            </nav>
-        </div>
-    </header>
+  <!-- ENCABEZADO UNIFICADO Y CLARO -->
+  <header class="main-header">
+    <div class="container header-flex" style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
+      
+      <!-- Bloque de marca con el logo optimizado de 70x70 -->
+      <div class="logo-geoalerta" style="display: flex; align-items: center; gap: 10px;">
+        <img src="logo-geoalerta.webp" alt="Logo GeoAlerta" class="brand-image" width="70" height="70">
+        <span style="font-size: 1.3rem; color: #2c3e50;"><strong>Grazalema</strong> Resiliente</span>
+      </div>
 
-    <nav>
-        <ul>
-            <li><a href="#introduccion">Introducción</a></li>
-            <li><a href="#mecanismos">Procesos Kársticos</a></li>
-            <li><a href="#repositorio">Documentación Científica</a></li>
-        </ul>
-    </nav>
+      <!-- Menú de navegación principal con 'Análisis' activo -->
+      <nav class="main-nav">
+        <a href="index.html" style="margin-right: 1.5rem; text-decoration: none; color: #34495e; font-weight: 600;">Inicio</a>
+        <a href="analisis.html" class="active" style="text-decoration: none; color: #16a085; font-weight: 700; border-bottom: 2px solid #16a085; padding-bottom: 4px;">Análisis</a>
+      </nav>
 
-    <main>
+    </div>
+  </header>
+
+  <!-- SUB-MENÚ DE ANÁLISIS (Para saltar a las secciones de esta página) -->
+  <nav class="sub-nav">
+    <ul>
+      <li><a href="#introduccion">Introducción</a></li>
+      <li><a href="#mecanismos">Procesos Kársticos</a></li>
+      <li><a href="#repositorio">Documentación Científica</a></li>
+    </ul>
+  </nav>
+
+  <!-- PUNTO DE REFERENCIA PRINCIPAL (Ya integrado correctamente) -->
+  <main>
+
         <section id="introduccion">
             <h2>Introducción a la Problemática Geoestructural</h2>
             <p>Las poblaciones asentadas sobre macroestructuras de la <strong>Zona Externa de la Cordillera Bética</strong>, y específicamente en el sector subbético occidental (como la Serranía de Grazalema y Ronda), se enfrentan a singularidades geomecánicas e hidrogeológicas críticas debido a la naturaleza intrínseca de su sustrato. Estas formaciones están constituidas por potentes series dolomítico-calizas jurásicas altamente fracturadas y karstificadas.</p>
