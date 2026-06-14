@@ -85,9 +85,19 @@ header, .main-header {
     border-bottom: 2px solid #16a085;
     padding-bottom: 4px;
 }
+/* 2. Oscurece el rojo de la magnitud sísmica (cambia el #e74c3c por este granate) */
+.indicador-tarjeta strong, [style*="color:#e74c3c"] {
+    color: #b81d18 !important; 
+}
+
+/* 3. Oscurece el azul del enlace de Creative Commons del footer */
+.main-footer a[href*="creativecommons"] {
+    color: #1a56db !important; /* Un azul marino con contraste excelente */
+    text-decoration: underline !important;
+}
 
 /* ==========================================================================
-   ESTILO BASE DEL BOTÓN COLABORAR (PÁG 2 DE TU CSS)
+   ESTILO BASE DEL BOTÓN COLABORAR 
    ========================================================================== */
 .btn-nav {
     background: #16a085 !important;
