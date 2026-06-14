@@ -511,9 +511,22 @@ h1 {
 }
 
 .lista-descargas a {
-    color: #212529;
-    text-decoration: none;
-    display: inline-block;
+ color: #212529;
+ text-decoration: none;
+ display: inline-block;
+}
+.lista-descargas a:hover {
+ color: #0d6efd;
+ text-decoration: underline;
+}
+/* NUEVAS REGLAS DE CONTRASTE ACCESIBLE PARA CRÉDITOS DE TERCEROS */
+.data-credits a[href*="seismicportal"] {
+ color: #1a56db !important; /* Azul marino de alta visibilidad */
+ font-weight: 600;
+}
+.data-credits a[href*="open-meteo"] {
+ color: #1b5e20 !important; /* Verde bosque denso que pasa el filtro WCAG */
+ font-weight: 600;
 }
 
 .lista-descargas a:hover {
@@ -529,6 +542,16 @@ h1 {
     color: #94a3b8;
     padding: 30px 0;
     font-size: 0.85rem;
+}
+.main-footer a {
+ display: inline-block;
+ padding: 0.8rem 1rem !important; /* Genera la zona de pulsación de 48px exigida por Google */
+ margin: 0.4rem 0.2rem !important; /* Separa los enlaces físicamente en horizontal */
+ color: #ffffff !important;        /* Forzamos texto blanco para un contraste perfecto */
+ transition: color 0.2s ease;
+}
+.main-footer a:hover {
+ color: #0d9488 !important;        /* Color secundario corporativo al pasar el ratón */
 }
 
 .legal-notice {
@@ -546,27 +569,31 @@ h1 {
 }
 
 /* ==========================================================================
-   DISEÑO ADAPTABLE (MÓVILES Y MEDIA QUERIES)
+   ESPACIADO TÁCTIL EXCLUSIVO PARA PANTALLAS MÓVILES
    ========================================================================== */
 @media (max-width: 768px) {
-    .header-flex { 
-        flex-direction: column; 
-        text-align: center; 
-        gap: 12px;
-    }
-    .logo-geoalerta {
-        justify-content: center;
-    }
-    .main-nav { 
-        margin-top: 5px; 
-    }
-    .main-nav a { 
-        margin: 0 10px; 
-        font-size: 0.85rem; 
-    }
-    h1 { font-size: 1.75rem; }
-    .aula-bloque { padding: 20px; }
-    .aula-texto h3 { font-size: 1.15rem; }
+ .main-nav a {
+ padding: 1rem 1.2rem !important; /* Amplía la zona de pulsación del dedo */
+ margin: 0.4rem 0.2rem !important; /* Separa físicamente un enlace de otro */
+ display: inline-block !important;
+ }
+}
+
+@media (max-width: 480px) {
+ /* Forzamos a que las tres cajas se apilen una debajo de otra */
+ .ejes-container { 
+ grid-template-columns: 1fr !important; 
+ gap: 10px !important; 
+ }
+ /* Rediseñamos la tarjeta para que el texto y el número se organicen en horizontal */
+ .eje-card {
+ font-size: 0.9rem !important;
+ padding: 12px 15px !important;
+ display: flex !important;
+ justify-content: space-between !important;
+ align-items: center !important;
+ text-align: left !important;
+ }
 }
 
 @media (max-width: 600px) {
