@@ -34,9 +34,13 @@ async function cargarTerremotos() {
         }
 
         // Anti-Caché: Forzamos datos frescos añadiendo el timestamp a la URL
-        const urlConAntiCache = `${urlEMSCBase}&_=${new Date().getTime()}`;
-        const respuesta = await fetch(urlConAntiCache);
-        if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`); 
+        // const urlConAntiCache = `${urlEMSCBase}&_=${new Date().getTime()}`;
+        //  const respuesta = await fetch(urlConAntiCache);
+        const urlConAntiCache = `${urlEMSCBase}&_=${Date.now()}`;
+		const urlProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(urlConAntiCache)}`;
+		const respuesta = await fetch(urlProxy);
+
+		if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`); 
         
         const datos = await respuesta.json(); 
         const seismos = (datos && datos.features) ? datos.features : [];
