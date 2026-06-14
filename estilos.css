@@ -86,26 +86,20 @@ header, .main-header {
     padding-bottom: 4px;
 }
 
+/* Estilo base del botón */
 .btn-nav {
-    background: #16a085;       /* Fondo verde corporativo */
-    color: #ffffff !important; /* Texto blanco puro obligatorio para el contraste */
-    padding: 6px 12px;
-    border-radius: 4px;
-}
-/* Estilo base del botón colaborar (Fondo verde, letras blancas) */
-.btn-nav {
-    background: #16a085 !important;       
-    color: #ffffff !important; /* Fuerza las letras a blanco al cargar */
+    background: #16a085 !important;
+    color: #ffffff !important; /* Texto blanco nativo */
     padding: 6px 12px;
     border-radius: 4px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
-/* NUEVA REGLA: Forzar letras blancas también al pasar el ratón */
+/* REGLA NUEVA: Evita que las letras se vuelvan verdes al pasar el ratón */
 .btn-nav:hover {
-    color: #ffffff !important;      /* Evita que las letras se vuelvan verdes */
-    background-color: #117a65 !important; /* Oscurece un poco el fondo verde para dar feedback visual */
+    color: #ffffff !important;       /* Fuerza el texto a seguir siendo blanco */
+    background-color: #117a65 !important;  /* Oscurece un poco el fondo verde como feedback */
     text-decoration: none;
 }
 
