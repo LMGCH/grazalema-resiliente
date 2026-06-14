@@ -2,9 +2,13 @@ name: Actualizar Datos de Sismicidad EMSC
 
 on:
   schedule:
-    # Se ejecuta de forma automática cada 5 minutos
+    # Se ejecuta automáticamente cada 5 minutos
     - cron: '*/5 * * * *'
-  workflow_dispatch: # Permite ejecución manual
+  workflow_dispatch: # Permite la ejecución manual con el botón gris
+
+# SOLUCIÓN CRÍTICA: Forzamos al servidor a otorgar permisos explícitos de escritura al token incorporado
+permissions:
+  contents: write
 
 jobs:
   actualizar-datos:
@@ -13,7 +17,7 @@ jobs:
       - name: Descargar repositorio
         uses: actions/checkout@v4
         with:
-          # IMPORTANTE: Esto le da persistencia al token para poder hacer el push posterior
+          # Mantenemos el repositorio vinculado con el token autorizado
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Crear carpeta de datos si no existe
@@ -21,21 +25,20 @@ jobs:
 
       - name: Consultar API EMSC sin restricciones de CORS
         run: |
-          curl -s "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1" > datos/sismos.json
+          curl -s "https://www.seismicportal.eu/fdsnws/event/1/query?format=json&minlatitude=35.5&maxlatitude=39.0&minlongitude=-7.5&maxlongitude=-2.0&limit=1" > datos/sismicidad.json
 
       - name: Confirmar y subir los datos actualizados al repositorio
         run: |
-          # CORRECCIÓN: Configuración de correo oficial y limpio para el bot de GitHub
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Configuración limpia de Git para el Bot de GitHub Actions
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           git add datos/sismicidad.json
           
-          # Comprueba si hay cambios antes de hacer commit y empujar al repositorio
+          # Estructura segura: solo hace commit y push si el archivo sismicidad.json cambió
           if ! git diff --cached --quiet; then
             git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
             git push origin HEAD:${{ github.ref }}
           else
-            echo "No hay cambios nuevos en los datos sísmicos."
+            echo "No se detectaron sismos nuevos en este intervalo."
           fi
-
