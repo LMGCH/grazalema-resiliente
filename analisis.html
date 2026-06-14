@@ -67,15 +67,18 @@
  max-width: 1200px;
  margin: 0 auto;
  }
- nav.sub-nav a {
+  nav.sub-nav a {
  display: block;
- padding: 0.8rem 1.5rem;
+ padding: 1.2rem 1.8rem; /* Aumentamos el padding vertical para ampliar el área de pulsación */
  color: var(--dark);
  text-decoration: none;
  font-weight: 600;
- font-size: 0.9rem;
+ font-size: 0.95rem;
+ margin: 0 0.5rem;       /* Añadimos separación física lateral entre los botones */
+ border-radius: 6px;     /* Redondeamos sutilmente el área interactiva */
  transition: all 0.3s ease;
  }
+
  nav.sub-nav a:hover {
  color: var(--secondary);
  background-color: rgba(22, 160, 133, 0.05);
