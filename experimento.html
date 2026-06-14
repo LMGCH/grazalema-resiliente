@@ -61,8 +61,37 @@ h2 {
     font-size: 1rem;
     margin-bottom: 25px;
 }
+   /* ==========================================================================
+   RESTAURACIÓN DEL BOTÓN DE ACTIVACIÓN
+   ========================================================================== */
+.btn-submit {
+    background-color: #1e3a8a; /* Azul institucional */
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%; /* Ocupa todo el ancho en móviles para facilitar el clic */
+    max-width: 320px; /* Evita que se estire demasiado en pantallas grandes */
+    box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
+    margin: 0 auto 25px auto;
+    display: inline-block;
+}
 
-        /* Añadimos los elementos visuales interactivos de la versión 1 */
+.btn-submit:hover {
+    background-color: #1d4ed8; /* Azul un poco más claro al pasar el ratón */
+}
+
+.btn-submit:active {
+    transform: scale(0.98); /* Pequeño efecto de pulsación al hacer clic */
+}
+
+        /* ==========================================================================
+            Añadimos los elementos visuales interactivos de la versión 1
+           ========================================================================== */
         .ejes-container {
             display: flex;
             gap: 10px;
