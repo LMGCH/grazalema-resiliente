@@ -555,9 +555,15 @@ h1 {
 }
 
 @media (max-width: 480px) {
-    .ejes-container { gap: 6px; }
+    .ejes-container { 
+        grid-template-columns: 1fr; /* Cambia a una sola columna para apilar las cajas */
+        gap: 10px; 
+    }
     .eje-card {
-        font-size: 0.8rem;
-        padding: 8px 2px;
+        font-size: 0.9rem;
+        padding: 12px 10px;
+        display: flex;
+        justify-content: space-between; /* Alinea el texto a la izquierda y el número a la derecha */
+        align-items: center;
     }
 }
