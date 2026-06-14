@@ -636,7 +636,19 @@ h1 {
         display: inline-block !important;
     }
 }
+      /* Amplía el área de pulsación de los enlaces del pie de página */
+.main-footer a {
+    display: inline-block;
+    padding: 0.8rem 1rem !important; /* Genera un escudo de 48px exigido por Google */
+    margin: 0.4rem 0.2rem !important; /* Separa los enlaces físicamente */
+}
 
+/* Separa el botón de Espacio Vecinal de otros elementos */
+.btn-card.btn-primary {
+    padding: 12px 24px !important;
+    margin-top: 15px !important;
+    display: inline-block;
+}
    
     /* Rediseñamos la tarjeta para que el texto y el número se organicen en horizontal */
     .eje-card {
