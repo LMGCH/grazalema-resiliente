@@ -555,15 +555,16 @@ h1 {
 }
 
 @media (max-width: 480px) {
-    .ejes-container { 
-        grid-template-columns: 1fr; /* Cambia a una sola columna para apilar las cajas */
-        gap: 10px; 
+    /* Usamos el cuerpo de la página para darle máxima prioridad a la regla */
+    body .ejes-container { 
+        grid-template-columns: 1fr !important; 
+        gap: 12px !important; 
     }
-    .eje-card {
-        font-size: 0.9rem;
-        padding: 12px 10px;
-        display: flex;
-        justify-content: space-between; /* Alinea el texto a la izquierda y el número a la derecha */
-        align-items: center;
+    body .eje-card {
+        font-size: 0.95rem !important;
+        padding: 12px 15px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 }
