@@ -76,20 +76,22 @@ body {
 }
 
 .main-nav a {
-    color: var(--text-color);
+    color: #ffffff !important; /* Forzamos blanco puro para que resalte sobre el fondo oscuro */
     text-decoration: none;
     margin-left: 20px;
     font-size: 0.95rem;
     font-weight: 500;
 }
 
+/* El enlace activo y el hover ahora usan un turquesa/verde de alta visibilidad */
 .main-nav a.active, .main-nav a:hover {
-    color: var(--secondary-color);
+    color: #51e2c2 !important; /* Color turquesa brillante que contrasta al 100% */
+    font-weight: 700;          /* Hacemos el texto un poco más grueso al pasar el cursor */
 }
 
 .btn-nav {
-    background: var(--primary-color);
-    color: #fff !important;
+    background: #16a085;       /* Cambiamos a un color sólido visible */
+    color: #ffffff !important; /* Blanco puro obligatorio para cumplir el contraste */
     padding: 6px 12px;
     border-radius: 4px;
 }
