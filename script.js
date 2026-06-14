@@ -20,13 +20,13 @@ async function cargarTerremotos() {
     const semaforoSismico = document.getElementById('semaforo-sismico');
     if (!sismoInfo) return;
 
-try {
-    // Genera un número único (timestamp) para cada petición secundaria
-    const urlConAntiCache = `${urlEMSCBase}&_=${new Date().getTime()}`;
-    
-    // Haces el fetch a la nueva URL modificada
-    const respuesta = await fetch(urlConAntiCache);
+    try {
+        // Haces el fetch a la nueva URL modificada
+        const respuesta = await fetch(urlConAntiCache);
         
+        // Genera un número único (timestamp) para cada petición secundaria
+        const urlConAntiCache = `${urlEMSCBase}&_=${new Date().getTime()}`;
+           
         // CORRECCIÓN 1: Leer como JSON directamente
         const datos = await respuesta.json(); 
 
