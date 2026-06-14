@@ -1,60 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta name="description" content="Centro de operaciones e infraestructura tecnológica de GeoAlerta. Acceso a recursos de sistemas, servidores y soporte técnico para tecnólogos locales.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Centro de operaciones e infraestructura tecnológica de GeoAlerta. Acceso a recursos de sistemas, servidores y soporte técnico para tecnólogos locales.">
     <title>Hangar TI - Grazalema Resiliente</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <header class="main-header">
-        <div class="container header-flex">
+
+    <!-- CABECERA DE LA PÁGINA -->
+    <header class="main-header" style="background-color: #f4f6f7; border-bottom: 3px solid #16a085; padding: 1rem 0;">
+        <div class="container header-flex" style="display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
             <div class="logo">
-		<a href="index.html" style="text-decoration:none; color:inherit;"><strong>← Volver al Portal</strong></a></div>
-            <span class="status-pill">Repositorio & Dev</span>
+                <a href="index.html" style="text-decoration: none; color: #2c3e50; font-weight: bold;"><strong>← Volver al Portal</strong></a>
             </div>
-	</div>
+            <span class="status-pill" style="background: #16a085; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">Repositorio & Dev</span>
+        </div>
     </header>
 
-            <section class="content-section">
-        <div class="container container-narrow">
-            <h1>Hangar de Co-Creación Tecnológica (TI)</h1>
-            <p class="subtitle">Coordinación de la infraestructura de software de código abierto, algoritmos sismológicos y APIs estatales.</p>
+    <!-- CONTENEDOR PRINCIPAL ESTRECHO (Mete todo en orden) -->
+    <main class="content-section" style="max-width: 800px; margin: 40px auto; padding: 0 1.5rem; font-family: sans-serif;">
+        
+        <!-- CUADRO 1: TÍTULO Y ACCESO AL REPOSITORIO -->
+        <section class="manifiesto-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center;">
+            <h1 style="color: #2c3e50; font-size: 1.8rem; margin-bottom: 10px;">Hangar de Co-Creación Tecnológica (TI)</h1>
+            <p class="subtitle" style="color: #64748b; font-size: 1rem; margin-bottom: 25px; line-height: 1.6;">Coordinación de la infraestructura de software de código abierto, algoritmos sismológicos y APIs estatales.</p>
             
-            <!-- ENLACE EN MODO TARJETA ENTORNO DEV: Con clase CSS original, contraste y accesibilidad -->
             <a href="https://github.com/LMGCH/grazalema-resiliente/" 
                class="btn-card" 
                target="_blank" 
                rel="noopener noreferrer"
-               style="text-decoration: none; color: #ffffff !important; background-color: #16a085; padding: 18px 24px; border-radius: 8px; display: block; font-weight: bold; font-family: sans-serif; box-shadow: 0 4px 6px -1px rgba(22, 160, 133, 0.2); margin: 20px 0; border: 1px solid rgba(255,255,255,0.1);"
+               style="text-decoration: none; color: #ffffff !important; background-color: #16a085; padding: 15px 24px; border-radius: 8px; display: block; font-weight: bold; box-shadow: 0 4px 6px -1px rgba(22, 160, 133, 0.2); transition: background-color 0.2s;"
                aria-label="Visitar el repositorio oficial de desarrollo y código fuente en GitHub de Grazalema Resiliente. Se abre en una pestaña nueva.">
-                💻 <strong>Repositorio & Dev (GitHub)</strong>
+                <strong>Repositorio & Dev (GitHub)</strong>
+            </a>
+        </section>
+	            
+        <!-- CUADRO 2: STACK TECNOLÓGICO -->
+        <section class="manifiesto-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">🛠️ Stack Tecnológico Activo (ejemplo):</h3>
+            <p style="color: #475569; line-height: 1.6; margin: 0;">Frontend en HTML5/CSS3 nativo. Scripting en JavaScript (DeviceMotionEvent) para el procesado de acelerómetros celulares.</p>
+        </section>
+
+        <!-- BOTÓN ENLACE: HOJA DE RUTA -->
+        <div style="text-align: center; margin: 35px 0;">
+            <a href="manual-tecnologo.html" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); transition: background-color 0.2s;">
+                Ver Hoja de Ruta y Tareas de Despliegue →
             </a>
         </div>
-    </section>
 
-
-	            
-            <div class="manifiesto-card" style="margin-bottom: 30px;">
-                <h3>🛠️ Stack Tecnológico Activo (ejemplo):</h3>
-                <p style="margin-top: 10px;">Frontend en HTML5/CSS3 nativo. Scripting en JavaScript (DeviceMotionEvent) para el procesado de acelerómetros celulares.</p>
-            </div>
-		<div style="text-align: center; margin: 30px 0;">
-    		<a href="manual-tecnologo.html" style="display: inline-block; background: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; font-family: sans-serif; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">
-        	Ver Hoja de Ruta y Tareas de Despliegue →
-    		</a>
-	    </div>
-            <h3>💬 Canal de Scrum / Desarrollo</h3>
-            <div class="chat-container" style="border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; background: var(--bg-light); margin-top: 15px;">
-                <div style="height: 250px; overflow-y: auto; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-                    <p><strong>[Carlos_Dev - 11:15]:</strong> Ya está listo el fetch asíncrono para el endpoint del IGN. Falta implementar el CORS bypass si da problemas en producción.</p>
-                    <p><strong>[Ana_UIUX - 12:40]:</strong> Subido al GitHub el rediseño responsivo para las alertas en pantallas de teléfonos de 4.7 pulgadas.</p>
+        <!-- CUADRO 3: CANAL DE SCRUM / CHAT -->
+        <section class="manifiesto-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 40px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">💬 Canal de Scrum / Desarrollo</h3>
+            
+            <div class="chat-container" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; background: #f8fafc; margin-top: 10px;">
+                <div style="height: 180px; overflow-y: auto; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+                    <p style="margin-bottom: 10px; font-size: 0.95rem; color: #334155;"><strong>[Carlos_Dev - 11:15]:</strong> Ya está listo el fetch asíncrono para el endpoint del IGN. Falta implementar el CORS bypass si da problemas en producción.</p>
+                    <p style="margin-bottom: 10px; font-size: 0.95rem; color: #334155;"><strong>[Ana_UIUX - 12:40]:</strong> Subido al GitHub el rediseño responsivo para las alertas en pantallas de teléfonos de 4.7 pulgadas.</p>
                 </div>
-                <input type="text" placeholder="Compartir enlace de commit o sugerencia..." style="width: 80%; padding: 10px; border: 1px solid var(--border-color); border-radius: 4px;">
-                <button class="btn-nav" style="padding: 10px 15px; border: none; cursor: pointer;">Enviar</button>
+                
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="Compartir enlace de commit o sugerencia..." style="flex-grow: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+                    <button style="padding: 12px 20px; border: none; background: #2c3e50; color: #ffffff; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s;">Enviar</button>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+    </main>
+
 </body>
 </html>
