@@ -23,7 +23,9 @@ async function cargarTerremotos() {
     try {
         const respuesta = await fetch(urlEMSCBase);
         if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-        const datos = await respuesta.json();
+        const texto = await respuesta.text();
+
+console.log(texto);
         const seismos = datos.features || [];
 
         if (seismos.length === 0) {
