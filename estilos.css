@@ -44,13 +44,10 @@ body {
 /* ==========================================================================
    CABECERA INTEGRADA Y DEPURADA (GEOALERTA)
    ========================================================================== */
-.main-header {
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-color);
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+header, .main-header {
+    background-color: #f4f6f7 !important; /* Gris claro sutil que unifica con Análisis */
+    border-bottom: 3px solid #16a085 !important; /* Línea verde turquesa inferior */
+    padding: 1rem 0 !important;
 }
 
 .header-flex {
@@ -76,17 +73,16 @@ body {
 }
 
 .main-nav a {
-    color: #2c3e50 !important; /* Gris oscuro elegante, visible sobre fondo claro o gris */
+    color: #2c3e50 !important; /* Gris oscuro ultra legible */
     text-decoration: none;
     margin-left: 20px;
     font-size: 0.95rem;
-    font-weight: 600;          /* Aumentamos a 600 para que tenga más cuerpo y legibilidad */
+    font-weight: 600;
 }
 
-/* El enlace activo y el hover usan tu verde turquesa corporativo, que contrasta muy bien sobre claro */
 .main-nav a.active, .main-nav a:hover {
-    color: #16a085 !important; /* Verde turquesa oscuro accesible */
-    border-bottom: 2px solid #16a085; /* Añade una línea sutil abajo para reforzar visualmente */
+    color: #16a085 !important; /* Verde turquesa corporativo */
+    border-bottom: 2px solid #16a085;
     padding-bottom: 4px;
 }
 
@@ -468,9 +464,24 @@ h1 {
 .log-container ul { list-style: none; padding-left: 0; }
 .log-container li { margin-bottom: 4px; border-bottom: 1px solid #334155; padding-bottom: 20px; }
 
-/* Colores extras para alertas meteorológicas */
-.alert-naranja { background-color: #ffeedb; color: #c44e00; }
-.alert-rojo { background-color: #fde8e8; color: #9c1c1c; }
+/* Colores del semáforo de alertas con contraste accesible */
+.alert-verde {
+    background-color: #e6f4ea; /* Verde pastel muy suave */
+    color: #137333;            /* Verde bosque oscuro y legible para el texto */
+    font-weight: 600;
+}
+
+.alert-naranja { 
+    background-color: #ffe6cc; /* Naranja pastel */
+    color: #a03c00;            /* Teja/marrón oscuro */
+    font-weight: 600;
+}
+
+.alert-rojo { 
+    background-color: #fde8e8; /* Rosa/rojo pastel */
+    color: #821010;            /* Granate profundo */
+    font-weight: 600;
+}
 
 .recursos-tecnicos {
     background: #f8f9fa;
