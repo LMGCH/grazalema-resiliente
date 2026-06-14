@@ -33,12 +33,8 @@ async function cargarTerremotos() {
             return;
         }
 
-        // Anti-Caché: Forzamos datos frescos añadiendo el timestamp a la URL
-        // const urlConAntiCache = `${urlEMSCBase}&_=${new Date().getTime()}`;
-        //  const respuesta = await fetch(urlConAntiCache);
-        const urlConAntiCache = `${urlEMSCBase}&_=${Date.now()}`;
-		const urlProxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(urlConAntiCache)}`;
-		const respuesta = await fetch(urlProxy);
+		const urlLocalSismo = "./datos/sismicidad.json";
+        const respuesta = await fetch(`${urlLocalSismo}?_=${new Date().getTime()}
 
 		if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`); 
         
