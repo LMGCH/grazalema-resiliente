@@ -29,16 +29,19 @@ jobs:
 
       - name: Confirmar y subir los datos actualizados al repositorio
         run: |
-          # Configuración limpia de Git para el Bot de GitHub Actions
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
-          git add datos/sismicidad.json
+          # Forzamos a Git a refrescar su base de datos interna de archivos
+          git update-index --refresh || true
           
-          # Estructura segura: solo hace commit y push si el archivo sismicidad.json cambió
+          # Añadimos el archivo asegurando su persistencia en el árbol
+          git add --all datos/sismicidad.json
+          
+          # Realizamos un commit explícito forzando el envío sin intermediarios
           if ! git diff --cached --quiet; then
             git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
-            git push origin HEAD:${{ github.ref }}
+            git push --force origin HEAD:${{ github.ref }}
           else
-            echo "No se detectaron sismos nuevos en este intervalo."
+            echo "El archivo ya se encuentra en su versión más reciente."
           fi
