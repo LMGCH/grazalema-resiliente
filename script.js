@@ -235,6 +235,53 @@ function ejecutarCargaCompleta() {
     iniciarContadorRegresivo();
 }
 
+// ==========================================
+// 6. CAPTACIÓN DE INSCRIPCIÓN DE VECINOS
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const formulario = document.querySelector('form'); 
+    
+    if (formulario) {
+        formulario.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+
+            // Feedback visual para el vecino
+            const boton = formulario.querySelector('button') || formulario.querySelector('input[type="submit"]');
+            if (boton) boton.innerText = "Registrando... ⏳";
+
+            // Captura de datos (incluyendo el nuevo campo de teléfono)
+            const datosVecino = {
+                nombre: document.querySelector('input[placeholder*="Nombre"]').value || "Anónimo",
+                email: document.querySelector('input[type="email"]').value,
+                telefono: document.querySelector('input[type="tel"]').value, // <-- Captura el WhatsApp
+                zona: document.querySelector('select:nth-of-type(1)').value,
+                sistema: document.querySelector('select:nth-of-type(2)').value
+            };
+
+            // PEGADO DE TU ENLACE: Reemplaza las comillas de abajo por el enlace de Aplicación Web que acabas de copiar
+            const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbwbSUarA0oms7f1mf2ZmzSv_sAPYjzcBoNjzFDqpmnUUdGutrLzp0Y_hf4jabOjGkOY9A/exec';
+
+            try {
+                await fetch(URL_API_GOOGLE, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosVecino)
+                });
+
+                alert('¡Inscripción completada! Tus datos se han sincronizado con la red de Grazalema Resiliente.');
+                formulario.reset(); 
+
+            } catch (error) {
+                console.error('Error en el envío:', error);
+                alert('Hubo un error de conexión con la base de datos.');
+            } finally {
+                if (boton) boton.innerText = "Enviar Inscripción Voluntaria";
+            }
+        });
+    }
+});
+
 // UNIFICADO: Un único punto de entrada limpio cuando el documento HTML esté completamente listo
 window.addEventListener('DOMContentLoaded', () => {
     ejecutarCargaCompleta();
