@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // ⚠️ PEGA AQUÍ LA URL DE GOOGLE QUE TERMINA EN /exec
-            const URL_API_GOOGLE = 'TU_URL_DE_APLICACION_WEB_AQUÍ';
+            const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbwbSUarA0oms7f1mf2ZmzSv_sAPYjzcBoNjzFDqpmnUUdGutrLzp0Y_hf4jabOjGkOY9A/exec';
 
             try {
                 await fetch(URL_API_GOOGLE, {
