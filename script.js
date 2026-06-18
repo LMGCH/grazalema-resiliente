@@ -239,27 +239,27 @@ function ejecutarCargaCompleta() {
 // 6. CAPTACIÓN DE INSCRIPCIÓN DE VECINOS
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    const formulario = document.querySelector('form'); 
+    const formulario = document.getElementById('form-colaboradores');
     
     if (formulario) {
         formulario.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
+            e.preventDefault(); // Evita que la página se refresque
 
-            // Feedback visual para el vecino
-            const boton = formulario.querySelector('button') || formulario.querySelector('input[type="submit"]');
-            if (boton) boton.innerText = "Registrando... ⏳";
+            // Animación y feedback en el botón original
+            const boton = formulario.querySelector('.btn-submit');
+            if (boton) boton.innerText = "Sincronizando datos... ⏳";
 
-            // Captura de datos (incluyendo el nuevo campo de teléfono)
+            // Capturar los campos usando los ID idénticos del HTML
             const datosVecino = {
-                nombre: document.querySelector('input[placeholder*="Nombre"]').value || "Anónimo",
-                email: document.querySelector('input[type="email"]').value,
-                telefono: document.querySelector('input[type="tel"]').value, // <-- Captura el WhatsApp
-                zona: document.querySelector('select:nth-of-type(1)').value,
-                sistema: document.querySelector('select:nth-of-type(2)').value
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                zona: document.getElementById('localidad').value,
+                sistema: document.getElementById('dispositivo').value
             };
 
-            // PEGADO DE TU ENLACE: Reemplaza las comillas de abajo por el enlace de Aplicación Web que acabas de copiar
-            const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbwbSUarA0oms7f1mf2ZmzSv_sAPYjzcBoNjzFDqpmnUUdGutrLzp0Y_hf4jabOjGkOY9A/exec';
+            // ⚠️ PEGA AQUÍ LA URL DE GOOGLE QUE TERMINA EN /exec
+            const URL_API_GOOGLE = 'TU_URL_DE_APLICACION_WEB_AQUÍ';
 
             try {
                 await fetch(URL_API_GOOGLE, {
@@ -269,21 +269,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(datosVecino)
                 });
 
-                alert('¡Inscripción completada! Tus datos se han sincronizado con la red de Grazalema Resiliente.');
-                formulario.reset(); 
+                alert('¡Inscripción completada! Tus datos se han registrado correctamente en el experimento de Grazalema Resiliente.');
+                formulario.reset(); // Vacía los campos del formulario
 
             } catch (error) {
-                console.error('Error en el envío:', error);
-                alert('Hubo un error de conexión con la base de datos.');
+                console.error('Error en el sistema de captación:', error);
+                alert('No se pudo conectar con el servidor de bases de datos. Revisa tu conexión.');
             } finally {
                 if (boton) boton.innerText = "Enviar Inscripción Voluntaria";
             }
         });
     }
-});
-
-// UNIFICADO: Un único punto de entrada limpio cuando el documento HTML esté completamente listo
-window.addEventListener('DOMContentLoaded', () => {
-    ejecutarCargaCompleta();
-// Escuchas dinámicas para actualizar al instante cuando el usuario recupera internetwindow.addEventListener('online', ejecutarCargaCompleta);window.addEventListener('offline', ejecutarCargaCompleta);
 });
