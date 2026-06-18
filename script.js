@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const datosVecino = {
                 nombre: document.getElementById('nombre').value,
                 email: document.getElementById('email').value,
-                telefono: document.getElementById('telefono').value,
+                telefono: "'" + (document.getElementById('telefono').value.startsWith('+') ? document.getElementById('telefono').value : '+' + document.getElementById('telefono').value),
                 zona: document.getElementById('localidad').value,
                 sistema: document.getElementById('dispositivo').value
             };
