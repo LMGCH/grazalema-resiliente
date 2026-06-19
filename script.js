@@ -227,14 +227,6 @@ function iniciarContadorRegresivo() {
     }, 1000);
 }
 
-function ejecutarCargaCompleta() {
-    cargarTerremotos();
-    cargarMeteorologia();
-    cargarAvisosAemet(); // <--- INCORPORADO AQUÍ PARA REFRESCARSE CADA 60 SEGUNDOS
-    actualizarHoraSincronizacion();
-    iniciarContadorRegresivo();
-}
-
 // ==========================================
 // 6. CAPTACIÓN DE INSCRIPCIÓN DE VECINOS
 // ==========================================
@@ -280,4 +272,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+function ejecutarCargaCompleta() {
+    cargarTerremotos();
+    cargarMeteorologia();
+    cargarAvisosAemet(); // <--- INCORPORADO AQUÍ PARA REFRESCARSE CADA 60 SEGUNDOS
+    actualizarHoraSincronizacion();
+    iniciarContadorRegresivo();
+}
 });
