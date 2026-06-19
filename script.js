@@ -222,10 +222,20 @@ function iniciarContadorRegresivo() {
         }
         if (tiempoRestante <= 0) {
             clearInterval(temporizadorRegresivo);
-            ejecutarCargaCompleta();
+            ejecutarCargaCompleta(); // Ahora sí podrá ver la función globalmente
         }
     }, 1000);
 }
+
+// CORRECCIÓN: La función vuelve a ser global para que el setInterval de arriba funcione
+function ejecutarCargaCompleta() {
+    cargarTerremotos();
+    cargarMeteorologia();
+    cargarAvisosAemet(); 
+    actualizarHoraSincronizacion();
+    iniciarContadorRegresivo();
+}
+
 
 // ==========================================
 // 6. CAPTACIÓN DE INSCRIPCIÓN DE VECINOS
@@ -235,13 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (formulario) {
         formulario.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Evita que la página se refresque
+            e.preventDefault(); 
 
-            // Animación y feedback en el botón original
             const boton = formulario.querySelector('.btn-submit');
             if (boton) boton.innerText = "Sincronizando datos... ";
 
-            // Capturar los campos usando los ID idénticos del HTML
             const datosVecino = {
                 nombre: document.getElementById('nombre').value,
                 email: document.getElementById('email').value,
@@ -250,7 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 sistema: document.getElementById('dispositivo').value
             };
 
-            // ⚠️ PEGA AQUÍ LA URL DE GOOGLE QUE TERMINA EN /exec
             const URL_API_GOOGLE = 'https://script.google.com/macros/s/AKfycbwbSUarA0oms7f1mf2ZmzSv_sAPYjzcBoNjzFDqpmnUUdGutrLzp0Y_hf4jabOjGkOY9A/exec';
 
             try {
@@ -262,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 alert('¡Inscripción completada! Tus datos se han registrado correctamente en el experimento de Grazalema Resiliente.');
-                formulario.reset(); // Vacía los campos del formulario
+                formulario.reset(); 
 
             } catch (error) {
                 console.error('Error en el sistema de captación:', error);
@@ -272,11 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-function ejecutarCargaCompleta() {
-    cargarTerremotos();
-    cargarMeteorologia();
-    cargarAvisosAemet(); // <--- INCORPORADO AQUÍ PARA REFRESCARSE CADA 60 SEGUNDOS
-    actualizarHoraSincronizacion();
-    iniciarContadorRegresivo();
-}
+
+    // 🔥 FIJAR EL ARRANQUE: Ejecuta la carga de datos nada más cargar la página
+    ejecutarCargaCompleta(); 
 });
