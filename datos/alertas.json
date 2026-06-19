@@ -1,6 +1,6 @@
 {
-  "hayAvisos": false,
-  "titulo": "Estado completo de avisos para Grazalema. No hay avisos para Grazalema",
+  "hayAvisos": true,
+  "titulo": "RIESGO EXTREMO TORMENTA",
   "fecha": "2026-06-18T21:50:01+00:00",
   "enlace": "https://www.aemet.es/documentos_d/eltiempo/prediccion/avisos/cap/Z_CAP_C_LEMM_20260618215001_AFAZ611101.tar.gz"
 }
