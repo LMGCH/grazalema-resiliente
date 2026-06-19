@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Animación y feedback en el botón original
             const boton = formulario.querySelector('.btn-submit');
-            if (boton) boton.innerText = "Sincronizando datos... ⏳";
+            if (boton) boton.innerText = "Sincronizando datos... ";
 
             // Capturar los campos usando los ID idénticos del HTML
             const datosVecino = {
