@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://sitemaps.org">
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://lmgch.github.io/grazalema-resiliente/index.html</loc>
     <priority>1.00</priority>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://lmgch.github.io/grazalema-resiliente/especialista.html</loc>
+    <priority>0.80</priority>
+  </url>
+    <url>
+    <loc>https://lmgch.github.io/grazalema-resiliente/analisis.html</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://lmgch.github.io/grazalema-resiliente/tecnologo.html</loc>
+    <priority>0.80</priority>
+  </url>
+    <url>
+    <loc>https://lmgch.github.io/grazalema-resiliente/manual-tecnologo.html</loc>
     <priority>0.80</priority>
   </url>
   <url>
-    <loc>https://github.io</loc>
+    <loc>https://lmgch.github.io/grazalema-resiliente/vecino.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://lmgch.github.io/grazalema-resiliente/experimento.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://lmgch.github.io/grazalema-resiliente/autoproteccion.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://lmgch.github.io/grazalema-resiliente/pioneros.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://lmgch.github.io/grazalema-resiliente/mapa-web.html</loc>
     <priority>0.50</priority>
   </url>
 </urlset>
