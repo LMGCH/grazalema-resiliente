@@ -1,61 +1,232 @@
-<!-- SECCIÓN EXPLICATIVA PIONEROS (AÑADIR A LA WEB) -->
-<section id="guia-pioneros" class="form-container" style="margin-top: 50px; padding: 30px; border-radius: 8px; background-color: #fcfcfc; border: 1px solid #e2e8f0;">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <span style="background-color: #feebc8; color: #c05621; padding: 5px 12px; border-radius: 9999px; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em;">Fase Laboratorio</span>
-        <h2 style="font-size: 1.8rem; margin-top: 10px; color: #2d3748;">Guía para los 50 Vecinos Pioneros</h2>
-        <p style="color: #718096; max-width: 600px; margin: 10px auto 0;">Estamos validando la tecnología de alerta temprana en la Sierra de Grazalema de forma 100% gratuita. Ayúdanos a probar el motor de comunicaciones completando estos pasos.</p>
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Pioneros - Grazalema Resiliente</title>
+    <link rel="stylesheet" href="css/estilos.css"> <!-- Asegura la ruta a tu CSS común -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7fafc;
+            color: #2d3748;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            border: 1px solid #e2e8f0;
+        }
+        .badge {
+            background-color: #feebc8;
+            color: #c05621;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 15px 0;
+            color: #1a202c;
+        }
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .alert-box {
+            background-color: #edf2f7;
+            border-left: 4px solid #4a5568;
+            padding: 20px;
+            margin-bottom: 35px;
+            border-radius: 0 6px 6px 0;
+        }
+        .alert-box h4 {
+            margin: 0 0 8px 0;
+            color: #2d3748;
+            font-size: 1.05rem;
+        }
+        .alert-box ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #4a5568;
+        }
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+        .step-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .step-number {
+            background-color: #3182ce;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(49, 130, 206, 0.2);
+        }
+        .step-content h3 {
+            margin: 0 0 8px 0;
+            color: #2d3748;
+            font-size: 1.25rem;
+        }
+        .step-content p {
+            margin: 0 0 15px 0;
+            color: #4a5568;
+        }
+        .code-box {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px 18px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .code-box strong {
+            color: #2b6cb0;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+        }
+        .code-box code {
+            font-size: 1.05rem;
+            color: #1a202c;
+            font-weight: bold;
+            background: #ffffff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid #edf2f7;
+        }
+        .secret-box {
+            background-color: #e6fffa;
+            border: 1px solid #b2f5ea;
+            padding: 14px 18px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        .secret-box code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.15rem;
+            color: #234e52;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .note-danger {
+            margin-top: 12px;
+            color: #e53e3e;
+            font-size: 0.88rem;
+            font-style: italic;
+        }
+        .footer-nav {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4a5568;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .btn-back:hover {
+            background-color: #2d3748;
+        }
+    </style>
+</head>
+<body>
 
-    <!-- Bloque de Limitaciones -->
-    <div style="background-color: #edf2f7; border-left: 4px solid #4a5568; padding: 15px; margin-bottom: 30px; border-radius: 0 4px 4px 0;">
-        <h4 style="margin: 0 0 5px; color: #2d3748; font-size: 1rem;">⚠️ Condiciones del Entorno de Pruebas</h4>
-        <ul style="margin: 0; padding-left: 20px; color: #4a5568; font-size: 0.95rem; line-height: 1.5;">
-            <li><strong>Límite técnico:</strong> El sistema gratuito solo admite un máximo de 50 teléfonos móviles.</li>
-            <li><strong>Formato de seguridad:</strong> Las alertas de riesgo llegarán simuladas dentro de un formato de código de verificación (Ej: <em>ALERTA-METEO is your verification code</em>).</li>
-        </ul>
-    </div>
+    <div class="container">
+        <div class="card">
+            <div class="badge">Fase Laboratorio Abierta</div>
+            <h1>Guía de Activación para los 50 Pioneros</h1>
+            <p class="subtitle">Instrucciones técnicas indispensables para enlazar tu dispositivo móvil a la malla comunitaria de alertas sísmicas y meteorológicas de Grazalema.</p>
 
-    <!-- Pasos de Activación -->
-    <div style="display: flex; flex-direction: column; gap: 25px;">
-        
-        <!-- Paso 1 -->
-        <div style="display: flex; gap: 15px; align-items: flex-start;">
-            <div style="background-color: #3182ce; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
-            <div>
-                <h4 style="margin: 0 0 5px; color: #2d3748; font-size: 1.1rem;">Inscripción en el Formulario</h4>
-                <p style="margin: 0; color: #718096; font-size: 0.95rem; line-height: 1.4;">Rellena los datos de arriba introduciendo tus <strong>9 dígitos de teléfono móvil</strong> a secas (sin prefijos ni signos de suma). El servidor le añadirá automáticamente el código de España (+34).</p>
+            <!-- Cuadro Informativo de Limitaciones Técnicas -->
+            <div class="alert-box">
+                <h4>⚠️ Restricciones del Entorno de Simulación</h4>
+                <ul>
+                    <li><strong>Cupo restringido:</strong> El nodo de pruebas gratuito está limitado estrictamente a los primeros 50 terminales validados.</li>
+                    <li><strong>Formato de Alerta:</strong> Por regulaciones globales de WhatsApp, los avisos dinámicos llegarán embebidos bajo la estructura de un código de verificación estándar (Ej: <em>ALERTA-METEO is your verification code</em>).</li>
+                </ul>
             </div>
-        </div>
 
-        <!-- Paso 2 -->
-        <div style="display: flex; gap: 15px; align-items: flex-start;">
-            <div style="background-color: #3182ce; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
-            <div>
-                <h4 style="margin: 0 0 5px; color: #2d3748; font-size: 1.1rem;">Emparejar tu WhatsApp con el Servidor</h4>
-                <p style="margin: 0; color: #718096; font-size: 0.95rem; line-height: 1.4; margin-bottom: 10px;">Para otorgar permiso legal al robot para enviarte alertas, añade a la agenda de tu móvil el teléfono oficial del servidor de pruebas de Twilio:</p>
+            <!-- Flujo de Pasos Estructurado -->
+            <div class="step-list">
                 
-                <div style="background-color: #ebf8ff; border: 1px dashed #bee3f8; padding: 12px; border-radius: 6px; display: inline-block; margin-bottom: 10px;">
-                    <span style="font-size: 0.9rem; color: #2b6cb0; font-weight: bold;">Número de Twilio:</span> <code style="font-size: 1rem; color: #2d3748; background: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #e2e8f0;">+1 415 523 8886</code>
+                <!-- Paso 1 -->
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Registro en el Formulario Web</h3>
+                        <p>Completa tus datos en la sección de captación de la página principal. Introduce tu número móvil utilizando exclusivamente tus <strong>9 dígitos habituales</strong> (ej: 600123456). El algoritmo del servidor se encargará de inyectar el prefijo internacional de España (+34) de forma automatizada en la base de datos.</p>
+                    </div>
                 </div>
-                
-                <p style="margin: 0; color: #718096; font-size: 0.95rem; line-height: 1.4; margin-bottom: 10px;">Abre un chat de WhatsApp con ese número y envíale exactamente la siguiente "contraseña secreta" aleatoria asignada a nuestro laboratorio:</p>
-                
-                <div style="background-color: #e6fffa; border: 1px solid #b2f5ea; padding: 12px; border-radius: 6px; display: inline-block;">
-                    <code style="font-size: 1.1rem; color: #234e52; font-weight: bold; letter-spacing: 0.05em;">join waste-doctor</code>
+
+                <!-- Paso 2 -->
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Emparejamiento Obligatorio de WhatsApp</h3>
+                        <p>Para otorgar credenciales legales al robot y que el cortafuegos de WhatsApp permita los envíos masivos, añade a tus contactos el número internacional del servidor de Twilio:</p>
+                        
+                        <div class="code-box">
+                            <strong>Teléfono Servidor:</strong> <code>+1 415 523 8886</code>
+                        </div>
+                        
+                        <p>Abre un chat con ese contacto y envía exactamente la palabra clave aleatoria que tiene asignada nuestro Sandbox:</p>
+                        
+                        <div class="secret-box">
+                            <code>join waste-doctor</code>
+                        </div>
+                        
+                        <p class="note-danger">* El sistema descartará automáticamente cualquier teléfono que no haya enviado el comando de emparejamiento previo.</p>
+                    </div>
                 </div>
-                
-                <p style="margin: 10px 0 0; color: #e53e3e; font-size: 0.85rem; font-style: italic;">*Nota: Recibirás una respuesta automática de confirmación. Si no envías este mensaje, el robot de alertas te ignorará por seguridad.</p>
+
+                <!-- Paso 3 -->
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Supervisión Activa</h3>
+                        <p>Una vez completado el enlace, el administrador dará de alta tu terminal en la consola central. Tu dispositivo pasará a monitorizar de fondo los ficheros JSON meteorológicos y sísmicos, recibiendo los pulsos informativos y simulacros automáticos en intervalos de 10 minutos si los sensores detectan emergencias.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- Paso 3 -->
-        <div style="display: flex; gap: 15px; align-items: flex-start;">
-            <div style="background-color: #3182ce; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
-            <div>
-                <h4 style="margin: 0 0 5px; color: #2d3748; font-size: 1.1rem;">¡Listo para patrullar la Sierra!</h4>
-                <p style="margin: 0; color: #718096; font-size: 0.95rem; line-height: 1.4;">Una vez que el administrador registre tu teléfono en la consola, tu terminal quedará integrado de fondo. Recibirás de forma automática las notificaciones de los simuladores y de los radares oficiales cada 10 minutos cuando se active una emergencia.</p>
-            </div>
+        <!-- Enlace de regreso unificado con tu estructura -->
+        <div class="footer-nav">
+            <a href="index.html" class="btn-back">← Volver al Panel Principal</a>
         </div>
-
     </div>
-</section>
+
+</body>
+</html>
