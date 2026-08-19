@@ -3,8 +3,8 @@
   "geometry": {
     "type": "Point",
     "coordinates": [
-      -3.6244,
-      37.1247,
+      -3.6298,
+      37.1479,
       0.0
     ]
   },
@@ -12,11 +12,11 @@
   "properties": {
     "source_id": "2047329",
     "source_catalog": "EMSC-RTS",
-    "lastupdate": "2026-08-19T10:40:29.145319Z",
-    "time": "2026-08-19T10:32:55.04Z",
+    "lastupdate": "2026-08-19T11:03:20.216386Z",
+    "time": "2026-08-19T10:32:54.84Z",
     "flynn_region": "SPAIN",
-    "lat": 37.1247,
-    "lon": -3.6244,
+    "lat": 37.1479,
+    "lon": -3.6298,
     "depth": 0.0,
     "evtype": "ke",
     "auth": "EMSC",
