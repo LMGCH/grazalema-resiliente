@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Descargar repositorio
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4 # Nota: v4 es la versión estable actual (v6 no existe de forma oficial aún)
         with:
           fetch-depth: 0
 
@@ -40,19 +40,24 @@ jobs:
             echo "Se detectaron cambios."
           fi
 
-      - name: Commit cambios
+      - name: Commit y Push cambios de forma segura
         if: steps.cambios.outputs.cambios == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git fetch origin main
-          git rebase origin/main
-
+          # 1. Primero preparamos el archivo modificado
           git add datos/sismicidad.json
+          
+          # 2. Creamos el commit localmente
           git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
 
-          git push origin HEAD:main
+          # 3. Traemos lo que haya cambiado en GitHub en estos 5 minutos y lo fusionamos limpiamente
+          git pull origin main --rebase
+
+          # 4. Subimos el resultado final definitivo
+          git push origin main
+
 
           git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
 
