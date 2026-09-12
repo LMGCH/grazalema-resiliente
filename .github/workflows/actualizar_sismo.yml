@@ -9,6 +9,9 @@ on:
 # SOLUCIÓN CRÍTICA: Forzamos al servidor a otorgar permisos explícitos de escritura al token incorporado
 permissions:
   contents: write
+concurrency:
+  group: actualizaciones-datos
+  cancel-in-progress: false
 
 jobs:
   actualizar-datos:
@@ -31,17 +34,20 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          # Forzamos a Git a refrescar su base de datos interna de archivos
-          git update-index --refresh || true
-          
-          # Añadimos el archivo asegurando su persistencia en el árbol
-          git add --all datos/sismicidad.json
-          
-          # Realizamos un commit explícito forzando el envío sin intermediarios
-          if ! git diff --cached --quiet; then
-            git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
-            git push --force origin HEAD:${{ github.ref }}
+
+          git add datos/sismicidad.json
+
+          if git diff --cached --quiet; then
+            echo "El archivo ya se encuentra en su versión más reciente."
+            exit 0
+          fi
+
+          git pull --rebase origin main
+
+          git add datos/sismicidad.json
+          git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
+
+          git push origin HEAD:${{ github.ref }}
           else
             echo "El archivo ya se encuentra en su versión más reciente."
           fi
