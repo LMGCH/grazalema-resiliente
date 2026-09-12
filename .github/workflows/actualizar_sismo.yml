@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Descargar repositorio
-        uses: actions/checkout@v4 # Nota: v4 es la versión estable actual (v6 no existe de forma oficial aún)
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -55,8 +55,9 @@ jobs:
           # 3. Traemos lo que haya cambiado en GitHub en estos 5 minutos y lo fusionamos limpiamente
           git pull origin main --rebase
 
-          # 4. Subimos el resultado final definitivo
+          # 4. Subimos el resultado final definitivo y terminamos
           git push origin main
+
 
 
           git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
