@@ -36,21 +36,30 @@ jobs:
         run: |
           python scripts/actualizar_alertas.py
 
-      - name: Commit y push de cambios
+      - name: Comprobar cambios
+        id: cambios
+        run: |
+          if git diff --quiet -- datos/alertas.json; then
+            echo "cambios=false" >> "$GITHUB_OUTPUT"
+            echo "No se detectaron cambios."
+          else
+            echo "cambios=true" >> "$GITHUB_OUTPUT"
+            echo "Se detectaron cambios."
+          fi
+
+      - name: Commit cambios
+        if: steps.cambios.outputs.cambios == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add datos/alertas.json
-
-          if git diff --staged --quiet; then
-            echo "No se detectaron cambios en datos/alertas.json."
-            exit 0
-          fi
-
-          git pull --rebase origin main
+          git fetch origin main
+          git rebase origin/main
 
           git add datos/alertas.json
+          git commit -m "Actualizar alertas AEMET"
+
+          git push origin HEAD:main
 
           git commit -m "Actualizar alertas AEMET"
 
