@@ -46,14 +46,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # 1. Primero preparamos el archivo modificado
-          git add datos/sismicidad.json
+          # 1. Añadimos de forma global para que el checkout v6 procese los datos a salvo
+          git add .
           
-          # 2. Creamos el commit localmente
+          # 2. Creamos el commit local
           git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
 
-          # 3. Traemos lo que haya cambiado en GitHub en estos 5 minutos y lo fusionamos limpiamente
+          # 3. Traemos cambios externos de forma segura
           git pull origin main --rebase
 
-          # 4. Subimos el resultado final definitivo y terminamos
+          # 4. Enviamos a producción sin repetir comandos al final
           git push origin main
+
+
