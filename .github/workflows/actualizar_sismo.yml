@@ -57,9 +57,3 @@ jobs:
 
           # 4. Subimos el resultado final definitivo y terminamos
           git push origin main
-
-
-
-          git commit -m "Automatización: Datos sísmicos actualizados [skip ci]"
-
-          git push origin main
