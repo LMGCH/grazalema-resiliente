@@ -53,14 +53,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git fetch origin main
-          git rebase origin/main
-
+          # 1. Prepara y confirma los cambios locales PRIMERO
           git add datos/alertas.json
           git commit -m "Actualizar alertas AEMET"
 
+          # 2. Trae lo último del remoto y reorganiza tu commit encima
+          git fetch origin main
+          git rebase origin/main
+
+          # 3. Sube los cambios limpios a la rama principal
           git push origin HEAD:main
-
-          git commit -m "Actualizar alertas AEMET"
-
-          git push origin main
