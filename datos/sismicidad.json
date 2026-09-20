@@ -3,25 +3,25 @@
   "geometry": {
     "type": "Point",
     "coordinates": [
-      -3.5706,
-      37.1080,
-      -9.2
+      -3.6382,
+      37.1791,
+      -11.8
     ]
   },
-  "id": "20260919_0000234",
+  "id": "20260920_0000128",
   "properties": {
-    "source_id": "2062604",
+    "source_id": "2062867",
     "source_catalog": "EMSC-RTS",
-    "lastupdate": "2026-09-19T19:22:31.161438Z",
-    "time": "2026-09-19T19:00:54.18Z",
+    "lastupdate": "2026-09-20T10:15:45.783218Z",
+    "time": "2026-09-20T10:03:02.44Z",
     "flynn_region": "SPAIN",
-    "lat": 37.1080,
-    "lon": -3.5706,
-    "depth": 9.2,
+    "lat": 37.1791,
+    "lon": -3.6382,
+    "depth": 11.8,
     "evtype": "ke",
     "auth": "IGN",
-    "mag": 1.6,
+    "mag": 1.7,
     "magtype": "ml",
-    "unid": "20260919_0000234"
+    "unid": "20260920_0000128"
   }
 }]}
