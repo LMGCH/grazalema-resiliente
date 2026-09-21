@@ -3,25 +3,25 @@
   "geometry": {
     "type": "Point",
     "coordinates": [
-      -3.7402,
-      37.2162,
-      -10.9
+      -3.4560,
+      35.5830,
+      -30.7
     ]
   },
-  "id": "20260920_0000248",
+  "id": "20260920_0000299",
   "properties": {
-    "source_id": "2063014",
+    "source_id": "2063079",
     "source_catalog": "EMSC-RTS",
-    "lastupdate": "2026-09-20T20:04:22.226719Z",
-    "time": "2026-09-20T19:45:49.06Z",
-    "flynn_region": "SPAIN",
-    "lat": 37.2162,
-    "lon": -3.7402,
-    "depth": 10.9,
+    "lastupdate": "2026-09-20T23:39:31.608772Z",
+    "time": "2026-09-20T23:10:44.95Z",
+    "flynn_region": "STRAIT OF GIBRALTAR",
+    "lat": 35.5830,
+    "lon": -3.4560,
+    "depth": 30.7,
     "evtype": "ke",
     "auth": "IGN",
-    "mag": 1.5,
+    "mag": 1.8,
     "magtype": "ml",
-    "unid": "20260920_0000248"
+    "unid": "20260920_0000299"
   }
 }]}
